@@ -281,6 +281,11 @@ gibushon_civil<-as.data.frame(gibushon_civil)
 
 colnames(gibushon_civil)
 
+#arrived here*********
+
+moked_2014<-data.frame(lapply(moked_2014,function(x){gsub("ιπε","01",x)}))
+
+
 nacol_before_zscores<-ncol(gibushon_civil)
 
 # Create z-scores.
@@ -1125,31 +1130,6 @@ ggplot(filtered_gibushon_civil_diff, aes(x=ac_final_grade)) +
   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
   theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))
 
-# Hebrew Stanines (Meital asked it)
-
-filtered_gibushon_civil_diff$HEBREW_stanines = ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=-1.75,1,
-                                                      ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=-1.7499 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=-1.25,2,
-                                                             ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=-1.2499 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=-0.75,3,
-                                                                    ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=-0.7499 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=-0.25,4,
-                                                                           ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=-.2499 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=0.24,5,
-                                                                                  ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=.2401 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=0.74,6,
-                                                                                         ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=.7401 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=1.24,7,
-                                                                                                ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=1.2401 & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external<=1.74,8,
-                                                                                                       ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external) & filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_external>=1.7401,9,NA)))))))))
-#see WhatsApp from Hanoch
-
-filtered_gibushon_civil_diff$HEBREW_spacial_stanines_a = ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=9 & filtered_gibushon_civil_diff$HEBREW_copmlete<=15,5,
-                                                                ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=16 & filtered_gibushon_civil_diff$HEBREW_copmlete<=25,6,
-                                                                       ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=26 & filtered_gibushon_civil_diff$HEBREW_copmlete<=30,7,
-                                                                              ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=31 & filtered_gibushon_civil_diff$HEBREW_copmlete<=33,8,
-                                                                                     ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete==34,9,NA)))))
-
-
-filtered_gibushon_civil_diff$HEBREW_spacial_stanines_b = ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=10 & filtered_gibushon_civil_diff$HEBREW_copmlete<=17,5,
-                                                                ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=18 & filtered_gibushon_civil_diff$HEBREW_copmlete<=27,6,
-                                                                       ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=28 & filtered_gibushon_civil_diff$HEBREW_copmlete<=31,7,
-                                                                              ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete>=32 & filtered_gibushon_civil_diff$HEBREW_copmlete<=33,8,
-                                                                                     ifelse(!is.na(filtered_gibushon_civil_diff$HEBREW_copmlete) & filtered_gibushon_civil_diff$HEBREW_copmlete==34,9,NA)))))
 
 #***********************assistance commands******************************
 
