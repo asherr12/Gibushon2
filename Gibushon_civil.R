@@ -364,6 +364,9 @@ Start_time<-Sys.time()
 
 gibushon_civil_outliers_relevant_columns<-colnames(gibushon_civil[c((nacol_before_zscores+1):nacol_zscores)])
 
+#replace the next commands by plyr and dplyr commands*******
+#maybe seperating the loops will save time
+
 for(i in gibushon_civil_outliers_relevant_columns) {
   gibushon_civil[ncol(gibushon_civil)+1]<-NA
   names(gibushon_civil)[ncol(gibushon_civil)]<-paste(i,"outlier",sep = "_")
