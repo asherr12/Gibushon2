@@ -289,13 +289,12 @@ colnames(gibushon_civil)
 
 library (plyr)
 gibushon_civil<-rename(gibushon_civil,c("Mazav0"="power",
-                                        "Mazav1"="investment",
-                                        "Mazav2"="HR",
-                                        "Mazav3"="confidence",
-                                        "Mazav4"="thinking",
-                                        "Mazav5"="execution",
-                                        "Mazav7"="expression",
-                                        "Mazav8"="reliability"))
+                                        "Mazav2"="investment",
+                                        "Mazav3"="HR",
+                                        "Mazav4"="confidence",
+                                        "Mazav5"="expression",
+                                        "Mazav7"= "thinking",
+                                        "Mazav8"="execution"))
 
 # Remove Checkmark form plyr package, because it's in conflict with dplyr.*********
 # With complicated packages that load S4 classes & methods, detach command is not 
