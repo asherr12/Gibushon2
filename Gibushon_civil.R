@@ -410,6 +410,13 @@ Total_time<- round(End_time-Start_time, digits = 2)
 Total_time
 # Total_time = ~12 hrs. minuets (13.04.2021. Dell)
 
+library(dplyr)
+gibushon_civil_test_outliers = gibushon_civil_test[(ncol_before_zscores+1):ncol_zscores] %>%
+  rowwise() %>%
+  mutate(date.tkufatit_14_diff = date.tkufatit_14-ac_date)
+         
+  
+
 outliers_relevant_columns<-colnames(gibushon_civil_test[c((ncol_zscores+1):ncol(gibushon_civil_test))])
 
 for (i in outliers_relevant_columns) {
