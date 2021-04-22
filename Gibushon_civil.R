@@ -463,82 +463,20 @@ ncol_zscores<-ncol(gibushon_civil)
 
 # Locating and handling outliers.
 
-# Start_time<-Sys.time()
-
-gibushon_civil_outliers_relevant_columns<-colnames(gibushon_civil[c((ncol_before_zscores+1):ncol_zscores)])
-
-#replace the next commands by more efficient code*******
-
-# for(i in gibushon_civil_outliers_relevant_columns) {
-#   gibushon_civil[ncol(gibushon_civil)+1]<-NA
-#   names(gibushon_civil)[ncol(gibushon_civil)]<-paste(i,"outlier",sep = "_")
-#   gibushon_civil[ncol(gibushon_civil)]<-as.numeric(unlist(gibushon_civil[ncol(gibushon_civil)]))
-#   for(j in 1:nrow(gibushon_civil)){
-#     if (!is.na(gibushon_civil[j,][i])) {
-#       gibushon_civil[j,][ncol(gibushon_civil)] <-
-#         ifelse(abs(gibushon_civil[j,][i])>3.29,gibushon_civil[j,][i],NA)
-#     }
-#   }
-#   if (all(is.na(gibushon_civil[ncol(gibushon_civil)]))) {
-#     gibushon_civil<-gibushon_civil[,-ncol(gibushon_civil)]
-#   }
-# }
-
-for(i in gibushon_civil_outliers_relevant_columns) {
-  gibushon_civil[ncol(gibushon_civil)+1]<-NA
-  names(gibushon_civil)[ncol(gibushon_civil)]<-paste(i,"outlier",sep = "_")
-  gibushon_civil[ncol(gibushon_civil)]<-as.numeric(unlist(gibushon_civil[ncol(gibushon_civil)]))
-}
-
-gibushon_civil_test<-gibushon_civil
-
-  # library(foreach)
-  # foreach(j=nrow(gibushon_civil_test), k = (ncol_before_zscores+1):ncol_zscores, l = (ncol_zscores+1):ncol(gibushon_civil_test)) %do% {
-  #   if (!is.na(gibushon_civil_test[j,][k])) {
-  #     gibushon_civil_test[j,][l] <-
-  #       ifelse(abs(gibushon_civil_test[j,][k])>3.29,gibushon_civil_test[j,][k],NA)
-  #   }
-  # }
-
-Start_time<-Sys.time()
-
-for(j in 1:nrow(gibushon_civil_test)){
-  for(k in (ncol_before_zscores+1):ncol_zscores){
-    for(l in (ncol_zscores+1):ncol(gibushon_civil_test)){
-      if (!is.na(gibushon_civil_test[j,][k])) {
-        gibushon_civil_test[j,][l] <-
-          ifelse(abs(gibushon_civil_test[j,][k])>3.29,gibushon_civil_test[j,][k],NA)
-      }
-    }
-  }
-}
-
-End_time<-Sys.time()
-Total_time<- round(End_time-Start_time, digits = 2)
-Total_time
-# Total_time = ~12 hrs. minuets (13.04.2021. Dell)
-
 library(dplyr)
-gibushon_civil_test_outliers = gibushon_civil_test[(ncol_before_zscores+1):ncol_zscores] %>%
-  rowwise() %>%
-  mutate(gibushon_civil_test_outliers, outlier = ifelse(grade > 60, "Pass", "Fail")))
-         
-  
 
-outliers_relevant_columns<-colnames(gibushon_civil_test[c((ncol_zscores+1):ncol(gibushon_civil_test))])
+gibushon_civil_outliers = gibushon_civil[(ncol_before_zscores+1):ncol_zscores]
+ouitliers<-function(x) ifelse(!is.na(x) & x>3.29, x, NA)
+allna<-function(x) ifelse(all(is.na(x)),NULL,x)
 
-for (i in outliers_relevant_columns) {
-  if (all(is.na(gibushon_civil_test[i]))) {
-    gibushon_civil_test[i]<-NULL
-  }
-}
+gibushon_civil_outliers = gibushon_civil_outliers%>%
+  mutate_at(vars(1:ncol(gibushon_civil_outliers)), funs(ouitliers))
 
-ncol_outliers<-ncol(gibushon_civil)
+colnames(gibushon_civil_outliers)<-paste(colnames(gibushon_civil_outliers),"outlier",sep = "_")
 
-# End_time<-Sys.time()
-# Total_time<- round(End_time-Start_time, digits = 2)
-# Total_time
-# # Total_time = 43.38 minuets (08.02.2021. Dell)
+gibushon_civil_outliers <- gibushon_civil_outliers[,colSums(is.na(gibushon_civil_outliers))<nrow(gibushon_civil_outliers)]
+
+#arrived here*********
 
 # freq of main outliers.
 library(descr)
@@ -1360,7 +1298,7 @@ options(width = 71,max.print=30000)
 round(freq(ordered(as.numeric(unlist(gibushon_civil$rama_score))), plot = F,main=colnames(gibushon_civil$rama_score),font=2),2)
 round(describe(as.numeric(unlist(gibushon$ac_final_grade))),2)
 
-colnames(gibushon_civil_test)
+colnames(gibushon_civil)
 
 library(descr)
 library(psych)
@@ -1372,19 +1310,19 @@ mode<-function(X)
 }
 options(width = 71,max.print=30000)
 # # The 2 commands after the first command, are for cleaning the output file.
-gibushon_civil_freq_relevant_columns<-colnames(gibushon_civil_test[c(828:ncol(gibushon_civil_test))])
+gibushon_civil_freq_relevant_columns<-colnames(gibushon_civil[c(828:ncol(gibushon_civil))])
 out<-""
 cat("", out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies.txt", sep="", append=F,fill = T)
 suppressWarnings(for(i in gibushon_civil_freq_relevant_columns) {
-  newresult1<-round(freq(ordered(as.numeric(unlist(gibushon_civil_test[[i]]))), plot = F,main=colnames(gibushon_civil_test[i]),font=2),2)
-  newresult2<-round(describe(as.numeric(unlist(gibushon_civil_test[[i]]))),2)
+  newresult1<-round(freq(ordered(as.numeric(unlist(gibushon_civil[[i]]))), plot = F,main=colnames(gibushon_civil[i]),font=2),2)
+  newresult2<-round(describe(as.numeric(unlist(gibushon_civil[[i]]))),2)
   newresult3<-"mode="
-  newresult4<-mode(gibushon_civil_test[[i]])
+  newresult4<-mode(gibushon_civil[[i]])
   newresult5<- "                                                                                               "
   newresult6<- "----------------------------------------------------------------------------"
   out <- capture.output(newresult1,newresult5,newresult2,newresult3,newresult4,newresult5,newresult6)
   out[1]<-""
-  cat(colnames(gibushon_civil_test[i]),out, file="C:\Users\USER\Documents\MAMDA\Gibushon\gibushon_civil_frequencies.txt", append=T,fill = T)
+  cat(colnames(gibushon_civil[i]),out, file="C:\Users\USER\Documents\MAMDA\Gibushon\gibushon_civil_frequencies.txt", append=T,fill = T)
 })
 
 
