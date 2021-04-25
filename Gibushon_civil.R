@@ -1,10 +1,10 @@
 
 library(readr)
+eadr)
 locale("he")
 
 # Before the next column, split the file (in the file itself-not by code) to columns by: Data, Text to Columns...
 gibushon_mamda<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/gibushon_mamda_2012_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
-class(gibushon_mamda)
 gibushon_mamda<-as.data.frame(gibushon_mamda)
 
 colnames(gibushon_mamda)
@@ -113,9 +113,15 @@ for(i in 1:ncol(criteria_merged)){
   colnames(criteria_merged)[i]<-gsub(".x","2015",colnames(criteria_merged)[i])}
 for(i in 1:ncol(criteria_merged)){
   colnames(criteria_merged)[i]<-gsub(".y","2017",colnames(criteria_merged)[i])}
+for(i in 1:ncol(criteria_merged)){
+  colnames(criteria_merged)[i]<-gsub("קב'","קב",colnames(criteria_merged)[i])}
+for(i in 1:ncol(criteria_merged)){
+  colnames(criteria_merged)[i]<-gsub("מ\"א","מא",colnames(criteria_merged)[i])}
 
 # Remove checkmark form dplyr package, because it's in conflict with plyr.*********
-library (plyr)
+
+# library (plyr)
+# 
 # 
 # criteria_merged<-rename(criteria_merged,c("מעריך2015"="evaluator2015","עובד מעריך - מא2015"="worker.evaluator.p.n2015",
 #                                           "יחידה מעריך2015"="unit.evaluator2015", "מעריך נוסף2015"="additional.evaluator2015",
@@ -257,6 +263,7 @@ criteria_merged<-setnames(criteria_merged,old = c('מעריך2015',
                                 'group.size.2017',
                                 'final.score.2017'),skip_absent=TRUE)
 
+
 criteria_merged$TaarichHavara_am_2015<-as.Date(criteria_merged$TaarichHavara_am_2015,format="%d/%m/%Y")
 criteria_merged$TaarichHavara_cf_2015<-as.Date(criteria_merged$TaarichHavara_cf_2015,format="%d/%m/%Y")
 
@@ -268,19 +275,36 @@ n_occur<-data.frame(table(criteria_merged$personal_number))
 n_occur[n_occur$Freq>1,]
 
 # Merge predictors and criteria
-all_policemen_07.09.2020<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_07.09.2020.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
-colnames(all_policemen_07.09.2020)[1] <- "personal_number"
-colnames(all_policemen_07.09.2020)[2] <- "id"
-colnames(all_policemen_07.09.2020)[29] <- "job"
-filtered_all_policemen_07.09.2020 <- all_policemen_07.09.2020 %>%
-  select (personal_number,id,job)
+all_policemen_07.04.2021<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_07.04.2021.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colnames(all_policemen_07.04.2021)[1] <- "personal_number"
+colnames(all_policemen_07.04.2021)[2] <- "id"
+colnames(all_policemen_07.04.2021)[6] <- "job"
+colnames(all_policemen_07.04.2021)[8] <- "gender"
+colnames(all_policemen_07.04.2021)[30] <- "job_date"
+
+# The next change was done manually in the file because it takes very long time.
+# for(i in 1:nrow(all_policemen_07.04.2021)){
+#   all_policemen_07.04.2021[i,]$job_date<-gsub("9999","2020",all_policemen_07.04.2021[i,]$job_date)}
+
+n_occur<-data.frame(table(all_policemen_07.04.2021$id))
+n_occur[n_occur$Freq>1,]
+class(all_policemen_07.04.2021$job_date)
+all_policemen_07.04.2021$job_date<-as.Date(as.character(all_policemen_07.04.2021$job_date),format="%d/%m/%Y")
+library (data.table)
+all_policemen_07.04.2021<-setDT(all_policemen_07.04.2021)[,.SD[which.max(job_date)],keyby=id]
+n_occur<-data.frame(table(all_policemen_07.04.2021$id))
+n_occur[n_occur$Freq>1,]
+
+library(dplyr)
+filtered_all_policemen_07.04.2021 <- all_policemen_07.04.2021 %>%
+  select (personal_number,id,gender,job)
 
 sum(is.na(criteria_merged$personal_number))
 
 filtered_criteria_merged=criteria_merged%>%
   filter(!is.na(personal_number))
 
-criteria_merged_all_policemen<-merge(filtered_criteria_merged,filtered_all_policemen_07.09.2020,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+criteria_merged_all_policemen<-merge(filtered_criteria_merged,filtered_all_policemen_07.04.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 nrow(criteria_merged_all_policemen)
 sum(!is.na(criteria_merged_all_policemen$id))
 class(criteria_merged_all_policemen$id)
@@ -303,47 +327,45 @@ gibushon_mamda_criteria<-setDT(gibushon_mamda_criteria)[,.SD[which.max(GibDate)]
 n_occur<-data.frame(table(gibushon_mamda_criteria$id))
 n_occur[n_occur$Freq>1,]
 
-gibushon<-gibushon_mamda_criteria
-
-# Clean gibushon file from erroneous data.
-gibushon$direct.commander.score2015[gibushon$direct.commander.score2015==0]<-NA
-gibushon$apointed.commander.score2015[gibushon$apointed.commander.score2015==0]<-NA
-gibushon$group.size.2015[gibushon$group.size.2015==0]<-NA
-gibushon$final.score.2015[gibushon$final.score.2015==0]<-NA
-gibushon$direct.commander.score2017[gibushon$direct.commander.score2017==0]<-NA
-gibushon$apointed.commander.score2017[gibushon$apointed.commander.score2017==0]<-NA
-gibushon$group.size.2017[gibushon$group.size.2017==0]<-NA
-gibushon$final.score.2017[gibushon$final.score.2017==0]<-NA
+# Clean gibushon_mamda_criteria file from erroneous data.
+gibushon_mamda_criteria$direct.commander.score2015[gibushon_mamda_criteria$direct.commander.score2015==0]<-NA
+gibushon_mamda_criteria$apointed.commander.score2015[gibushon_mamda_criteria$apointed.commander.score2015==0]<-NA
+gibushon_mamda_criteria$group.size.2015[gibushon_mamda_criteria$group.size.2015==0]<-NA
+gibushon_mamda_criteria$final.score.2015[gibushon_mamda_criteria$final.score.2015==0]<-NA
+gibushon_mamda_criteria$direct.commander.score2017[gibushon_mamda_criteria$direct.commander.score2017==0]<-NA
+gibushon_mamda_criteria$apointed.commander.score2017[gibushon_mamda_criteria$apointed.commander.score2017==0]<-NA
+gibushon_mamda_criteria$group.size.2017[gibushon_mamda_criteria$group.size.2017==0]<-NA
+gibushon_mamda_criteria$final.score.2017[gibushon_mamda_criteria$final.score.2017==0]<-NA
 
 # Locating and handling criteria that their dates are before/not enough after the appointment date.
-# gibushon$GibDate<-as.Date(unlist(gibushon$GibDate),format="%d/%m/%Y")
-gibushon$date.tkufatit_14<-"26/01/2015"
-gibushon$date.tkufatit_14<-as.Date(unlist(gibushon$date.tkufatit_14),format="%d/%m/%Y")
-gibushon$date.tkufatit_15<-"01/06/2016"
-gibushon$date.tkufatit_15<-as.Date(gibushon$date.tkufatit_15,format="%d/%m/%Y")
-gibushon$date.period.eval.2015<-"01/12/2015"
-gibushon$date.period.eval.2015<-as.Date(gibushon$date.period.eval.2015,format="%d/%m/%Y")
-gibushon$date.period.eval.2017<-"01/05/2017"
-gibushon$date.period.eval.2017<-as.Date(gibushon$date.period.eval.2017,format="%d/%m/%Y")
-gibushon$date.period.eval.2018<-"31/12/2018"
-gibushon$date.period.eval.2018<-"31/12/2018"
-gibushon$date.tkufatit_2019<-"30/05/2019"
-gibushon$date.period.eval.2018<-as.Date(gibushon$date.period.eval.2018,format="%d/%m/%Y")
-gibushon$TaarichHavara_am_2010<-as.Date(unlist(gibushon$TaarichHavara_am_2010),format="%d/%m/%Y")
-gibushon$TaarichHavara_am_2012<-as.Date(unlist(gibushon$TaarichHavara_am_2012),format="%d/%m/%Y")
-gibushon$TaarichHavara_am_2015<-as.Date(unlist(gibushon$TaarichHavara_am_2015),format="%d/%m/%Y")
-gibushon$TaarichHavara_am_2018<-as.Date(unlist(gibushon$TaarichHavara_am_2018),format="%d/%m/%Y")
-gibushon$TaarichHavara_cf_2010<-as.Date(unlist(gibushon$TaarichHavara_cf_2010),format="%d/%m/%Y")
-gibushon$TaarichHavara_cf_2012<-as.Date(unlist(gibushon$TaarichHavara_cf_2012),format="%d/%m/%Y")
-gibushon$TaarichHavara_cf_2015<-as.Date(unlist(gibushon$TaarichHavara_cf_2015),format="%d/%m/%Y")
-names(gibushon)[names(gibushon)=="tarich_cf_2018"]<-"TaarichHavara_cf_2018"
-gibushon$TaarichHavara_cf_2018<-as.Date(unlist(gibushon$TaarichHavara_cf_2018),format="%d/%m/%Y")
-gibushon$date.tkufatit_2019<-as.Date(unlist(gibushon$date.tkufatit_2019),format="%d/%m/%Y")
+# gibushon_mamda_criteria$GibDate<-as.Date(unlist(gibushon_mamda_criteria$GibDate),format="%d/%m/%Y")
+gibushon_mamda_criteria$date.tkufatit_14<-"26/01/2015"
+gibushon_mamda_criteria$date.tkufatit_14<-as.Date(unlist(gibushon_mamda_criteria$date.tkufatit_14),format="%d/%m/%Y")
+gibushon_mamda_criteria$date.tkufatit_15<-"01/06/2016"
+gibushon_mamda_criteria$date.tkufatit_15<-as.Date(gibushon_mamda_criteria$date.tkufatit_15,format="%d/%m/%Y")
+gibushon_mamda_criteria$date.period.eval.2015<-"01/12/2015"
+gibushon_mamda_criteria$date.period.eval.2015<-as.Date(gibushon_mamda_criteria$date.period.eval.2015,format="%d/%m/%Y")
+gibushon_mamda_criteria$date.period.eval.2017<-"01/05/2017"
+gibushon_mamda_criteria$date.period.eval.2017<-as.Date(gibushon_mamda_criteria$date.period.eval.2017,format="%d/%m/%Y")
+gibushon_mamda_criteria$date.period.eval.2018<-"31/12/2018"
+gibushon_mamda_criteria$date.period.eval.2018<-"31/12/2018"
+gibushon_mamda_criteria$date.tkufatit_2019<-"30/05/2019"
+gibushon_mamda_criteria$date.period.eval.2018<-as.Date(gibushon_mamda_criteria$date.period.eval.2018,format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_am_2010<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_am_2010),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_am_2012<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_am_2012),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_am_2015<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_am_2015),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_am_2018<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_am_2018),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_cf_2010<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_cf_2010),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_cf_2012<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_cf_2012),format="%d/%m/%Y")
+gibushon_mamda_criteria$TaarichHavara_cf_2015<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_cf_2015),format="%d/%m/%Y")
+names(gibushon_mamda_criteria)[names(gibushon_mamda_criteria)=="tarich_cf_2018"]<-"TaarichHavara_cf_2018"
+gibushon_mamda_criteria$TaarichHavara_cf_2018<-as.Date(unlist(gibushon_mamda_criteria$TaarichHavara_cf_2018),format="%d/%m/%Y")
+gibushon_mamda_criteria$date.tkufatit_2019<-as.Date(unlist(gibushon_mamda_criteria$date.tkufatit_2019),format="%d/%m/%Y")
 
-gibushon<-as.data.frame(gibushon)
+gibushon_mamda_criteria<-as.data.frame(gibushon_mamda_criteria)
 
 library(dplyr)
-gibushon = gibushon %>%
+gibushon_mamda_criteria = gibushon_mamda_criteria %>%
   rowwise() %>%
   mutate(date.tkufatit_14_diff = date.tkufatit_14-GibDate,
          date.tkufatit_15_diff = date.tkufatit_15-GibDate,
@@ -359,6 +381,185 @@ gibushon = gibushon %>%
          TaarichHavara_cf_2015_diff = TaarichHavara_cf_2015-GibDate,
          TaarichHavara_cf_2018_diff = TaarichHavara_cf_2018-GibDate,
          date.tkufatit_2019_diff = date.tkufatit_2019-GibDate)
+
+#RAMA
+rama_2012_2019<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/rama_2012_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colnames(rama_2012_2019)[2] <- "id"
+colnames(rama_2012_2019)[4] <- "rama_gender"
+colnames(rama_2012_2019)[5] <- "rama_religion"
+colnames(rama_2012_2019)[7] <- "rama_age"
+colnames(rama_2012_2019)[8] <- "rama_date"
+colnames(rama_2012_2019)[10] <- "rama_score"
+
+class(gibushon$rama_age)
+gibushon$rama_age<-as.numeric(gibushon$rama_age)
+class(gibushon$rama_score)
+gibushon$rama_score<-as.numeric(gibushon$rama_score)
+
+n_occur<-data.frame(table(rama_2012_2019$id))
+n_occur[n_occur$Freq>1,]
+class(rama_2012_2019$rama_date)
+rama_2012_2019$rama_date<-as.Date(as.character(rama_2012_2019$rama_date),format="%d/%m/%Y")
+
+library (data.table)
+
+rama_2012_2019<-setDT(rama_2012_2019)[,.SD[which.min(rama_date)],keyby=id]#usually which.max
+n_occur<-data.frame(table(rama_2012_2019$id))
+n_occur[n_occur$Freq>1,]
+
+class(rama_2012_2019$id)
+rama_2012_2019$id<-as.numeric(rama_2012_2019$id)
+class(gibushon_mamda_criteria$id)
+gibushon_mamda_criteria_rama <- merge(gibushon_mamda_criteria, rama_2012_2019,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+gibushon_mamda_criteria_rama<-as.data.frame(gibushon_mamda_criteria_rama)
+
+#eq
+eq_2016<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2016.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+eq_2017<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2017.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+eq_2018<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2018.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+eq_2019<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+eq_10092020<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_10092020.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+
+eq <- rbind(eq_2016,eq_2017,eq_2018,eq_2019,eq_10092020)
+
+colnames(eq)[1] <- "id"
+colnames(eq)[2] <- "second_name"
+colnames(eq)[3] <- "first_name"
+colnames(eq)[4] <- "eq_test_date"
+colnames(eq)[5] <- "eq"
+
+eq$eq_test_date<-as.Date(as.character(eq$eq_test_date),format="%d/%m/%Y")
+
+eq<-eq[!is.na(eq$eq),]
+
+n_occur<-data.frame(table(eq$id))
+n_occur[n_occur$Freq>1,]
+library (data.table)
+eq<-setDT(eq)[,.SD[which.max(eq_test_date)],keyby=id]
+n_occur<-data.frame(table(eq$id))
+n_occur[n_occur$Freq>1,]
+
+eq_filtered=eq%>%
+  select(id,eq)
+
+gibushon_mamda_criteria_rama_eq <- merge(gibushon_mamda_criteria_rama,eq_filtered,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+nrow(gibushon_mamda_criteria_rama_eq)
+sum(!is.na(gibushon_mamda_criteria_rama_eq$eq))
+
+#colors
+colors_2012<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2012.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2013<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2013.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2014<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2014.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2015<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2015.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2016<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2016.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2017<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2017.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2018<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2018.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colors_2019<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/colors_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+
+library(plyr)
+colors <- rbind.fill(colors_2012,colors_2013,colors_2014,colors_2015,colors_2016,colors_2017,colors_2018,colors_2019)
+
+colnames(colors)[1] <- "id"
+colnames(colors)[2] <- "first_name"
+colnames(colors)[3] <- "second_name"
+colnames(colors)[4] <- "colors_test_date"
+colnames(colors)[5] <- "colors"
+
+colors<-colors[!is.na(colors$colors),]
+
+class (colors$colors_test_date)
+colors<-data.frame(lapply(colors,function(x) {gsub("ינו","01",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("פבר","02",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("מרץ","03",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("אפר","04",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("מאי","05",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("יונ","06",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("יול","07",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("אוג","08",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("ספט","09",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("אוק","10",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("נוב","11",x)}))
+colors<-data.frame(lapply(colors,function(x) {gsub("דצמ","12",x)}))
+
+library(data.table)
+colors$colors_test_date<-as.Date(as.character(colors$colors_test_date),format="%d-%m-%y")
+class (colors$colors_test_date)
+
+n_occur<-data.frame(table(colors$id))
+n_occur[n_occur$Freq>1,]
+library (data.table)
+colors<-setDT(colors)[,.SD[which.max(colors_test_date)],keyby=id]
+n_occur<-data.frame(table(colors$id))
+n_occur[n_occur$Freq>1,]
+
+library(dplyr)
+colors_filtered=colors%>%
+  select(id,colors)
+
+gibushon_mamda_criteria_rama_eq_colors <- merge(gibushon_mamda_criteria_rama_eq,colors_filtered,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+nrow(gibushon_mamda_criteria_rama_eq_colors)
+sum(!is.na(gibushon_mamda_criteria_rama_eq_colors$colors))
+
+#decision
+decision_2012<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2012.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2013<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2013.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2014<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2014.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2015<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2015.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2016<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2016.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2017<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2017.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2018<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2018.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+decision_2019<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/decision_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+
+decision <- rbind(decision_2012,decision_2013,decision_2014,decision_2015,decision_2016,decision_2017,decision_2018,decision_2019)
+
+colnames(decision)[1] <- "id"
+colnames(decision)[2] <- "first_name"
+colnames(decision)[3] <- "second_name"
+colnames(decision)[4] <- "decision_test_date"
+colnames(decision)[5] <- "decision"
+
+class (decision$decision_test_date)
+decision<-data.frame(lapply(decision,function(x) {gsub("ינו","01",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("פבר","02",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("מרץ","03",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("אפר","04",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("מאי","05",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("יונ","06",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("יול","07",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("אוג","08",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("ספט","09",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("אוק","10",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("נוב","11",x)}))
+decision<-data.frame(lapply(decision,function(x) {gsub("דצמ","12",x)}))
+
+library(data.table)
+decision$decision_test_date<-as.Date(as.character(decision$decision_test_date),format="%d-%m-%y")
+class (decision$decision_test_date)
+
+decision<-decision[!is.na(decision$decision),]
+
+n_occur<-data.frame(table(decision$id))
+n_occur[n_occur$Frdecision>1,]
+# library (data.table)
+# decision<-setDT(decision)[,.SD[which.max(decision_test_date)],keyby=id]
+# n_occur<-data.frame(table(decision$id))
+# n_occur[n_occur$Frdecision>1,]
+
+decision_filtered=decision%>%
+  select(id,decision)
+
+gibushon_mamda_criteria_rama_eq_colors_decision <- merge(gibushon_mamda_criteria_rama_eq_colors,decision_filtered,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+nrow(gibushon_mamda_criteria_rama_eq_colors_decision)
+sum(!is.na(gibushon_mamda_criteria_rama_eq_colors_decision$decision))
+
+gibushon<-gibushon_mamda_criteria_rama_eq_colors_decision
+
+#check candidates that don't have rama_score
+# library(dplyr)
+# gibushon_miissing_rama=gibushon%>%
+#   filter(is.na(rama_score))%>%
+#   select(id,rama_score,FirstName,LastName)
+# write_excel_csv(gibushon_miissing_rama,"Q:/04_Mehkar/18_asher/gibushon/gibushon_miissing_rama.csv")
 
 #Remove spaces.
 
@@ -476,7 +677,6 @@ colnames(gibushon_civil_outliers)<-paste(colnames(gibushon_civil_outliers),"outl
 
 gibushon_civil_outliers <- gibushon_civil_outliers[,colSums(is.na(gibushon_civil_outliers))<nrow(gibushon_civil_outliers)]
 
-#arrived here*********
 
 # freq of main outliers.
 library(descr)
