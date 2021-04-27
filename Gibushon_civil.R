@@ -1500,7 +1500,7 @@ ggplot(gibushon_final, aes(x=ac_final_grade)) +
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$final.score.2017))), plot = F,main=colnames(gibushon_civil$final.score.2017),font=2),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil$decision))), plot = F,main=colnames(gibushon_civil$decision),font=2),2)
 round(describe(as.numeric(unlist(gibushon$ac_final_grade))),2)
 
 colnames(gibushon_civil)
