@@ -589,7 +589,7 @@ colnames(gibushon_civil)
 
 # Remove Checkmark form dplyr package, because it's in conflict with plyr.*********
 # With complicated packages that load S4 classes & methods, detach command is not 
-# guaranteed to restore everything to exactly the state before the package was loaded.
+# guaranteed to restore everything to exactly the state before the package was loaded.******
 
 library (plyr)
 gibushon_civil<-rename(gibushon_civil,c("Mazav0"="power",
