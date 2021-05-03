@@ -1,5 +1,4 @@
 
-
 library(readr)
 locale("he")
 
@@ -413,6 +412,13 @@ class(gibushon_mamda_criteria$id)
 gibushon_mamda_criteria_rama <- merge(gibushon_mamda_criteria, rama_2012_2019,by=c("id"), all.x=T, all.y=F,sort = FALSE)
 gibushon_mamda_criteria_rama<-as.data.frame(gibushon_mamda_criteria_rama)
 
+#check candidates that don't have rama_score
+# library(dplyr)
+# gibushon_miissing_rama=gibushon%>%
+#   filter(is.na(rama_score))%>%
+#   select(id,rama_score,FirstName,LastName)
+# write_excel_csv(gibushon_miissing_rama,"Q:/04_Mehkar/18_asher/gibushon/gibushon_miissing_rama.csv")
+
 #eq
 eq_2016<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2016.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
 eq_2017<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2017.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
@@ -562,16 +568,46 @@ class(EichutGrade_components_filtered$id)
 EichutGrade_components_filtered$id<-as.numeric(EichutGrade_components_filtered$id)
 class(gibushon_mamda_criteria_rama_eq_colors_decision$id)
 gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components <- merge(gibushon_mamda_criteria_rama_eq_colors_decision, EichutGrade_components_filtered,by=c("id"), all.x=T, all.y=F,sort = FALSE)
-gibushon_mamda_criteria_rama<-as.data.frame(gibushon_mamda_criteria_rama)
 
-gibushon<-gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components
+#Quit
+quit<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/quit.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+colnames(quit)[2] <- "id"
+colnames(quit)[15] <- "action"
+colnames(quit)[16] <- "action_code"
+colnames(quit)[17] <- "action_reason"
+colnames(quit)[18] <- "action_start_date"
+colnames(quit)[19] <- "action_end_date"
 
-#check candidates that don't have rama_score
-# library(dplyr)
-# gibushon_miissing_rama=gibushon%>%
-#   filter(is.na(rama_score))%>%
-#   select(id,rama_score,FirstName,LastName)
-# write_excel_csv(gibushon_miissing_rama,"Q:/04_Mehkar/18_asher/gibushon/gibushon_miissing_rama.csv")
+n_occur<-data.frame(table(quit$id))
+n_occur[n_occur$Freq>1,]
+
+class (quit$action_start_date)
+quit$action_start_date<-as.Date(as.character(quit$action_start_date),format="%d/%m/%Y")
+class (quit$action_start_date)
+class (quit$action_end_date)
+quit$action_end_date<-as.Date(as.character(quit$action_end_date),format="%d/%m/%Y")
+class (quit$action_end_date)
+
+n_occur<-data.frame(table(quit$id))
+n_occur[n_occur$Freq>1,]
+library (data.table)
+quit<-setDT(quit)[,.SD[which.max(action_start_date)],keyby=id]
+n_occur<-data.frame(table(quit$id))
+n_occur[n_occur$Freq>1,]n_occur[n_occur$Freq>1,]
+
+quit$action_end_date<-data.frame(lapply(quit$action_end_date,function(x) {gsub("9999","2021",x)}))
+
+library(dplyr)
+quit_filtered=quit%>%
+  select(id,action_reason)
+
+class(quit_filtered$id)
+quit_filtered$id<-as.numeric(quit_filtered$id)
+class(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components$id)
+gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit <- merge(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components,quit_filtered,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit<-as.data.frame(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit)
+
+gibushon<-gibushon_mamda_criteria_rama_eq_quit_decision_EichutGrade_components_quit
 
 #Remove spaces.
 
