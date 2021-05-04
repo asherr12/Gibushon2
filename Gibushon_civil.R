@@ -649,6 +649,13 @@ gibushon_civil<-rename(gibushon_civil,c("Mazav0"="power",
                                         "Mazav7"= "thinking",
                                         "Mazav8"="execution"))
 
+gibushon_civil$gender <- str_replace_all(gibushon_civil$gender, c("זכר" = "male", "נקבה" = "female"))
+gibushon_civil$rama_gender <- str_replace_all(gibushon_civil$rama_gender, c("זכר" = "male", "נקבה" = "female"))
+gibushon_civil$gender<-ifelse(!is.na(gibushon_civil$gender),gibushon_civil$gender,gibushon_civil$rama_gender)
+
+freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
+
+
 # Remove Checkmark form plyr package, because it's in conflict with dplyr.*********
 # With complicated packages that load S4 classes & methods, detach command is not 
 # guaranteed to restore everything to exactly the state before the package was loaded.
@@ -1048,10 +1055,10 @@ filtered_gibushon_civil_diff_criteria_count = filtered_gibushon_civil_diff_crite
   rowwise() %>%
   mutate(seniority_days_ac = ifelse(!is.na(date.period.eval.2018_diff) & date.period.eval.2018_diff>(sd_period.eval.2018_diff),(date.period.eval.2018_diff),
                                     ifelse(!is.na(date.period.eval.2017_diff) & date.period.eval.2017_diff>(sd_period.eval.2017_diff),(date.period.eval.2017_diff),
-                                           ifelse(!is.na(date.period.eval.2015_diff) & date.period.eval.2015_diff>(sd_period.eval.2015_diff),(date.period.eval.2015_diff),
-                                                  ifelse(!is.na(date.tkufatit_14_diff) & date.tkufatit_14_diff>(sd_tkufatit_14_diff),(date.tkufatit_14_diff),
-                                                         ifelse(!is.na(TaarichHavara_am_2012_diff) & TaarichHavara_am_2012_diff>(sd_am_2012_diff),(TaarichHavara_am_2012_diff),
-                                                                ifelse(!is.na(TaarichHavara_am_2010_diff) & TaarichHavara_am_2010_diff>(sd_am_2010_diff),(TaarichHavara_am_2010_diff),NA)))))),
+                                    ifelse(!is.na(date.period.eval.2015_diff) & date.period.eval.2015_diff>(sd_period.eval.2015_diff),(date.period.eval.2015_diff),
+                                    ifelse(!is.na(date.tkufatit_14_diff) & date.tkufatit_14_diff>(sd_tkufatit_14_diff),(date.tkufatit_14_diff),
+                                    ifelse(!is.na(TaarichHavara_am_2012_diff) & TaarichHavara_am_2012_diff>(sd_am_2012_diff),(TaarichHavara_am_2012_diff),
+                                    ifelse(!is.na(TaarichHavara_am_2010_diff) & TaarichHavara_am_2010_diff>(sd_am_2010_diff),(TaarichHavara_am_2010_diff),NA)))))),
          seniority_years_ac = round(as.numeric(seniority_days_ac)/365,2))
 
 class(filtered_gibushon_civil_diff_criteria_count)
@@ -1537,17 +1544,18 @@ ggplot(gibushon_final, aes(x=ac_final_grade)) +
 
 
 #***********************assistance commands******************************
+library(stringr)
+
 
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
 round(freq(ordered(as.numeric(unlist(gibushon_civil$decision))), plot = F,main=colnames(gibushon_civil$decision),font=2),2)
 round(describe(as.numeric(unlist(gibushon$ac_final_grade))),2)
-freq(gibushon_civil$action_reason, plot = F,main=colnames(gibushon_civil$action_reason),font=2)
-table2matrix(gibushon_civil$action_reason)
-
-
-colnames(gibushon_civil)
+freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
+freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
+freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
+freq(gibushon_civil$general_gender, plot = F,main=colnames(gibushon_civil$general_gender),font=2)
 
 library(descr)
 library(psych)
