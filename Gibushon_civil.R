@@ -649,12 +649,33 @@ gibushon_civil<-rename(gibushon_civil,c("Mazav0"="power",
                                         "Mazav7"= "thinking",
                                         "Mazav8"="execution"))
 
+
 gibushon_civil$gender <- str_replace_all(gibushon_civil$gender, c("זכר" = "male", "נקבה" = "female"))
 gibushon_civil$rama_gender <- str_replace_all(gibushon_civil$rama_gender, c("זכר" = "male", "נקבה" = "female"))
 gibushon_civil$gender<-ifelse(!is.na(gibushon_civil$gender),gibushon_civil$gender,gibushon_civil$rama_gender)
+gibushon_civil$job <- str_replace_all(gibushon_civil$job, c("זכר" = "male", "נקבה" = "female"))
+gibushon_civil$job[grep("תנועה", gibushon_civil$job)] <- "traffic"
+gibushon_civil$job[grep("סייר", gibushon_civil$job)] <- "patrol"
+gibushon_civil$job[grep("סיור", gibushon_civil$job)] <- "patrol"
+gibushon_civil$job[grep("חוקר", gibushon_civil$job)] <- "inspector"
+gibushon_civil$job[grep("חקירות", gibushon_civil$job)] <- "inspector"
+gibushon_civil$job[grep("בלש", gibushon_civil$job)] <- "detective"
+gibushon_civil$job[grep("בילוש", gibushon_civil$job)] <- "detective"
+gibushon_civil$job[grep("יס'מ", gibushon_civil$job)] <- "yasam"
+gibushon_civil$job[grep("ימ'ס", gibushon_civil$job)] <- "yamas"
+gibushon_civil$job[grep("ימ'מ", gibushon_civil$job)] <- "yamam"
+gibushon_civil$job[grep("מודיעין", gibushon_civil$job)] <- "inteligence"
+gibushon_civil$job[grep("לוחם", gibushon_civil$job)] <- "soldier"
+gibushon_civil$job[grep("מוקד", gibushon_civil$job)] <- "call_center"
+gibushon_civil$job[grep("קצין מרכז שליטה", gibushon_civil$job)] <- "call_center"
+gibushon_civil$job[grep("יומנאי", gibushon_civil$job)] <- "diary_keeper"
+gibushon_civil$job[grep("עובד נוער", gibushon_civil$job)] <- "youth_worker"
+gibushon_civil$job[grep("מפקד", gibushon_civil$job)] <- "commander"
+gibushon_civil$job[grep("ראש", gibushon_civil$job)] <- "commander"
+gibushon_civil$job[grep("קצין", gibushon_civil$job)] <- "officer"
+gibushon_civil$job[grep("עובד", gibushon_civil$job)] <- "worker"
 
-freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
-
+freq(gibushon_civil$job, plot = F,main=colnames(gibushon_civil$job),font=2)
 
 # Remove Checkmark form plyr package, because it's in conflict with dplyr.*********
 # With complicated packages that load S4 classes & methods, detach command is not 
