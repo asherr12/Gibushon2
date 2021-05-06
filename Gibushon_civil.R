@@ -717,10 +717,35 @@ gibushon_civil$rama_religion[grep("מוסלמי", gibushon_civil$rama_religion)] <- "M
 gibushon_civil$rama_religion[grep("נוצרי", gibushon_civil$rama_religion)] <- "Christian"
 gibushon_civil$rama_religion[grep("צ'רקסי", gibushon_civil$rama_religion)] <- "Circassian"
 gibushon_civil$commander <- str_replace_all(gibushon_civil$commander, c("לא ידוע" = "unknown", "לא מפקד" = "not commander", "מפקד" = "commander"))
+gibushon_civil$behavior_old<-str_replace_all(gibushon_civil$behavior_old, "[[:punct:]]", " ")
+gibushon_civil$behavior_new<-str_replace_all(gibushon_civil$behavior_new, "[[:punct:]]", " ")
+gibushon_civil$behavior_old <- str_replace_all(gibushon_civil$behavior_old, c("אינה מניחה את הדעת" = "1",
+                                                                               "כט מ" = "5",
+                                                                               "ט מ" = "6",
+                                                                               "כמעט טובה מאוד" = "5",
+                                                                               "טובה מאוד" = "6",
+                                                                               "כמעט טובה" = "3",
+                                                                               "טובה" = "4",
+                                                                               "לא ידוע" = NA,
+                                                                               "מניחה את הדעת" = "2",
+                                                                               "שירתתתי בקבע קצין" = "7"))
 
 library(descr)
 freq(gibushon_civil$behavior_old, plot = F,main=colnames(gibushon_civil$behavior_old),font=2)
-freq(gibushon_civil$behavior_new, plot = F,main=colnames(gibushon_civil$behavior_new),font=2)
+
+gibushon_civil$behavior_new2 <- str_replace_all(gibushon_civil$behavior_new, c("אינה מניחה את הדעת" = "1",
+                                                                              "כט מ" = "5",
+                                                                              "ט מ" = "6",
+                                                                              "כמעט טובה מאוד" = "5",
+                                                                              "טובה מאוד" = "6",
+                                                                              "כמעט טובה" = "3",
+                                                                              "טובה" = "4",
+                                                                              "לא ידוע" = NA,
+                                                                              "מניחה את הדעת" = "2",
+                                                                              "שירתתתי בקבע קצין" = "7"))
+
+
+freq(gibushon_civil$behavior_new2, plot = F,main=colnames(gibushon_civil$behavior_new2),font=2)
 # compare the new and old - verify
 # gibushon_civil$behavior_new<-ifelse(!is.na(gibushon_civil$behavior_new),gibushon_civil$behavior_new,gibushon_civil$behavior_old)
 
