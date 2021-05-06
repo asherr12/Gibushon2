@@ -722,7 +722,6 @@ library(descr)
 freq(gibushon_civil$behavior_old, plot = F,main=colnames(gibushon_civil$behavior_old),font=2)
 freq(gibushon_civil$behavior_new, plot = F,main=colnames(gibushon_civil$behavior_new),font=2)
 # compare the new and old - verify
-
 # gibushon_civil$behavior_new<-ifelse(!is.na(gibushon_civil$behavior_new),gibushon_civil$behavior_new,gibushon_civil$behavior_old)
 
 # Remove Checkmark form plyr package, because it's in conflict with dplyr.*********
