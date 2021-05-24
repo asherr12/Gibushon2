@@ -880,7 +880,7 @@ suppressWarnings(for(i in 1:ncol(gibushon_civil_outliers)) {
   cat(colnames(gibushon_civil_outliers[i]),out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_outliers.txt", append=T,fill = T)
 })
 
-write_csv(gibushon_civil,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_with_outliers.csv")
+write_excel_csv(gibushon_civil,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_with_outliers.csv")
 
 colnames(gibushon_civil[(ncol_before_zscores+1):ncol_zscores])
 
@@ -888,7 +888,7 @@ gibushon_civil[(ncol_before_zscores+1):ncol_zscores][gibushon_civil[(ncol_before
 
 colnames(gibushon_civil)
 
-write_csv(gibushon_civil,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_without_outliers.csv")
+write_excel_csv(gibushon_civil,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_without_outliers.csv")
 
 # Criteria.
 
