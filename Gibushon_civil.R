@@ -1232,8 +1232,8 @@ gibushon_civil_freq_relevant_columns<-colnames(gibushon_final[c(21:22,24:31,35,4
                                                                    595,599,603,607,611,615,619,623,627,631,635,639,643,649,
                                                                    651,657,659,665,667,673,675,681,683,689,691,708,710,712,
                                                                    714,716,718,720,722,724,726,728,730,732,750,752,754,756,
-                                                                   758,760,762,764,766,768,770,772,774,776,794,795,827:830,
-                                                                   832,833,834,835)])
+                                                                   758,760,762,764,766,768,770,772,774,776,794,795,797:798,
+                                                                   821:822,824,827:834,1066)])
 out<-""
 cat("", out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies.txt", sep="", append=F,fill = T)
 suppressWarnings(for(i in gibushon_civil_freq_relevant_columns) {
