@@ -1265,11 +1265,11 @@ colnames(gibushon_final)[1001:ncol(gibushon_final)]
 
 # Correlations predictors-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1018,1021,1027)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1018,1021,1027)]))
-gibushon_final_corr_output<-data.frame()[16,]
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(824,836:841,843:850,1011:1016,1066)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016,1066)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1055:1061)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1055:1061)]))
+gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
   corr_output_temp<-c()
@@ -1297,10 +1297,10 @@ write.csv(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibus
 
 # Correlations predictors-predictors
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(4:11,14,19,21,23:24,1029:1031,1033)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(824,836:841,843:850,1011:1016,1066)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016,1066)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(824,836:841,843:850,1011:1016,1066)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016,1066)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
