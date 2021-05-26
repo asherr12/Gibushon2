@@ -1330,10 +1330,10 @@ write.csv(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibus
 
 # Correlations criteria-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1018,1021,1027)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1018,1021,1027)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1018,1021,1027)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1018,1021,1027)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1055:1061)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1055:1061)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1055:1061)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1055:1061)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
