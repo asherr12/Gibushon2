@@ -1376,10 +1376,10 @@ cbind.fill<-function(...){
 }
 
 library(ppcor)
-gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(4:11,14,19,21,23:24,1029:1031)]
-gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(4:11,14,19,21,23:24,1029:1031)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1018,1021,1027)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1018,1021,1027)]))
+gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(824,836:841,843:850,1011:1016)]
+gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016)]))
+gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1055:1061)]
+gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1055:1061)]))
 gibushon_final_spcorr_output<-data.frame()[15,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
@@ -1410,9 +1410,6 @@ for(i in 1:(ncol(gibushon_final_spcorr_output)/4)){
   colnames(gibushon_final_spcorr_output)[i*4] <- ""
 }
 write.csv(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c_0.25+.csv")
-
-cor.test(as.numeric(gibushon_final$sherut),as.numeric(gibushon_final$seniority_days_ac),use="pairwise.complete.obs",na.action = "na.exclude")
-cor.test(as.numeric(gibushon_final$sherut),as.numeric(gibushon_final$ac_final_grade),use="pairwise.complete.obs",na.action = "na.exclude")
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 # Range restriction.
