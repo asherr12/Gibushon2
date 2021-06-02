@@ -1300,7 +1300,7 @@ write.csv(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibus
 # Correlations predictors-criteria on gibushon_final_filtered
 
 gibushon_final_filtered=gibushon_final%>%
-  filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam")
+  filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | job == "youth worker")
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(824,836:841,843:850,1011:1016,1066)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(824,836:841,843:850,1011:1016,1066)]))
@@ -1330,7 +1330,7 @@ row.names(gibushon_final_filtered_corr_output)<-gibushon_final_filtered_relevant
 for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
   colnames(gibushon_final_filtered_corr_output)[i*4] <- ""
 }
-write.csv(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output_0.252+.csv")
+write.csv(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output_0.253+.csv")
 
 
 # Correlations predictors-predictors
