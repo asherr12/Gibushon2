@@ -1092,99 +1092,32 @@ gibushon_civil<-as.data.frame(gibushon_civil)
 
 gibushon_civil[sapply(gibushon_civil, is.nan)] <- NA
 
-# Optimal gap between A.C. date and criteria.
+#Arrived here*********************************************
 
-round(mean(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
-round(median(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
-sd_tkufatit_14_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0))
-# sd_tkufatit_14_diff<-round(mean(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
+# Optimal gap between A.C. date and criteria by QlikView.
 
-round(mean(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
-sd_tkufatit_15_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0))
-# sd_tkufatit_15_diff<-round(mean(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
+gibushon_civil_for_Qlik_View <- gibushon_civil
 
-round(mean(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
-sd_period.eval.2015_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0))
-# sd_period.eval.2015_diff<round(mean(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
-sd_period.eval.2017_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0))
-# sd_period.eval.2017_diff<-round(mean(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
-sd_period.eval.2018_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0))
-# sd_period.eval.2018_diff<-round(mean(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
-sd_period.eval.2019_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0))
-sd_period.eval.2019_diff<-as.numeric(sd_period.eval.2019_diff)
-# sd_period.eval.2019_diff<-round(mean(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
-# sd_period.eval.2019_diff<-as.numeric(sd_period.eval.2019_diff)
-
-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-sd_am_2010_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0)
-sd_am_2012_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0)
-sd_am_2015_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
-sd_am_2018_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0))
-# sd_am_2018_diff<-round(mean(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0)
-sd_cf_2010_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
-sd_cf_2012_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0))
-# sd_cf_2012_diff<-round(mean(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0)
-sd_cf_2015_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
-
-round(mean(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0)
-round(sd(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0)
-sd_cf_2018_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0))
-# sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+write_excel_csv(gibushon_civil_for_Qlik_View,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_for_Qlik_View.csv")
 
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
-  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff< (sd_tkufatit_14_diff),NA,tkufatit_14_zscore),
-         tkufatit_15_zscore = ifelse(date.tkufatit_15_diff< (sd_tkufatit_15_diff),NA,tkufatit_15_zscore),
-         final.score.2015_zscore = ifelse(date.period.eval.2015_diff< (sd_period.eval.2015_diff),NA,final.score.2015_zscore),
-         final.score.2017_zscore = ifelse(date.period.eval.2017_diff< (sd_period.eval.2017_diff),NA,final.score.2017_zscore),
-         final.score.2018_zscore = ifelse(date.period.eval.2018_diff< (sd_period.eval.2018_diff),NA,final.score.2018_zscore),
-         row_score_2019 = ifelse(date.tkufatit_2019_diff< (sd_period.eval.2019_diff),NA,row_score_2019),
-         am_2010 = ifelse(TaarichHavara_am_2010_diff< (sd_am_2010_diff),NA,am_2010),
-         am_2012 = ifelse(TaarichHavara_am_2012_diff< (sd_am_2012_diff),NA,am_2012),
-         am_2015 = ifelse(TaarichHavara_am_2015_diff< (sd_am_2015_diff),NA,am_2015),
-         am_2015_special = ifelse(TaarichHavara_am_2015_diff< (sd_am_2015_diff),NA,am_2015_special),
-         am_2018 = ifelse(TaarichHavara_am_2018_diff< (sd_am_2018_diff),NA,am_2018),
-         am_2018_special = ifelse(TaarichHavara_am_2010_diff< (sd_am_2018_diff),NA,am_2018_special),
-         cf_2010 = ifelse(TaarichHavara_cf_2010_diff< (sd_cf_2010_diff),NA,cf_2010),
-         cf_2012 = ifelse(TaarichHavara_cf_2012_diff< (sd_cf_2012_diff),NA,cf_2012),
-         cf_2015 = ifelse(TaarichHavara_cf_2015_diff< (sd_cf_2015_diff),NA,cf_2015),
-         cf_2018 = ifelse(TaarichHavara_cf_2018_diff< (sd_cf_2018_diff),NA,cf_2018))
+  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff< 518,NA,tkufatit_14_zscore),
+         tkufatit_15_zscore = ifelse(date.tkufatit_15_diff< 196,NA,tkufatit_15_zscore),
+         final.score.2015_zscore = ifelse(date.period.eval.2015_diff< 230,NA,final.score.2015_zscore),
+         final.score.2017_zscore = ifelse(date.period.eval.2017_diff< 105,NA,final.score.2017_zscore),
+         final.score.2018_zscore = ifelse(date.period.eval.2018_diff< 113,NA,final.score.2018_zscore),
+         row_score_2019 = ifelse(date.tkufatit_2019_diff< 91,NA,row_score_2019),
+         am_2010 = ifelse(TaarichHavara_am_2010_diff< 91,NA,am_2010),
+         am_2012 = ifelse(TaarichHavara_am_2012_diff< 91,NA,am_2012),
+         am_2015 = ifelse(TaarichHavara_am_2015_diff< 196,NA,am_2015),
+         am_2015_special = ifelse(TaarichHavara_am_2015_diff< 196,NA,am_2015_special),
+         am_2018 = ifelse(TaarichHavara_am_2018_diff< 91,NA,am_2018),
+         am_2018_special = ifelse(TaarichHavara_am_2010_diff< 91,NA,am_2018_special),
+         cf_2010 = ifelse(TaarichHavara_cf_2010_diff< 475,NA,cf_2010),
+         cf_2012 = ifelse(TaarichHavara_cf_2012_diff< 475,NA,cf_2012),
+         cf_2015 = ifelse(TaarichHavara_cf_2015_diff< 475,NA,cf_2015),
+         cf_2018 = ifelse(TaarichHavara_cf_2018_diff< 92,NA,cf_2018))
 
 class(filtered_gibushon_civil_diff)
 filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
@@ -1201,6 +1134,116 @@ head(gibushon_civil$am_2015,20)
 head(filtered_gibushon_civil_diff$am_2015,20)
 
 head(filtered_gibushon_civil_diff$TaarichHavara_am_2015_diff,20)
+
+# Optimal gap between A.C. date and criteria, by SD.
+
+# round(mean(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
+# round(median(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
+# sd_tkufatit_14_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0))
+# # sd_tkufatit_14_diff<-round(mean(gibushon_civil$date.tkufatit_14_diff[gibushon_civil$date.tkufatit_14_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
+# sd_tkufatit_15_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0))
+# # sd_tkufatit_15_diff<-round(mean(gibushon_civil$date.tkufatit_15_diff[gibushon_civil$date.tkufatit_15_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
+# sd_period.eval.2015_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0))
+# # sd_period.eval.2015_diff<round(mean(gibushon_civil$date.period.eval.2015_diff[gibushon_civil$date.period.eval.2015_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
+# sd_period.eval.2017_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0))
+# # sd_period.eval.2017_diff<-round(mean(gibushon_civil$date.period.eval.2017_diff[gibushon_civil$date.period.eval.2017_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
+# sd_period.eval.2018_diff<-0.25(round(sd(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0))
+# # sd_period.eval.2018_diff<-round(mean(gibushon_civil$date.period.eval.2018_diff[gibushon_civil$date.period.eval.2018_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
+# sd_period.eval.2019_diff<-0.25(round(sd(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0))
+# sd_period.eval.2019_diff<-as.numeric(sd_period.eval.2019_diff)
+# # sd_period.eval.2019_diff<-round(mean(gibushon_civil$date.tkufatit_2019_diff[gibushon_civil$date.tkufatit_2019_diff>0],na.rm = T),0)
+# # sd_period.eval.2019_diff<-as.numeric(sd_period.eval.2019_diff)
+# 
+# round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# sd_am_2010_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0)
+# sd_am_2012_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2012_diff[gibushon_civil$TaarichHavara_am_2012_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0)
+# sd_am_2015_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2015_diff[gibushon_civil$TaarichHavara_am_2015_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
+# sd_am_2018_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0))
+# # sd_am_2018_diff<-round(mean(gibushon_civil$TaarichHavara_am_2018_diff[gibushon_civil$TaarichHavara_am_2018_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0)
+# sd_cf_2010_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2010_diff[gibushon_civil$TaarichHavara_cf_2010_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
+# sd_cf_2012_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0))
+# # sd_cf_2012_diff<-round(mean(gibushon_civil$TaarichHavara_cf_2012_diff[gibushon_civil$TaarichHavara_cf_2012_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0)
+# sd_cf_2015_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2015_diff[gibushon_civil$TaarichHavara_cf_2015_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# round(mean(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0)
+# round(sd(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0)
+# sd_cf_2018_diff<-0.25(round(sd(gibushon_civil$TaarichHavara_cf_2018_diff[gibushon_civil$TaarichHavara_cf_2018_diff>0],na.rm = T),0))
+# # sd_am_2010_diff<-round(mean(gibushon_civil$TaarichHavara_am_2010_diff[gibushon_civil$TaarichHavara_am_2010_diff>0],na.rm = T),0)
+# 
+# filtered_gibushon_civil_diff = gibushon_civil %>%
+#   rowwise() %>%
+#   mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff< (sd_tkufatit_14_diff),NA,tkufatit_14_zscore),
+#          tkufatit_15_zscore = ifelse(date.tkufatit_15_diff< (sd_tkufatit_15_diff),NA,tkufatit_15_zscore),
+#          final.score.2015_zscore = ifelse(date.period.eval.2015_diff< (sd_period.eval.2015_diff),NA,final.score.2015_zscore),
+#          final.score.2017_zscore = ifelse(date.period.eval.2017_diff< (sd_period.eval.2017_diff),NA,final.score.2017_zscore),
+#          final.score.2018_zscore = ifelse(date.period.eval.2018_diff< (sd_period.eval.2018_diff),NA,final.score.2018_zscore),
+#          row_score_2019 = ifelse(date.tkufatit_2019_diff< (sd_period.eval.2019_diff),NA,row_score_2019),
+#          am_2010 = ifelse(TaarichHavara_am_2010_diff< (sd_am_2010_diff),NA,am_2010),
+#          am_2012 = ifelse(TaarichHavara_am_2012_diff< (sd_am_2012_diff),NA,am_2012),
+#          am_2015 = ifelse(TaarichHavara_am_2015_diff< (sd_am_2015_diff),NA,am_2015),
+#          am_2015_special = ifelse(TaarichHavara_am_2015_diff< (sd_am_2015_diff),NA,am_2015_special),
+#          am_2018 = ifelse(TaarichHavara_am_2018_diff< (sd_am_2018_diff),NA,am_2018),
+#          am_2018_special = ifelse(TaarichHavara_am_2010_diff< (sd_am_2018_diff),NA,am_2018_special),
+#          cf_2010 = ifelse(TaarichHavara_cf_2010_diff< (sd_cf_2010_diff),NA,cf_2010),
+#          cf_2012 = ifelse(TaarichHavara_cf_2012_diff< (sd_cf_2012_diff),NA,cf_2012),
+#          cf_2015 = ifelse(TaarichHavara_cf_2015_diff< (sd_cf_2015_diff),NA,cf_2015),
+#          cf_2018 = ifelse(TaarichHavara_cf_2018_diff< (sd_cf_2018_diff),NA,cf_2018))
+
+# class(filtered_gibushon_civil_diff)
+# filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
+# 
+# #qa
+# head(gibushon_civil$am_2010,20)
+# 
+# head(filtered_gibushon_civil_diff$am_2010,20)
+# 
+# head(filtered_gibushon_civil_diff$TaarichHavara_am_2010_diff,20)
+# 
+# head(gibushon_civil$am_2015,20)
+# 
+# head(filtered_gibushon_civil_diff$am_2015,20)
+# 
+# head(filtered_gibushon_civil_diff$TaarichHavara_am_2015_diff,20)
 
 #First high order criteria
 
