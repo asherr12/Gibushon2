@@ -681,9 +681,6 @@ filtered_all_policemen_03.06.2021_id = filtered_all_policemen_03.06.2021%>%
 
 absences <- merge(absences,filtered_all_policemen_03.06.2021_id,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 
-
-#********arrived here**********
-
 library(dplyr)
 absences_filtered=absences%>%
   select(id,sick_days,days_off)
