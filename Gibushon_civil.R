@@ -740,7 +740,6 @@ library(stringr)
 gibushon_civil$gender <- str_replace_all(gibushon_civil$gender, c("זכר" = "male", "נקבה" = "female"))
 gibushon_civil$rama_gender <- str_replace_all(gibushon_civil$rama_gender, c("זכר" = "male", "נקבה" = "female"))
 gibushon_civil$gender<-ifelse(!is.na(gibushon_civil$gender),gibushon_civil$gender,gibushon_civil$rama_gender)
-gibushon_civil$job <- str_replace_all(gibushon_civil$job, c("זכר" = "male", "נקבה" = "female"))
 gibushon_civil$job[grep("תנועה", gibushon_civil$job)] <- "traffic"
 gibushon_civil$job[grep("סייר", gibushon_civil$job)] <- "patrol"
 gibushon_civil$job[grep("סיור", gibushon_civil$job)] <- "patrol"
@@ -1054,6 +1053,11 @@ class(gibushon_civil)
 gibushon_civil<-as.data.frame(gibushon_civil)
 
 gibushon_civil[sapply(gibushon_civil, is.nan)] <- NA
+gibushon_civil = gibushon_civil %>%
+rowwise() %>%
+  mutate(am_not_na = sum(!is.na(c(am_2015,am_2018))),
+         cf_not_na = sum(!is.na(cf_2018)),
+         tkufatit_not_na = sum(!is.na(c(tkufatit_14_zscore,final.score.2015_zscore,final.score.2017_zscore,final.score.2018_zscore,row_score_2019))))
 
 # Optimal gap between A.C. date and criteria by QlikView.
 
@@ -1220,7 +1224,7 @@ suppressWarnings(for(i in gibushon_civil_freq_relevant_columns) {
   cat(colnames(gibushon_final[i]),out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies_1.txt", append=T,fill = T)
 })
 
-gibushon_civil_freq_relevant_columns<-colnames(gibushon_final[c(799:800,825:826,835,838:839)])
+gibushon_civil_freq_relevant_columns<-colnames(gibushon_final[c(798:801,826,835,837:839)])
 out<-""
 cat("", out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies_2.txt", sep="", append=F,fill = T)
 suppressWarnings(for(i in gibushon_civil_freq_relevant_columns) {
@@ -1307,6 +1311,7 @@ for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
 write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output.xlsx")
 
 
+# Semipartial Correlations predictors-criteria
 
 cbind.fill<-function(...){
   nm <- list(...) 
@@ -1356,10 +1361,10 @@ write.xlsx(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gi
 
 # Correlations predictors-predictors
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(824,836:841,843:850,1011:1016,1066)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016,1066)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(824,836:841,843:850,1011:1016,1066)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(824,836:841,843:850,1011:1016,1066)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:847,849:856,1017:1020,836:837,1055)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:847,849:856,1017:1020,836:837,1055)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(828,842:847,849:856,1017:1020,836:837,1055)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:847,849:856,1017:1020,836:837,1055)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1385,7 +1390,7 @@ for(i in 1:(ncol(gibushon_final_corr_output)/4)){
   colnames(gibushon_final_corr_output)[i*4] <- ""
 }
 # write.csv(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_p_corr_output_1+.csv")
-write..xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_p_corr_output.xlsx")
+write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_p_corr_output.xlsx")
 
 
 # Correlations criteria-criteria
