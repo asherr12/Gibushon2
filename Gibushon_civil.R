@@ -1,8 +1,8 @@
 
-library(readr)
+ary(readr)
 locale("he")
 
-# Before the next command, split the file (in the file itself-not by code) to columns by: Data, Text to Columns...
+# Before the next column, split the file (in the file itself-not by code) to columns by: Data, Text to Columns...
 gibushon_mamda<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/gibushon_mamda_2012_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
 gibushon_mamda<-as.data.frame(gibushon_mamda)
 
@@ -274,7 +274,8 @@ n_occur<-data.frame(table(criteria_merged$personal_number))
 n_occur[n_occur$Freq>1,]
 
 # Merge predictors and criteria
-all_policemen_03.06.2021<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_03.06.2021.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+# Before next command, verify that columns in the csv file doen't contain sings (replace spaces by underline).***************************8
+all_policemen_03.06.2021<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_03.06.2021.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8","UTF-8","Windows-1255"))
 colnames(all_policemen_03.06.2021)[1] <- "personal_number"
 colnames(all_policemen_03.06.2021)[2] <- "id"
 colnames(all_policemen_03.06.2021)[7] <- "age"
@@ -283,6 +284,8 @@ colnames(all_policemen_03.06.2021)[10] <- "sector"
 colnames(all_policemen_03.06.2021)[15] <- "tifkud"
 colnames(all_policemen_03.06.2021)[16] <- "job"
 colnames(all_policemen_03.06.2021)[17] <- "job_date"
+all_policemen_03.06.2021$tifkud[all_policemen_03.06.2021$tifkud==0]<-NA
+
 
 # The next change was done manually in the file because it takes very long time.
 # for(i in 1:nrow(all_policemen_03.06.2021)){
@@ -299,25 +302,41 @@ n_occur[n_occur$Freq>1,]
 
 library(dplyr)
 filtered_all_policemen_03.06.2021 <- all_policemen_03.06.2021 %>%
-  select (personal_number,id,age,job,gender,sector,tifkud,job,job_date)
+  select (personal_number,id,age,job,gender,sector,tifkud,job,job_date)%>%
+  filter(!is.na(id))%>%
+  filter(!is.na(personal_number))
 
 sum(is.na(criteria_merged$personal_number))
 
 filtered_criteria_merged=criteria_merged%>%
-  filter(!is.na(personal_number))
+  filter(!is.na(personal_number))%>%
+  filter(personal_number!=1)
+sum(is.na(filtered_criteria_merged$personal_number))
 
 criteria_merged_all_policemen<-merge(filtered_criteria_merged,filtered_all_policemen_03.06.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 nrow(criteria_merged_all_policemen)
-sum(!is.na(criteria_merged_all_policemen$id))
-class(criteria_merged_all_policemen$id)
-# criteria_merged_all_policemen$id<-as.numeric(criteria_merged_all_policemen$id)
-class(criteria_merged_all_policemen$id)
-class(gibushon_mamda$id)
-# gibushon_mamda$id<-as.numeric(gibushon_mamda$id)
-criteria_merged_all_policemen$personal_number<-NULL
+sum(is.na(criteria_merged_all_policemen$id))
 
-gibushon_mamda_criteria <- merge(gibushon_mamda, criteria_merged_all_policemen,by=c("id"), all.x=T, all.y=F,sort = FALSE)
-gibushon_mamda_criteria<-as.data.frame(gibushon_mamda_criteria)
+filtered_criteria_merged_all_policemen=criteria_merged_all_policemen%>%
+  filter(!is.na(id))
+sum(is.na(filtered_criteria_merged_all_policemen$id))
+
+class(filtered_criteria_merged_all_policemen$id)
+# criteria_merged_all_policemen$id<-as.numeric(criteria_merged_all_policemen$id)
+sum(is.na(gibushon_mamda$id))
+filtered_gibushon_mamda=gibushon_mamda%>%
+  filter(!is.na(id))
+sum(is.na(filtered_gibushon_mamda$id))
+
+class(filtered_gibushon_mamda$id)
+# gibushon_mamda$id<-as.numeric(gibushon_mamda$id)
+sum(is.na(filtered_gibushon_mamda$personal_number))
+
+filtered_gibushon_mamda$personal_number<-NULL
+
+gibushon_mamda_criteria <- merge(filtered_gibushon_mamda, filtered_criteria_merged_all_policemen,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+class(gibushon_mamda_criteria)
+#gibushon_mamda_criteria<-as.data.frame(gibushon_mamda_criteria)
 
 # Check duplicate rows in gibushon_mamda_criteria.
 n_occur<-data.frame(table(gibushon_mamda_criteria$id))
@@ -349,6 +368,7 @@ gibushon_mamda_criteria$date.period.eval.2015<-"01/12/2015"
 gibushon_mamda_criteria$date.period.eval.2015<-as.Date(gibushon_mamda_criteria$date.period.eval.2015,format="%d/%m/%Y")
 gibushon_mamda_criteria$date.period.eval.2017<-"01/05/2017"
 gibushon_mamda_criteria$date.period.eval.2017<-as.Date(gibushon_mamda_criteria$date.period.eval.2017,format="%d/%m/%Y")
+gibushon_mamda_criteria$date.period.eval.2018<-"31/12/2018"
 gibushon_mamda_criteria$date.period.eval.2018<-"31/12/2018"
 gibushon_mamda_criteria$date.tkufatit_2019<-"30/05/2019"
 gibushon_mamda_criteria$date.period.eval.2018<-as.Date(gibushon_mamda_criteria$date.period.eval.2018,format="%d/%m/%Y")
