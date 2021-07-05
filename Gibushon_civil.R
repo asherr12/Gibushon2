@@ -1077,7 +1077,7 @@ gibushon_civil[sapply(gibushon_civil, is.nan)] <- NA
 gibushon_civil = gibushon_civil %>%
 rowwise() %>%
   mutate(am_not_na = rowSums(!is.na(select(., am_2015,am_2018))),
-#         cf_not_na = sum(!is.na(cf_2018)),#####fix
+#         cf_not_na = sum(!is.na(cf_2018)),#####fix (ifelse)/delete
          tkufatit_not_na = rowSums(!is.na(select(., tkufatit_14_zscore,final.score.2015_zscore,final.score.2017_zscore,final.score.2018_zscore,row_score_2019))))
 
 head(gibushon_civil$tkufatit_not_na,1000)
