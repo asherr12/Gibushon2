@@ -1117,6 +1117,12 @@ head(filtered_gibushon_civil_diff$am_special,1000)
 head(filtered_gibushon_civil_diff$cf,1000)
 head(filtered_gibushon_civil_diff$tkufatit,1000)
 
+class(filtered_gibushon_civil_diff)
+filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
+
+filtered_gibushon_civil_diff[sapply(filtered_gibushon_civil_diff, is.nan)] <- NA
+
+
 # next commands are for range restriction (later)
 filtered_gibushon_civil_diff = filtered_gibushon_civil_diff %>%
   rowwise() %>%
@@ -1129,13 +1135,14 @@ filtered_gibushon_civil_diff = filtered_gibushon_civil_diff %>%
 ##################arrived here*******************
 
 filtered_gibushon_civil_diff = filtered_gibushon_civil_diff %>%
-  rowwise() %>%
-  mutate(amcf = ifelse(!is.na(am) & !is.na(am_special) & !is.na(cf), rowMeans(select(., am,am_special,cf),na.rm = F)),
-                ifelse(!is.na(am) & !is.na(cf), rowMeans(select(., am,cf),na.rm = F),ifelse(!is.na(am_special) & !is.na(cf),mean(c(am_special,cf),na.rm = F)),NA),
-         tkufatitamcf = ifelse(!is.na(tkufatit) & !is.na(amcf),rowMeans(select(., tkufatit,amcf),na.rm = F),NA),
-           tkufatitam = ifelse(!is.na(am) & !is.na(am_special) & !is.na(tkufatit), rowMeans(select(., am,am_special,tkufatit),na.rm = F)),
-                        ifelse(!is.na(am) & !is.na(tkufatit),rowMeans(select(., am,tkufatit),na.rm = F),
-                        ifelse(!is.na(am_special) & !is.na(tkufatit),rowMeans(select(., am_special,tkufatit),na.rm = F))),NA)
+  mutate(amcf = ifelse((!is.na(am) & !is.na(am_special) & !is.na(cf)), rowMeans(select(., am,am_special,cf),na.rm = F),
+                ifelse((!is.na(am) & !is.na(cf)), rowMeans(select(., am,cf),na.rm = F),
+                ifelse((!is.na(am_special) & !is.na(cf)),rowMeans(select(., am_special,cf),na.rm = F),NA))),
+ tkufatitamcf = ifelse((!is.na(tkufatit) & !is.na(amcf)),rowMeans(select(., tkufatit,amcf),na.rm = F),NA),
+   tkufatitam = ifelse((!is.na(am) & !is.na(am_special) & !is.na(tkufatit)), rowMeans(select(., am,am_special,tkufatit),na.rm = F),
+                ifelse((!is.na(am) & !is.na(tkufatit)),rowMeans(select(., am,tkufatit),na.rm = F),
+                ifelse((!is.na(am_special) & !is.na(tkufatit)),rowMeans(select(., am_special,tkufatit),na.rm = F),NA))))
+
 
 head(filtered_gibushon_civil_diff$amcf,1000)
 head(filtered_gibushon_civil_diff$tkufatitamcf ,1000)
