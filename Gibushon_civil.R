@@ -1082,14 +1082,14 @@ head(gibushon_civil$tkufatit_not_na,1000)
 
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
-  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff>=169 & date.tkufatit_14_diff<=943,tkufatit_14_zscore,NA),#169,943
-         final.score.2015_zscore = ifelse(date.period.eval.2015_diff>=380 & date.period.eval.2015_diff<=1367,final.score.2015_zscore,NA),#380,1367
-         final.score.2017_zscore = ifelse(date.period.eval.2017_diff>=1170 & date.period.eval.2017_diff<=1702,final.score.2017_zscore,NA),#1170,1702
-         final.score.2018_zscore = ifelse(date.period.eval.2018_diff>=1501 & date.period.eval.2018_diff<=2437,final.score.2018_zscore,NA),#1501,2437
-         row_score_2019_zscore = ifelse(date.tkufatit_2019_diff>=1187 & date.tkufatit_2019_diff<=2041,row_score_2019_zscore,NA),#1187,2041
+  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff>=232 & date.tkufatit_14_diff<=1014,tkufatit_14_zscore,NA),#169,943
+         final.score.2015_zscore = ifelse(date.period.eval.2015_diff>=308 & date.period.eval.2015_diff<=1252,final.score.2015_zscore,NA),#380,1367
+         final.score.2017_zscore = ifelse(date.period.eval.2017_diff>=1170 & date.period.eval.2017_diff<=960,final.score.2017_zscore,NA),#1170,1702
+         final.score.2018_zscore = ifelse(date.period.eval.2018_diff>=124 & date.period.eval.2018_diff<=1580,final.score.2018_zscore,NA),#1501,2437
+         row_score_2019_zscore = ifelse(date.tkufatit_2019_diff>=256 & date.tkufatit_2019_diff<=1773,row_score_2019_zscore,NA),#1187,2041
          am_2015 = ifelse(TaarichHavara_am_2015_diff>=331 & TaarichHavara_am_2015_diff<=1477,am_2015,NA),#331,1477
-         am_2018 = ifelse(TaarichHavara_am_2018_diff>=918 & TaarichHavara_am_2018_diff<2342,am_2018,NA),#918,2342
-         cf_2018 = ifelse(TaarichHavara_cf_2018_diff>=1128 & TaarichHavara_cf_2018_diff<=2339,cf_2308,NA))#1128,2308
+         am_2018 = ifelse(TaarichHavara_am_2018_diff>=243 & TaarichHavara_am_2018_diff<2401,am_2018,NA),#918,2342
+         cf_2018 = ifelse(TaarichHavara_cf_2018_diff>=309 & TaarichHavara_cf_2018_diff<=2339,cf_2018,NA))#1128,2308
 
 class(filtered_gibushon_civil_diff)
 filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
@@ -1431,6 +1431,7 @@ for(i in 1:(ncol(gibushon_final_spcorr_output)/4)){
 }
 # write.csv(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c_1+.csv")
 write.xlsx(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c.xlsx")
+
 
 # Correlations predictors-criteria on gibushon_final_filtered
 
