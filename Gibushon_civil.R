@@ -1284,10 +1284,10 @@ library("xlsx")
 
 # Correlations predictors-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:850,853,855:858,837,1055)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853,855:858,837,1055)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,840:841,1019:1024)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,840:841,1019:1024)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:850,853:858,831:834,1055)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834,1055)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
 gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1315,98 +1315,12 @@ for(i in 1:(ncol(gibushon_final_corr_output)/4)){
 # write.csv(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_c_corr_output.csv")
 write.xlsx(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_c_corr_output.xlsx")
 
-
-# Correlations predictors-criteria on gibushon_final_filtered
-
-gibushon_final_filtered=gibushon_final%>%
-  filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | job == "youth worker")
-
-gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(828,842:850,853,855:858,837,1055)]
-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(828,842:850,853,855:858,837,1055)]))
-gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1047:1053,840:841,1019:1024)]
-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1047:1053,840:841,1019:1024)]))
-gibushon_final_filtered_corr_output<-data.frame()[23,]
-
-for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
-  corr_output_temp<-c()
-  for(j in 1:length(gibushon_final_filtered_relevant_predictors_columns_names_for_correlations)){
-    corr_temp<-c()
-    corr_try <- try(cor.test(as.numeric(gibushon_final_filtered_relevant_criteria_columns_for_correlations[[i]]),as.numeric(gibushon_final_filtered_relevant_predictors_columns_for_correlations[[j]]),use="pairwise.complete.obs"), silent=T)
-    corr_temp$"predictor" <-ifelse(class(corr_try)=="try-error", NA, corr_try$estimate)
-    corr_temp$p.value <-ifelse(class(corr_try)=="try-error", NA, corr_try$p.value)
-    corr_temp$n <-(ifelse(class(corr_try)=="try-error", NA, corr_try$parameter+2))
-    corr_temp<-data.frame(corr_temp)
-    colnames(corr_temp)[1]<-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations[i]
-    row.names(corr_temp)<-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations[[j]]
-    corr_output_temp<-rbind (corr_output_temp,corr_temp)
-    corr_output_temp <-round(corr_output_temp,2)
-  }
-  corr_output_temp$""<-"|"
-  gibushon_final_filtered_corr_output<-cbind(gibushon_final_filtered_corr_output,corr_output_temp,row.names = NULL)
-}
-row.names(gibushon_final_filtered_corr_output)<-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations
-
-for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
-  colnames(gibushon_final_filtered_corr_output)[i*4] <- ""
-}
-# write.csv(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output_0.253+.csv")
-write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output.xlsx")
-
-
-# Semipartial Correlations predictors-criteria
-
-cbind.fill<-function(...){
-  nm <- list(...) 
-  nm<-lapply(nm, as.matrix)
-  n <- max(sapply(nm, nrow)) 
-  do.call(cbind, lapply(nm, function (x) 
-    rbind(x, matrix(, n-nrow(x), ncol(x)))))
-}
-
-library(ppcor)
-gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853,855:858,837,1055)]
-gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853,855:858,837,1055)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1047:1053,840:841,1019:1024)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1047:1053,840:841,1019:1024)]))
-gibushon_final_spcorr_output<-data.frame()[15,]
-
-for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
-  spcorr_output_temp<-c()
-  for(j in 1:length(gibushon_final_relevant_predictors_columns_names_for_spcorrelations)){ 
-    gibushon_final_complete <- c()
-    gibushon_final_complete <- gibushon_final_relevant_criteria_columns_for_spcorrelations[[i]]
-    gibushon_final_complete<-cbind.fill(gibushon_final_complete,gibushon_final_relevant_predictors_columns_for_spcorrelations[[j]])
-    gibushon_final_complete <- cbind.fill(gibushon_final_complete,gibushon_final$seniority_days_ac)
-    gibushon_final_complete <- na.omit(gibushon_final_complete)
-    spcorr_temp<-c()
-    spcorr_try <- try(spcor.test(as.numeric(gibushon_final_complete[,1]),as.numeric(gibushon_final_complete[,2]),as.numeric(gibushon_final_complete[,3])), silent=T)
-    spcorr_temp$"predictor" <-ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$estimate)
-    spcorr_temp$p.value <-ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$p.value)
-    spcorr_temp$n <-(ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$n))
-    spcorr_temp<-data.frame(spcorr_temp)
-    colnames(spcorr_temp)[1]<-gibushon_final_relevant_criteria_columns_names_for_spcorrelations[[i]]
-    row.names(spcorr_temp)<-gibushon_final_relevant_predictors_columns_names_for_spcorrelations[j]
-    spcorr_output_temp<-rbind (spcorr_output_temp,spcorr_temp)
-    spcorr_output_temp <-round(spcorr_output_temp,2)
-  }
-  spcorr_output_temp$""<-"|"
-  gibushon_final_spcorr_output<-cbind(gibushon_final_spcorr_output,spcorr_output_temp,row.names = NULL)
-}
-row.names(gibushon_final_spcorr_output)<-gibushon_final_relevant_predictors_columns_names_for_spcorrelations
-
-for(i in 1:(ncol(gibushon_final_spcorr_output)/4)){
-  colnames(gibushon_final_spcorr_output)[i*4] <- ""
-}
-# write.csv(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c_0.25+.csv")
-write.xlsx(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c.xlsx")
-
-
 # Correlations predictors-predictors
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:850,853,855:858,837,1055)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853,855:858,837,1055)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(828,842:850,853,855:858,837,1055)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853,855:858,837,1055)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:850,853:858,831:834,1055)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834,1055)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(828,842:850,853:858,831:834,1055)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834,1055)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1437,10 +1351,10 @@ write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gib
 
 # Correlations criteria-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1047:1053,840:841,1019:1024)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,840:841,1019:1024)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,840:841,1019:1024)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,840:841,1019:1024)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1484,10 +1398,10 @@ cbind.fill<-function(...){
 }
 
 library(ppcor)
-gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853,855:858,837)]
-gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853,855:858,837)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1047:1053,840:841,1019:1024)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1047:1053,840:841,1019:1024)]))
+gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853:858,831:834)]
+gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834)]))
+gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1047:1053,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
 gibushon_final_spcorr_output<-data.frame()[15,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
@@ -1519,6 +1433,42 @@ for(i in 1:(ncol(gibushon_final_spcorr_output)/4)){
 }
 # write.csv(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c_1+.csv")
 write.xlsx(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c.xlsx")
+
+# Correlations predictors-criteria on gibushon_final_filtered
+
+gibushon_final_filtered=gibushon_final%>%
+  filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | job == "youth worker")
+
+gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(828,842:850,853:858,831:834,1055)]
+gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(828,842:850,853:858,831:834,1055)]))
+gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1047:1053,1023:1024)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1047:1053,1023:1024)]))
+gibushon_final_filtered_corr_output<-data.frame()[23,]
+
+for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
+  corr_output_temp<-c()
+  for(j in 1:length(gibushon_final_filtered_relevant_predictors_columns_names_for_correlations)){
+    corr_temp<-c()
+    corr_try <- try(cor.test(as.numeric(gibushon_final_filtered_relevant_criteria_columns_for_correlations[[i]]),as.numeric(gibushon_final_filtered_relevant_predictors_columns_for_correlations[[j]]),use="pairwise.complete.obs"), silent=T)
+    corr_temp$"predictor" <-ifelse(class(corr_try)=="try-error", NA, corr_try$estimate)
+    corr_temp$p.value <-ifelse(class(corr_try)=="try-error", NA, corr_try$p.value)
+    corr_temp$n <-(ifelse(class(corr_try)=="try-error", NA, corr_try$parameter+2))
+    corr_temp<-data.frame(corr_temp)
+    colnames(corr_temp)[1]<-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations[i]
+    row.names(corr_temp)<-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations[[j]]
+    corr_output_temp<-rbind (corr_output_temp,corr_temp)
+    corr_output_temp <-round(corr_output_temp,2)
+  }
+  corr_output_temp$""<-"|"
+  gibushon_final_filtered_corr_output<-cbind(gibushon_final_filtered_corr_output,corr_output_temp,row.names = NULL)
+}
+row.names(gibushon_final_filtered_corr_output)<-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations
+
+for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
+  colnames(gibushon_final_filtered_corr_output)[i*4] <- ""
+}
+# write.csv(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output_0.253+.csv")
+write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output.xlsx")
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 # Range restriction.
