@@ -1285,8 +1285,8 @@ library("xlsx")
 
 gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(828,842:850,853:858,831:834,1055)]
 gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834,1055)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,801,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,801,1023:1024)]))
 gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1349,10 +1349,10 @@ write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gib
 
 # Correlations criteria-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,1023:1024)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1047:1053,801,1023:1024)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,801,1023:1024)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1047:1053,801,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1047:1053,801,1023:1024)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1398,8 +1398,8 @@ cbind.fill<-function(...){
 library(ppcor)
 gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853:858,831:834)]
 gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1047:1053,1023:1024)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1047:1053,1023:1024)]))
+gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1047:1053,801,1023:1024)]
+gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1047:1053,801,1023:1024)]))
 gibushon_final_spcorr_output<-data.frame()[15,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
@@ -1440,8 +1440,8 @@ gibushon_final_filtered=gibushon_final%>%
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(828,842:850,853:858,831:834,1055)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(828,842:850,853:858,831:834,1055)]))
-gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1047:1053,1023:1024)]
-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1047:1053,1023:1024)]))
+gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1047:1053,801,1023:1024)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1047:1053,801,1023:1024)]))
 gibushon_final_filtered_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
@@ -1494,17 +1494,17 @@ library(dplyr)
 counter = gibushon_final %>%
   rowwise() %>%
   mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
-         am_nna = sum(!is.na(c(am_2010,am_2012,am_2015,am_2015_special,am_2018,am_2018_special))))
+         am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
 
 library (descr)
 library (psych)
 
 round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
-notna_tkufatit_average<-(239*1+2379*2+1645*3+1156*4+547*5)/(3+239+2379+1645+1156+547)
+notna_tkufatit_average<-(1448*1+3906*2+193*3)/(180+1448+3906+193)
 round(notna_tkufatit_average,2)
 
 round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
-notna_am_average<-(3120*1+1408*2+73*3)/(3120+1408+73)
+notna_am_average<-(3159*1+1409*2)/(1159+3159+1409)
 round(notna_am_average,2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
