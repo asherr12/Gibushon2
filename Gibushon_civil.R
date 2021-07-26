@@ -274,37 +274,130 @@ n_occur<-data.frame(table(criteria_merged$personal_number))
 n_occur[n_occur$Freq>1,]
 
 # Merge predictors and criteria
-# Before next command, verify that columns in the csv file doen't contain sings (replace spaces by underline).***************************8
-all_policemen_03.06.2021<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_03.06.2021.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8","UTF-8","Windows-1255"))
-colnames(all_policemen_03.06.2021)[1] <- "personal_number"
-colnames(all_policemen_03.06.2021)[2] <- "id"
-colnames(all_policemen_03.06.2021)[7] <- "age"
-colnames(all_policemen_03.06.2021)[8] <- "gender"
-colnames(all_policemen_03.06.2021)[10] <- "sector"
-colnames(all_policemen_03.06.2021)[15] <- "tifkud"
-colnames(all_policemen_03.06.2021)[16] <- "job"
-colnames(all_policemen_03.06.2021)[17] <- "job_date"
-all_policemen_03.06.2021$tifkud[all_policemen_03.06.2021$tifkud==0]<-NA
-
-
-# The next change was done manually in the file because it takes very long time.
-# for(i in 1:nrow(all_policemen_03.06.2021)){
-#   all_policemen_03.06.2021[i,]$job_date<-gsub("9999","2020",all_policemen_03.06.2021[i,]$job_date)}
-
-n_occur<-data.frame(table(all_policemen_03.06.2021$id))
-n_occur[n_occur$Freq>1,]
-class(all_policemen_03.06.2021$job_date)
-all_policemen_03.06.2021$job_date<-as.Date(as.character(all_policemen_03.06.2021$job_date),format="%d/%m/%Y")
-library (data.table)
-all_policemen_03.06.2021<-setDT(all_policemen_03.06.2021)[,.SD[which.max(job_date)],keyby=id]
-n_occur<-data.frame(table(all_policemen_03.06.2021$id))
-n_occur[n_occur$Freq>1,]
+# Before next command, verify that columns in the csv file doesn't contain sings of - or / or spaces or other signs in columns names/values (replace spaces by underline).***************************8
+all_policemen_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/all_policemen_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(all_policemen_14.07.2021)[1] <- "personal_number"
+colnames(all_policemen_14.07.2021)[2] <- "id"
+colnames(all_policemen_14.07.2021)[12] <- "job_sector4"
+colnames(all_policemen_14.07.2021)[13] <- "standard_job"
 
 library(dplyr)
-filtered_all_policemen_03.06.2021 <- all_policemen_03.06.2021 %>%
-  select (personal_number,id,age,job,gender,sector,tifkud,job,job_date)%>%
+filtered_all_policemen_14.07.2021 <- all_policemen_14.07.2021 %>%
+  select (personal_number,id,job_sector4,standard_job)
+nrow(filtered_all_policemen_14.07.2021)
+n_occur<-data.frame(table(filtered_all_policemen_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+filtered_all_policemen_14.07.2021 <- 
+  filtered_all_policemen_14.07.2021[!duplicated(filtered_all_policemen_14.07.2021[,c("personal_number")]),]%>%
   filter(!is.na(id))%>%
   filter(!is.na(personal_number))
+nrow(filtered_all_policemen_14.07.2021)
+
+#tifkud
+
+tifkud_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/tifkud_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(tifkud_14.07.2021)[1] <- "personal_number"
+colnames(tifkud_14.07.2021)[17] <- "tifkud"
+filtered_tifkud_14.07.2021 <- tifkud_14.07.2021 %>%
+  select (personal_number,tifkud)
+filtered_tifkud_14.07.2021$tifkud[filtered_tifkud_14.07.2021$tifkud==0]<-NA
+nrow(filtered_tifkud_14.07.2021)
+nrow(filtered_tifkud_14.07.2021)
+n_occur<-data.frame(table(filtered_tifkud_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+
+# masluli_sherut
+
+masluli_sherut_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/masluli_sherut_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(masluli_sherut_14.07.2021)[1] <- "personal_number"
+colnames(masluli_sherut_14.07.2021)[3] <- "beinaim_index"
+colnames(masluli_sherut_14.07.2021)[4] <- "kovea_index"
+filtered_masluli_sherut_14.07.2021 <- masluli_sherut_14.07.2021 %>%
+  select (personal_number,beinaim_index,kovea_index)
+nrow(filtered_masluli_sherut_14.07.2021)
+n_occur<-data.frame(table(filtered_masluli_sherut_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+
+# courses
+
+courses_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/courses_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(courses_14.07.2021)[1] <- "personal_number"
+colnames(courses_14.07.2021)[7] <- "course_code"
+colnames(courses_14.07.2021)[8] <- "course"
+colnames(courses_14.07.2021)[10] <- "course_end_date"
+colnames(courses_14.07.2021)[11] <- "course_fail_pass"
+colnames(courses_14.07.2021)[12] <- "course_score"
+class(courses_14.07.2021)
+courses_14.07.2021 <- as.data.frame(courses_14.07.2021)
+
+filtered_courses_14.07.2021 = courses_14.07.2021 %>%
+  select (personal_number,course_code,course,course_end_date,course_fail_pass,course_score)%>%
+  filter(course_code==10026 | # Basic policemen course
+           course_code==10036 |
+           course_code==11003 |
+           course_code==12001 |
+           course_code==12012 |
+           course_code==12047 | 
+           course_code==12423 |
+           course_code==12430 |
+           course_code==12507 |
+           course_code==12545 |
+           course_code==13202 |
+           course_code==15124 |
+           course_code==15637 |
+           course_code==50703 |
+           course_code==50724 |
+           course_code==15931 |
+           course_code==15932 |  
+           course_code==15933) %>%  # Basic course fighter unit 33
+  mutate(course_fail_pass=gsub("עבר","pass",course_fail_pass),
+         course_fail_pass=gsub("נכשל","fail",course_fail_pass),
+         course_score=gsub("עבר",NA,course_score),
+         course_score=as.numeric(course_score),
+         course_score=course_score[course_score==0]<-NA,
+         course_score=course_score[course_score==1]<-NA,
+         course_score = ifelse(course_score>100,NA,course_score))
+
+library(descr)
+library(psych)
+
+freq(filtered_courses_14.07.2021$course_score, plot = F,main=colnames(filtered_courses_14.07.2021$course_score),font=2)
+
+nrow(filtered_courses_14.07.2021)
+class(filtered_courses_14.07.2021)
+#filtered_courses_14.07.2021<-as.data.frame(filtered_courses_14.07.2021)
+n_occur<-data.frame(table(filtered_courses_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+class(filtered_courses_14.07.2021$course_end_date)
+filtered_courses_14.07.2021$course_end_date<-as.Date(as.character(filtered_courses_14.07.2021$course_end_date),format="%d/%m/%Y")
+library(data.table)
+filtered_courses_14.07.2021<-setDT(filtered_courses_14.07.2021)[,.SD[which.max(course_end_date)],keyby=personal_number]
+n_occur<-data.frame(table(filtered_courses_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+nrow(filtered_courses_14.07.2021)
+
+# demographics
+
+# standard job and job_sector4 are in all_policemen file
+demographics_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/demographics_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(demographics_14.07.2021)[1] <- "personal_number"
+colnames(demographics_14.07.2021)[9] <- "marital_status"
+colnames(demographics_14.07.2021)[10] <- "gender"
+colnames(demographics_14.07.2021)[11] <- "relign"
+colnames(demographics_14.07.2021)[12] <- "age"
+colnames(demographics_14.07.2021)[13] <- "education"
+
+filtered_demographics_14.07.2021 <- demographics_14.07.2021 %>%
+  select (personal_number,marital_status,gender,relign,age,education)%>%
+  filter(!is.na(personal_number))
+nrow(filtered_demographics_14.07.2021)
+n_occur<-data.frame(table(filtered_demographics_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+
+filtered_all_policemen_14.07.2021_tifkud <- merge(filtered_all_policemen_14.07.2021, filtered_tifkud_14.07.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+filtered_all_policemen_14.07.2021_tifkud_masluli_sherut <- merge(filtered_all_policemen_14.07.2021_tifkud, filtered_masluli_sherut_14.07.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+filtered_all_policemen_14.07.2021_tifkud_masluli_sherut_courses <- merge(filtered_all_policemen_14.07.2021_tifkud_masluli_sherut, filtered_courses_14.07.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+filtered_all_policemen_14.07.2021_tifkud_masluli_sherut_courses_demographics <- merge(filtered_all_policemen_14.07.2021_tifkud_masluli_sherut_courses, filtered_demographics_14.07.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 
 sum(is.na(criteria_merged$personal_number))
 
@@ -313,7 +406,7 @@ filtered_criteria_merged=criteria_merged%>%
   filter(personal_number!=1)
 sum(is.na(filtered_criteria_merged$personal_number))
 
-criteria_merged_all_policemen<-merge(filtered_criteria_merged,filtered_all_policemen_03.06.2021,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+criteria_merged_all_policemen<-merge(filtered_criteria_merged,filtered_all_policemen_14.07.2021_tifkud_masluli_sherut_courses_demographics,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 nrow(criteria_merged_all_policemen)
 sum(is.na(criteria_merged_all_policemen$id))
 
@@ -436,13 +529,6 @@ rama_2012_2019$id<-as.numeric(rama_2012_2019$id)
 class(gibushon_mamda_criteria$id)
 gibushon_mamda_criteria_rama <- merge(gibushon_mamda_criteria, rama_2012_2019,by=c("id"), all.x=T, all.y=F,sort = FALSE)
 gibushon_mamda_criteria_rama<-as.data.frame(gibushon_mamda_criteria_rama)
-
-#check candidates that don't have rama_score
-# library(dplyr)
-# gibushon_miissing_rama=gibushon%>%
-#   filter(is.na(rama_score))%>%
-#   select(id,rama_score,FirstName,LastName)
-# write_excel_csv(gibushon_miissing_rama,"Q:/04_Mehkar/18_asher/gibushon/gibushon_miissing_rama.csv")
 
 #eq
 eq_2016<-read_csv("Q:/04_Mehkar/18_asher/Mokdanim/eq_2016.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
@@ -649,7 +735,6 @@ absences_2012_2013$non_hiyuv_days<-as.numeric(absences_2012_2013$non_hiyuv_days)
 absences_2012_2013$days_2012_2013<-absences_2012_2013$hiyuv_days
 class(absences_2012_2013$days_2012_2013)
 
-
 absences_2014_2019<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/absences_2014_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
 colnames(absences_2014_2019)[1] <- "personal_number"
 colnames(absences_2014_2019)[2] <- "type"
@@ -669,7 +754,6 @@ filtered_absences_2012_2013_days_off=absences_2012_2013%>%
   filter(type=="days_off")%>%
   select(personal_number,days_2012_2013)
 colnames(filtered_absences_2012_2013_days_off)[2]<-"days_off_2012_2013"
-
 
 filtered_absences_2014_2019_sick_days=absences_2014_2019%>%
   filter(type=="sick_days")%>%
@@ -698,11 +782,11 @@ absences = absences %>%
 n_occur<-data.frame(table(absences$personal_number))
 n_occur[n_occur$Freq>1,]
 
-filtered_all_policemen_03.06.2021_id = filtered_all_policemen_03.06.2021%>%
+filtered_all_policemen_14.07.2021_id = filtered_all_policemen_14.07.2021%>%
   select(personal_number,id)%>%
   filter(!is.na(id))
 
-absences <- merge(absences,filtered_all_policemen_03.06.2021_id,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+absences <- merge(absences,filtered_all_policemen_14.07.2021_id,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
 
 library(dplyr)
 absences_filtered=absences%>%
@@ -715,7 +799,240 @@ gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_abse
 class(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences)
 #gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences<-as.data.frame(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences)
 
-gibushon<-gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences
+# languages (Amharic - Ethiopian origin)
+
+languages_14.07.2021<-read_csv("Q:/04_Mehkar/18_asher/languages_14.07.2021.csv",locale = locale(date_names = "he", encoding = "Windows-1255"))
+colnames(languages_14.07.2021)[1] <- "personal_number"
+colnames(languages_14.07.2021)[2] <- "id"
+colnames(languages_14.07.2021)[9] <- "language"
+class(languages_14.07.2021)
+languages_14.07.2021<-as.data.frame(languages_14.07.2021)
+
+filtered_languages_14.07.2021 <- languages_14.07.2021 %>%
+  select (personal_number,id,language)%>%
+  filter(!is.na(personal_number))%>%
+  filter(grepl('אמהרית',language))
+
+filtered_languages_14.07.2021$personal_number<-NULL
+
+nrow(filtered_languages_14.07.2021)
+n_occur<-data.frame(table(filtered_languages_14.07.2021$personal_number))
+n_occur[n_occur$Freq>1,]
+
+class(filtered_languages_14.07.2021$id)
+class(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences$id)
+gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences_language <- merge(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences,filtered_languages_14.07.2021,by=c("id"), all.x=T, all.y=F,sort = FALSE)
+class(gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences_language)
+
+# courses_soc
+
+# courses_soc_112020<-read_csv("Q:/04_Mehkar/18_asher/Junior officers MAGAV validation/Files from Ronen/soc/courses_soc_112020.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+# colnames(courses_soc_112020)
+# colnames(courses_soc_112020)[1] <- "id"
+# colnames(courses_soc_112020)[3] <- "personal_number"
+# 
+# courses_soc_112020[11:13]<-NULL
+# colnames(courses_soc_112020)
+# 
+# nrow(courses_soc_112020)
+# 
+# library(dplyr)
+# courses_soc_112020 <- courses_soc_112020 %>%
+#     filter(GroupId==10026 |
+#            GroupId==10036 |
+#            GroupId==11003 |
+#            GroupId==12001 |
+#            GroupId==12012 |
+#            GroupId==12047 |
+#            GroupId==12423 |
+#            GroupId==12430 |
+#            GroupId==12507 |
+#            GroupId==12545 |
+#            GroupId==13202 |
+#            GroupId==15124 |
+#            GroupId==15637 |
+#            GroupId==50703 |
+#            GroupId==50724 |
+#            GroupId==15931 |
+#            GroupId==15932 |
+#            GroupId==15933)
+# 
+# nrow(courses_soc_112020)
+# 
+# library(dplyr)
+# filtered_courses_soc_112020<-courses_soc_112020 %>%
+#   select(GroupId,personal_number,Tzyun)
+# 
+# library(data.table)
+# max<-setDT(filtered_courses_soc_112020)[, .N, personal_number]
+# n=max(max$N)
+# 
+# for(i in 1:n){
+#   filtered_courses_soc_112020 <- cbind(filtered_courses_soc_112020, data.frame(new=character(),stringsAsFactors=FALSE))
+# }
+# 
+# try(
+#   for(i in 1:nrow(filtered_courses_soc_112020)){
+#     for (j in 4:ncol(filtered_courses_soc_112020)) {
+#       if(filtered_courses_soc_112020[(i),]$personal_number==filtered_courses_soc_112020[(i+1),]$personal_number){
+#         filtered_courses_soc_112020[i,j]<-filtered_courses_soc_112020[(i+1),]$Tzyun
+#         filtered_courses_soc_112020 <- filtered_courses_soc_112020[-(i+1),]
+#       }
+#     }
+#   }, silent=TRUE)
+# 
+# nrow(filtered_courses_soc_112020)
+# 
+# number<-ncol(filtered_courses_soc_112020)
+# 
+# filtered_courses_soc_112020[,number]<-NULL
+# 
+# features <- c(sprintf("Tzyun%1d", seq(1,(ncol(filtered_courses_soc_112020)-2))))
+# 
+# colnames(filtered_courses_soc_112020)[3:ncol(filtered_courses_soc_112020)] <- features
+# 
+# class(filtered_courses_soc_112020)
+# 
+# filtered_courses_soc_112020<-as.data.frame(filtered_courses_soc_112020)
+# class(filtered_courses_soc_112020$Tzyun8)
+# filtered_courses_soc_112020$Tzyun8<-as.numeric(filtered_courses_soc_112020$Tzyun8)
+# class(filtered_courses_soc_112020$Tzyun8)
+# 
+# library(descr)
+# library(psych)
+# freq(ordered(round(filtered_courses_soc_112020$Tzyun8,2)), plot = F,main=colnames(filtered_courses_soc_112020$Tzyun8),font=2)
+# filtered_courses_soc_112020[10:16]<-NULL
+# 
+# CreateDate_courses_soc<-read.csv("Q:/04_Mehkar/18_asher/Junior officers MAGAV validation/Files from Ronen/soc/CreateDate_courses_soc.csv",header=T, sep=",", quote="\"", dec=".", fill=T, comment.char="")
+# 
+# filtered_courses_soc_112020 <-
+#   merge(filtered_courses_soc_112020,CreateDate_courses_soc,by=c("GroupId"), all.x=T, all.y=F,sort = FALSE)
+# class(filtered_courses_soc_112020$CreateDate_courses_soc)
+# head(filtered_courses_soc_112020$CreateDate_courses_soc)
+# filtered_courses_soc_112020$CreateDate_courses_soc<-as.Date(as.factor(filtered_courses_soc_112020$CreateDate_courses_soc),format="%d/%m/%Y")
+# class(filtered_courses_soc_112020$CreateDate_courses_soc)
+# head(filtered_courses_soc_112020$CreateDate_courses_soc)
+# n_occur<-data.frame(table(filtered_courses_soc_112020$personal_number))
+# n_occur[n_occur$Freq>1,]
+# library(data.table)
+# filtered_courses_soc_112020<-setDT(filtered_courses_soc_112020)[,.SD[which.max(CreateDate_courses_soc)],keyby=personal_number]
+# n_occur<-data.frame(table(filtered_courses_soc_112020$personal_number))
+# n_occur[n_occur$Freq>1,]
+# 
+# colnames(filtered_courses_soc_112020)[3]<-"RAvg1_courses_soc"
+# colnames(filtered_courses_soc_112020)[4]<-"RAvg2_courses_soc"
+# colnames(filtered_courses_soc_112020)[5]<-"RAvg3_courses_soc"
+# colnames(filtered_courses_soc_112020)[6]<-"RAvg4_courses_soc"
+# colnames(filtered_courses_soc_112020)[7]<-"RAvg5_courses_soc"
+# colnames(filtered_courses_soc_112020)[8]<-"NPct1_courses_soc"
+# colnames(filtered_courses_soc_112020)[9]<-"NPct2_courses_soc"
+# filtered_courses_soc_112020$RTeken1_courses_soc<-NA
+# filtered_courses_soc_112020$RTeken2_courses_soc<-NA
+# filtered_courses_soc_112020$RTeken3_courses_soc<-NA
+# filtered_courses_soc_112020$RTeken4_courses_soc<-NA
+# filtered_courses_soc_112020$RTeken5_courses_soc<-NA
+# filtered_courses_soc_112020$NPct1_courses_soc<-
+#   round(as.numeric(filtered_courses_soc_112020$NPct1_courses_soc))
+# filtered_courses_soc_112020$NPct2_courses_soc<-
+#   round(as.numeric(filtered_courses_soc_112020$NPct2_courses_soc))
+# 
+# GroupId <- filtered_courses_soc_112020 %>%
+#   group_split (GroupId)
+# class(GroupId)
+# GroupId<-as.list(GroupId)
+# class(GroupId)
+# length(GroupId)
+# 
+# for (i in 1:length(GroupId)) {
+#   for (j in 1:length(GroupId[[i]]$RAvg1_courses_soc)){
+#     GroupId[[i]]$RAvg1_courses_soc<-as.numeric(GroupId[[i]]$RAvg1_courses_soc)
+#     GroupId[[i]]$RTeken1_courses_soc[j]<-round((GroupId[[i]]$RAvg1_courses_soc[j]-
+#                                                       mean(GroupId[[i]]$RAvg1_courses_soc))/
+#                                                      sd(GroupId[[i]]$RAvg1_courses_soc)*10+70,0)
+#     
+#     GroupId[[i]]$RAvg2_courses_soc<-as.numeric(GroupId[[i]]$RAvg2_courses_soc)
+#     GroupId[[i]]$RTeken2_courses_soc[j]<-round((GroupId[[i]]$RAvg2_courses_soc[j]-
+#                                                       mean(GroupId[[i]]$RAvg2_courses_soc))/
+#                                                      sd(GroupId[[i]]$RAvg2_courses_soc)*10+70,0)
+#     
+#     GroupId[[i]]$RAvg3_courses_soc<-as.numeric(GroupId[[i]]$RAvg3_courses_soc)
+#     GroupId[[i]]$RTeken3_courses_soc[j]<-round((GroupId[[i]]$RAvg3_courses_soc[j]-
+#                                                       mean(GroupId[[i]]$RAvg3_courses_soc))/
+#                                                      sd(GroupId[[i]]$RAvg3_courses_soc)*10+70,0)
+#     
+#     GroupId[[i]]$RAvg4_courses_soc<-as.numeric(GroupId[[i]]$RAvg4_courses_soc)
+#     GroupId[[i]]$RTeken4_courses_soc[j]<-round((GroupId[[i]]$RAvg4_courses_soc[j]-
+#                                                       mean(GroupId[[i]]$RAvg4_courses_soc))/
+#                                                      sd(GroupId[[i]]$RAvg4_courses_soc)*10+70,0)
+#     
+#     GroupId[[i]]$RAvg5_courses_soc<-as.numeric(GroupId[[i]]$RAvg5_courses_soc)
+#     GroupId[[i]]$RTeken5_courses_soc[j]<-round((GroupId[[i]]$RAvg5_courses_soc[j]-
+#                                                       mean(GroupId[[i]]$RAvg5_courses_soc))/
+#                                                      sd(GroupId[[i]]$RAvg5_courses_soc)*10+70,0)
+#   }
+# }
+# 
+# GroupId_df<-c()
+# for (i in 1:length(GroupId)) {
+#   GroupId_df_temp<-as.data.frame(GroupId[[i]])
+#   GroupId_df<-rbind(GroupId_df,GroupId_df_temp)
+# }
+# 
+# class(GroupId_df)
+# 
+# courses_soc_112020_am<-GroupId_df
+# 
+# nrow(courses_soc_112020_am)
+# 
+# class(courses_soc_112020_am)
+# 
+# colnames(courses_soc_112020_am)
+# 
+# library(readr)
+# locale("he")
+# courses_soc_megama_07.2021<-read_csv("Q:/04_Mehkar/18_asher/Junior officers MAGAV validation/Alternaitve/courses_soc_megama_07.2021.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
+# colnames(courses_soc_megama_07.2021)
+# nrow(courses_soc_megama_07.2021)
+# class(courses_soc_megama_07.2021)
+# courses_soc_megama_07.2021<-as.data.frame(courses_soc_megama_07.2021)
+# 
+# library(plyr)
+# courses_soc_112020_am_megama<-rbind.fill(courses_soc_112020_am,courses_soc_megama_07.2021)
+# 
+# library(dplyr)
+# courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>%
+#   mutate_at(c(3:9,11:15), funs(c(scale(.))))
+# 
+# courses_soc_112020_am_megama<-as.data.frame(courses_soc_112020_am_megama)
+# 
+# library(dplyr)
+# courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>%
+#   mutate(RAvg_courses_soc = rowMeans(select(.,RAvg1_courses_soc,
+#                                                 RAvg2_courses_soc,
+#                                                 RAvg3_courses_soc,
+#                                                 RAvg4_courses_soc,
+#                                                 RAvg5_courses_soc)))
+# courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>%
+#   mutate(RTeken_courses_soc = rowMeans(select(.,RTeken1_courses_soc,
+#                                                   RTeken2_courses_soc,
+#                                                   RTeken3_courses_soc,
+#                                                   RTeken4_courses_soc,
+#                                                   RTeken5_courses_soc)))
+# courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>%
+#   mutate(NPct_courses_soc = rowMeans(select(.,NPct1_courses_soc,
+#                                                 NPct2_courses_soc)))
+# 
+# courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>% 
+#   mutate(am_courses_soc = rowMeans(select(.,RAvg_courses_soc,RTeken_courses_soc,NPct_courses_soc)))
+# 
+# filtered_courses_soc_112020_am_megama <- courses_soc_112020_am_megama %>%
+#   select(personal_number,GroupId,am_courses_soc)
+# 
+# gibush_candidates_kakatz_07.2021_with_am <-
+#   merge(gibush_candidates_kakatz_07.2021,filtered_courses_soc_112020_am_megama,by=c("personal_number"), all.x=T, all.y=F,sort = FALSE)
+# 
+
+gibushon<-gibushon_mamda_criteria_rama_eq_colors_decision_EichutGrade_components_quit_absences_language
 
 #Remove spaces.
 
