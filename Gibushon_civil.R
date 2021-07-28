@@ -1702,10 +1702,10 @@ library("xlsx")
 
 # Correlations predictors-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1029:1033,1066)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1029:1033,1066)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,1070,806)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,806)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1030:1033,1066)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1030:1033,1066)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,1029)]))
 gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1735,8 +1735,8 @@ write.xlsx(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibu
 
 # Correlations predictors-predictors
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1029:1033,1066)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1029:1033,1066)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1030:1033,1066)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1030:1033,1066)]))
 gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1029:1033,1066)]
 gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1029:1033,1066)]))
 gibushon_final_corr_output<-data.frame()[16,]
@@ -1770,8 +1770,8 @@ write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gib
 
 gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,1070,806)]
 gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,806)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,1070,806)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,806)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,1029)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -1816,10 +1816,10 @@ cbind.fill<-function(...){
 library(ppcor)
 # gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853:858,831:834)]
 # gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834)]))
-gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(810,853:860,863:868,1029:1033)]
-gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(810,853:860,863:868,1029:1033)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1058:1064,799:801,1070,806)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,806)]))
+gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(810,853:860,863:868,1030:1033)]
+gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(810,853:860,863:868,1030:1033)]))
+gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1058:1064,799:801,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,1029)]))
 gibushon_final_spcorr_output<-data.frame()[15,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
@@ -1867,10 +1867,10 @@ filter(religion !="Moslem")
 # filter(GibDate <= 01/09/2018 | is.na(GibDate))
 # filter(FinalGradeg > 3.5)
 
-gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:860,863:868,1029:1033,1066)]
-gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:860,863:868,1029:1033,1066)]))
-gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1058:1064,799:801,1070,806)]
-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1058:1064,799:801,1070,806)]))
+gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:860,863:868,1030:1033,1066)]
+gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:860,863:868,1030:1033,1066)]))
+gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1058:1064,799:801,1070,1029)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1058:1064,799:801,1070,1029)]))
 gibushon_final_filtered_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
