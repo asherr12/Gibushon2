@@ -1494,6 +1494,29 @@ head(gibushon_civil$tkufatit_not_na,1000)
 # gibushon_civil_for_Qlik_View <- gibushon_civil
 # write_excel_csv(gibushon_civil_for_Qlik_View,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_for_Qlik_View.csv")
 
+# Code replacing the use of QlikView.
+
+library(dplyr)
+gibushon_civil_filtered = gibushon_civil%>%
+  rowwise()%>%
+  mutate(tkufatit_14<-ifelse(!is.na(tkufatit_14_zscore),tkufatit_14,NA))%>%
+  select(tkufatit_14_zscore,tkufatit_14,date.tkufatit_14_diff)%>%
+  filter(!is.na(date.tkufatit_14_diff))
+
+gibushon_civil_filtered <- gibushon_civil_filtered[order(gibushon_civil_filtered$date.tkufatit_14_diff),]
+
+gibushon_civil_filtered2 <- gibushon_civil_filtered
+
+#arrived here#######
+
+for (i in 1:nrow(gibushon_civil_filtered2)){
+  gibushon_civil_filtered3 <- gibushon_civil_filtered2
+  gibushon_civil_filtered3 <- gibushon_civil_filtered3[i:nrow(gibushon_civil_filtered2),]
+  gibushon_civil_filtered2[i,]$tkufatit_14_sd<-sd(gibushon_civil_filtered3$tkufatit_14, na.rm = T)
+  }  
+  
+
+
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
   mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff>=232 & date.tkufatit_14_diff<=1014,tkufatit_14_zscore,NA),#169,943
