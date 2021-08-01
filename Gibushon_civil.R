@@ -1554,7 +1554,7 @@ for (i in 1:nrow(gibushon_civil_filtered4)) {
   }
 }
 
-# arrived here#### check for other criteria and update values in the next commands.
+# arrived here#### set for other criteria and update values in the next commands.
 
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
