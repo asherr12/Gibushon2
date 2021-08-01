@@ -1528,21 +1528,18 @@ plot(tkufatit_14_sd ~ date.tkufatit_14_diff, gibushon_civil_filtered4)
 
 diff_befoere_decrease <- which(gibushon_civil_filtered4$tkufatit_14_sd==max(gibushon_civil_filtered4$tkufatit_14_sd))
 diff_decrease <- gibushon_civil_filtered4[(diff_befoere_decrease+1),]$date.tkufatit_14_diff
-diff_decrease
+row_decrease <- which(gibushon_civil_filtered4$date.tkufatit_14_diff == diff_decrease)
 
-#arrived here####### - try to find the stability of decreasing from the max value#####
-
-for (i in 1:nrow(gibushon_civil_filtered4)) {
-  if (gibushon_civil_filtered4[i+1,]$tkufatit_14_sd > max(gibushon_civil_filtered4$tkufatit_14_sd) &
-      gibushon_civil_filtered4[i+2,]$tkufatit_14_sd > gibushon_civil_filtered4[i+1,]$tkufatit_14_sd &
-      gibushon_civil_filtered4[i+3,]$tkufatit_14_sd > gibushon_civil_filtered4[i+2,]$tkufatit_14_sd &
-      gibushon_civil_filtered4[i+4,]$tkufatit_14_sd > gibushon_civil_filtered4[i+3,]$tkufatit_14_sd){
-    diff_increase <- gibushon_civil_filtered4[i,]$date.tkufatit_14_diff
-    print(diff_increase)
+for (i in row_decrease:nrow(gibushon_civil_filtered4)) {
+  if (gibushon_civil_filtered4[i+1,]$tkufatit_14_sd < max(gibushon_civil_filtered4$tkufatit_14_sd) &
+      gibushon_civil_filtered4[i+2,]$tkufatit_14_sd < gibushon_civil_filtered4[i+1,]$tkufatit_14_sd &
+      gibushon_civil_filtered4[i+3,]$tkufatit_14_sd < gibushon_civil_filtered4[i+2,]$tkufatit_14_sd &
+      gibushon_civil_filtered4[i+4,]$tkufatit_14_sd < gibushon_civil_filtered4[i+3,]$tkufatit_14_sd){
+    final_diff_decrease <- gibushon_civil_filtered4[i,]$date.tkufatit_14_diff
+    print(final_diff_decrease)
     break
   }
 }
-
 
 # find the point that the SD begins to increase steadily after the lowest SD value
 
@@ -1557,9 +1554,7 @@ for (i in 1:nrow(gibushon_civil_filtered4)) {
   }
 }
 
-
-
-
+# arrived here#### check for other criteria and update values in the next commands.
 
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
