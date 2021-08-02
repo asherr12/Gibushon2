@@ -1537,13 +1537,14 @@ gibushon_civil_filtered4 <- X[,lapply(.SD,mean),keys]
 
 gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
+
+plot(gibushon_civil_filtered4[,2] ~ gibushon_civil_filtered4[,1], gibushon_civil_filtered4,
+     ylab = paste(j,"_sd",sep = ""), xlab = paste("date.",j,"_diff",sep = ""))
+
 }
 
 #arrived here########################
 
-plot(tkufatit_14_sd ~ date.tkufatit_14_diff, gibushon_civil_filtered4)
-
-#plot(paste(j,"_sd",sep = "") ~ paste("date.",j,"_diff",sep = ""), gibushon_civil_filtered4)
 
 # find the point that the SD begins to decrease steadily after the highest SD value
 
