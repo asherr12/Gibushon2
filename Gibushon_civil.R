@@ -1859,7 +1859,7 @@ for (i in 1:nrow(gibushon_civil_filtered4)) {
 
 # find the point that the SD begins to decrease steadily after the highest SD value
 
-#arrived here (divide to 7 if grater then 1000)#########
+#arrived here (maybe divide to 7 if grater then 1000)#########
 for (i in (which.max(gibushon_civil_filtered4[,2])+1):nrow(gibushon_civil_filtered4)) {
   if ((nrow(gibushon_civil_filtered4)-i)>2 & 
          gibushon_civil_filtered4[i,][,2] < max(gibushon_civil_filtered4[,2],na.rm = T) &
