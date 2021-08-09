@@ -1824,19 +1824,56 @@ library(dplyr)
 gibushon_civil_filtered4 = gibushon_civil_filtered2%>%
   select(paste("date.",j,"_diff",sep = ""),paste(j,"_sd",sep = ""))
 
-keys <- colnames(gibushon_civil_filtered4)[!grepl(paste(j,"_sd",sep = ""),colnames(gibushon_civil_filtered4))]
-X <- as.data.table(gibushon_civil_filtered4)
-gibushon_civil_filtered4 <- X[,lapply(.SD,mean),keys]
+# keys <- colnames(gibushon_civil_filtered4)[!grepl(paste(j,"_sd",sep = ""),colnames(gibushon_civil_filtered4))]
+# X <- as.data.table(gibushon_civil_filtered4)
+# gibushon_civil_filtered4 <- X[,lapply(.SD,mean),keys]
+# keys <- colnames(gibushon_civil_filtered4)[!grepl(paste(j,"_sd",sep = ""),colnames(gibushon_civil_filtered4))]
+# X <- as.data.table(gibushon_civil_filtered4)
+# gibushon_civil_filtered4 <- X[,list(mm = mean(gibushon_civil_filtered4[,2],na.rm=T)),keys]
+# gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
+gibushon_civil_filtered4 = gibushon_civil_filtered4 %>% 
+  group_by(gibushon_civil_filtered4[,1]) %>% mutate_each(funs(mean)) %>% distinct
+
+gibushon_civil_filtered4<-gibushon_civil_filtered4[-c(3)]
+
+gibushon_civil_filtered4[,2] <- scale(gibushon_civil_filtered4[,2])
+
+class(gibushon_civil_filtered4)
 
 gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
-# gibushon_civil_filtered4[,2] <- scale(as.numeric(unlist(gibushon_civil_filtered4[,2])))
+ouitliers<-function(x) ifelse(!is.na(x) & x<3.29, x, NA)
 
-gibushon_civil_filtered4[,2] <- log(gibushon_civil_filtered4[,2])
+gibushon_civil_filtered4[,2] <- ouitliers(gibushon_civil_filtered4[,2])
 
 if (min(gibushon_civil_filtered4[,2],na.rm = T)<0){
-  gibushon_civil_filtered4[,2] <-  gibushon_civil_filtered4[,2]+abs(min(gibushon_civil_filtered4[,2],na.rm = T)) 
+  gibushon_civil_filtered4[,2] <-  gibushon_civil_filtered4[,2]+abs(min(gibushon_civil_filtered4[,2],na.rm = T)+1) 
 }
+
+gibushon_civil_filtered4 = gibushon_civil_filtered4 %>%
+  filter(!is.na(gibushon_civil_filtered4[,2]))
+
+# https://medium.com/analytics-vidhya/a-guide-to-data-transformation-9e5fa9ae1ca3
+# gibushon_civil_filtered4[,2] <- log(gibushon_civil_filtered4[,2])
+# gibushon_civil_filtered4[,2] <- 1/(gibushon_civil_filtered4[,2])
+
+# gibushon_civil_filtered4$delete <- NA
+# if(nrow(gibushon_civil_filtered4)>500){
+# for (i in 2:nrow(gibushon_civil_filtered4)) {
+#   if((gibushon_civil_filtered4[i,][,1]-gibushon_civil_filtered4[(i-1),][,1])<2 &
+#      !is.na(gibushon_civil_filtered4[i,][,2])){
+#     gibushon_civil_filtered4[i,][,2]<- mean(gibushon_civil_filtered4[(i-1),][,2],gibushon_civil_filtered4[i,][,2])
+#     gibushon_civil_filtered4[(i-1),]$delete <- 1
+#   }
+# }
+# }
+
+# gibushon_civil_filtered4 = gibushon_civil_filtered4 %>%
+#   filter(delete!=1)
+
+class(gibushon_civil_filtered4)
+
+# gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
 plot(gibushon_civil_filtered4[,2] ~ gibushon_civil_filtered4[,1], gibushon_civil_filtered4,
      ylab = paste(j,"_sd",sep = ""), xlab = paste("date.",j,"_diff",sep = ""))
@@ -1844,10 +1881,16 @@ plot(gibushon_civil_filtered4[,2] ~ gibushon_civil_filtered4[,1], gibushon_civil
 # find the point that the SD begins to increase steadily after the lowest SD value
 
 for (i in 1:nrow(gibushon_civil_filtered4)) {
-  if (gibushon_civil_filtered4[i+1,][,2] > gibushon_civil_filtered4[i,][,2] &
-      gibushon_civil_filtered4[i+2,][,2] > gibushon_civil_filtered4[i+1,][,2] &
-      gibushon_civil_filtered4[i+3,][,2] > gibushon_civil_filtered4[i+2,][,2] &
-      gibushon_civil_filtered4[i+4,][,2] > gibushon_civil_filtered4[i+3,][,2]){
+  # if (gibushon_civil_filtered4[i+1,][,2] > gibushon_civil_filtered4[i,][,2] &
+      # gibushon_civil_filtered4[i+2,][,2] > gibushon_civil_filtered4[i+1,][,2] &
+      # gibushon_civil_filtered4[i+3,][,2] > gibushon_civil_filtered4[i+2,][,2] &
+      # gibushon_civil_filtered4[i+4,][,2] > gibushon_civil_filtered4[i+3,][,2]){
+  if ((nrow(gibushon_civil_filtered4)-i)>2 & 
+      gibushon_civil_filtered4[i,][,2] > min(gibushon_civil_filtered4[,2],na.rm = T) &
+      gibushon_civil_filtered4[i+1,][,2] > gibushon_civil_filtered4[i,][,2] &
+      # gibushon_civil_filtered4[i+2,][,2] > gibushon_civil_filtered4[i+1,][,2] &
+      # gibushon_civil_filtered4[i+3,][,2] > gibushon_civil_filtered4[i+2,][,2]) {
+      gibushon_civil_filtered4[i+2,][,2] > gibushon_civil_filtered4[i+1,][,2]){
     diff_increase <- gibushon_civil_filtered4[i,][,1]
     print(paste(colnames(gibushon_civil_filtered4)[1],":",sep = ""))
     print(diff_increase)
@@ -1857,14 +1900,14 @@ for (i in 1:nrow(gibushon_civil_filtered4)) {
 
 # find the point that the SD begins to decrease steadily after the highest SD value
 
-#arrived here (maybe divide to 7 if grater then 1000)#########
 for (i in (which.max(gibushon_civil_filtered4[,2])+1):nrow(gibushon_civil_filtered4)) {
   if ((nrow(gibushon_civil_filtered4)-i)>2 & 
          gibushon_civil_filtered4[i,][,2] < max(gibushon_civil_filtered4[,2],na.rm = T) &
          gibushon_civil_filtered4[i+1,][,2] < gibushon_civil_filtered4[i,][,2] &
-         gibushon_civil_filtered4[i+2,][,2] < gibushon_civil_filtered4[i+1,][,2] &
-         gibushon_civil_filtered4[i+3,][,2] < gibushon_civil_filtered4[i+2,][,2]) {
-       diff_decrease <- gibushon_civil_filtered4[i,][,1]
+         # gibushon_civil_filtered4[i+2,][,2] < gibushon_civil_filtered4[i+1,][,2] &
+         # gibushon_civil_filtered4[i+3,][,2] < gibushon_civil_filtered4[i+2,][,2]) {
+         gibushon_civil_filtered4[i+2,][,2] < gibushon_civil_filtered4[i+1,][,2]) {
+       diff_decrease <- gibushon_civil_filtered4[(i-1),][,1]
        print(diff_decrease)
       break
  } 
