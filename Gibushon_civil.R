@@ -1842,9 +1842,9 @@ class(gibushon_civil_filtered4)
 
 gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
-ouitliers<-function(x) ifelse(!is.na(x) & abs(x)<3.29, x, NA)
+ouitliers2<-function(x) ifelse(!is.na(x) & abs(x)<3.29, x, NA)
 
-gibushon_civil_filtered4[,2] <- ouitliers(gibushon_civil_filtered4[,2])
+gibushon_civil_filtered4[,2] <- ouitliers2(gibushon_civil_filtered4[,2])
 
 if (min(gibushon_civil_filtered4[,2],na.rm = T)<0){
   gibushon_civil_filtered4[,2] <-  gibushon_civil_filtered4[,2]+abs(min(gibushon_civil_filtered4[,2],na.rm = T)+1) 
