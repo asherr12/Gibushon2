@@ -1698,11 +1698,12 @@ suppressWarnings(for(i in 1:ncol(gibushon_civil_outliers)) {
 
 write_excel_csv(gibushon_civil,file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_with_outliers.csv")
 
-colnames(gibushon_civil[(ncol_before_zscores+1):ncol_zscores])
+# gibushon_civil[(ncol_before_zscores+1):ncol_zscores][gibushon_civil[(ncol_before_zscores+1):ncol_zscores]>6]<-NA
 
-# gibushon_civil[(ncol_before_zscores+1):ncol_zscores][gibushon_civil[(ncol_before_zscores+1):ncol_zscores]>4]<-NA
+ouitliers2<-function(x) ifelse(!is.na(x) & abs(x)>4, x, NA)
 
-abs(gibushon_civil)[(ncol_before_zscores+1):ncol_zscores][gibushon_civil[(ncol_before_zscores+1):ncol_zscores]>6]<-NA
+gibushon_civil = gibushon_civil%>%
+  mutate_at(vars((ncol_before_zscores+1):ncol_zscores), funs(ouitliers2))
 
 colnames(gibushon_civil)
 
@@ -1842,7 +1843,7 @@ class(gibushon_civil_filtered4)
 
 gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
-ouitliers2<-function(x) ifelse(!is.na(x) & abs(x)<3.29, x, NA)
+ouitliers3<-function(x) ifelse(!is.na(x) & abs(x)<3.29, x, NA)
 
 gibushon_civil_filtered4[,2] <- ouitliers2(gibushon_civil_filtered4[,2])
 
