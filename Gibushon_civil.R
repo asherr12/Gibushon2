@@ -1832,13 +1832,6 @@ library(dplyr)
 gibushon_civil_filtered4 = gibushon_civil_filtered2%>%
   select(paste("date.",j,"_diff",sep = ""),paste(j,"_sd",sep = ""))
 
-# keys <- colnames(gibushon_civil_filtered4)[!grepl(paste(j,"_sd",sep = ""),colnames(gibushon_civil_filtered4))]
-# X <- as.data.table(gibushon_civil_filtered4)
-# gibushon_civil_filtered4 <- X[,lapply(.SD,mean),keys]
-# keys <- colnames(gibushon_civil_filtered4)[!grepl(paste(j,"_sd",sep = ""),colnames(gibushon_civil_filtered4))]
-# X <- as.data.table(gibushon_civil_filtered4)
-# gibushon_civil_filtered4 <- X[,list(mm = mean(gibushon_civil_filtered4[,2],na.rm=T)),keys]
-# gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 gibushon_civil_filtered4 = gibushon_civil_filtered4 %>% 
   group_by(gibushon_civil_filtered4[,1]) %>% mutate_each(funs(mean)) %>% distinct
 
@@ -1928,18 +1921,17 @@ for (i in (which.max(gibushon_civil_filtered4[,2])+1):nrow(gibushon_civil_filter
 }
 }
 
-# arrived here#### set for other criteria and update values in the next commands.
-
 filtered_gibushon_civil_diff = gibushon_civil %>%
   rowwise() %>%
-  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff>=232 & date.tkufatit_14_diff<=1014,tkufatit_14_zscore,NA),#169,943
-         tkufatit_15_zscore = ifelse(date.tkufatit_15_diff>=308 & date.tkufatit_15_diff<=1252,tkufatit_15_zscore,NA),#380,1367
-         final.score.2017_zscore = ifelse(date.final.score.2017_diff>=1170 & date.final.score.2017_diff<=960,final.score.2017_zscore,NA),#1170,1702
-         final.score.2018_zscore = ifelse(date.final.score.2018_diff>=124 & date.final.score.2018_diff<=1580,final.score.2018_zscore,NA),#1501,2437
-         row_score_2019_zscore = ifelse(date.row_score_2019_diff>=256 & date.row_score_2019_diff<=1773,row_score_2019_zscore,NA),#1187,2041
-         am_2015 = ifelse(date.am_2015_diff>=331 & date.am_2015_diff<=1477,am_2015,NA),#331,1477
-         am_2018 = ifelse(date.am_2018_diff>=243 & date.am_2018_diff<2401,am_2018,NA),#918,2342
-         cf_2018 = ifelse(date.cf_2018_diff>=309 & date.cf_2018_diff<=2339,cf_2018,NA))#1128,2308
+  mutate(tkufatit_14_zscore = ifelse(date.tkufatit_14_diff>=390 & date.tkufatit_14_diff<=937,tkufatit_14_zscore,NA),#169,943
+         tkufatit_15_zscore = ifelse(date.tkufatit_15_diff>=364 & date.tkufatit_15_diff<=1557,tkufatit_15_zscore,NA),#380,1367
+#         final.score.2017_zscore = ifelse(date.final.score.2017_diff>=960 & date.final.score.2017_diff<=1170,final.score.2017_zscore,NA),#1170,1702
+         final.score.2017_zscore = ifelse(date.final.score.2017_diff>=397,final.score.2017_zscore,NA),#1170,1702
+#         final.score.2018_zscore = ifelse(date.final.score.2018_diff>=124 & date.final.score.2018_diff<=1580,final.score.2018_zscore,NA),#1501,2437
+         cf_2018 = ifelse(date.cf_2018_diff>=417 & date.cf_2018_diff<=1737,cf_2018,NA),#1128,2308
+#         row_score_2019_zscore = ifelse(date.row_score_2019_diff>=256 & date.row_score_2019_diff<=1773,row_score_2019_zscore,NA),#1187,2041
+         am_2015 = ifelse(date.am_2015_diff>=366 & date.am_2015_diff<=1403,am_2015,NA),#331,1477
+         am_2018 = ifelse(date.am_2018_diff>=361 & date.am_2015_diff<=1984,am_2018,NA))#243,2401
 
 class(filtered_gibushon_civil_diff)
 filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
@@ -1959,9 +1951,6 @@ filtered_gibushon_civil_diff = filtered_gibushon_civil_diff %>%
          am_special = am_2018_special,
          cf = cf_2018,
          tkufatit = rowMeans(select(., tkufatit_14_zscore,final.score.2015_zscore,final.score.2017_zscore,final.score.2018_zscore,row_score_2019_zscore),na.rm = T))
-
-
-
 
 head(filtered_gibushon_civil_diff$am,1000)
 head(filtered_gibushon_civil_diff$am_special,1000)
