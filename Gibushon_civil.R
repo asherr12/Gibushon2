@@ -1931,7 +1931,7 @@ filtered_gibushon_civil_diff = gibushon_civil %>%
          cf_2018 = ifelse(date.cf_2018_diff>=417 & date.cf_2018_diff<=1737,cf_2018,NA),#1128,2308
 #         row_score_2019_zscore = ifelse(date.row_score_2019_diff>=256 & date.row_score_2019_diff<=1773,row_score_2019_zscore,NA),#1187,2041
          am_2015 = ifelse(date.am_2015_diff>=366 & date.am_2015_diff<=1403,am_2015,NA),#331,1477
-         am_2018 = ifelse(date.am_2018_diff>=361 & date.am_2015_diff<=1984,am_2018,NA))#243,2401
+         am_2018 = ifelse(date.am_2018_diff>=361 & date.am_2018_diff<=1984,am_2018,NA))#243,2401
 
 class(filtered_gibushon_civil_diff)
 filtered_gibushon_civil_diff<-as.data.frame(filtered_gibushon_civil_diff)
@@ -2026,14 +2026,14 @@ head(filtered_gibushon_civil_diff_criteria_count$critria_count,100)
 
 filtered_gibushon_civil_diff_criteria_count = filtered_gibushon_civil_diff_criteria_count %>%
   rowwise() %>%
-  mutate(seniority_days_ac = ifelse(!is.na(row_score_2019_zscore),date.tkufatit_2019_diff,
-                             ifelse(!is.na(final.score.2018_zscore),date.period.eval.2018_diff,
-                             ifelse(!is.na(am_2018),TaarichHavara_am_2018_diff,
-                             ifelse(!is.na(am_2018_special),TaarichHavara_am_2018_diff,
-                             ifelse(!is.na(cf_2018),TaarichHavara_cf_2018_diff,
-                             ifelse(!is.na(final.score.2017_zscore),date.period.eval.2017_diff,
+  mutate(seniority_days_ac = ifelse(!is.na(row_score_2019_zscore),date.row_score_2019_diff,
+                             ifelse(!is.na(final.score.2018_zscore),date.final.score.2018_diff,
+                             ifelse(!is.na(am_2018),date.final.score.2018_diff,
+                             ifelse(!is.na(am_2018_special),date.am_2018_diff,
+                             ifelse(!is.na(cf_2018),date.cf_2018_diff,
+                             ifelse(!is.na(final.score.2017_zscore),date.final.score.2017_diff,
                              ifelse(!is.na(final.score.2015_zscore),date.period.eval.2015_diff,
-                             ifelse(!is.na(am_2015),TaarichHavara_am_2015_diff,
+                             ifelse(!is.na(am_2015),date.am_2015_diff,
                              ifelse(!is.na(tkufatit_14_zscore),date.tkufatit_14_diff,NA))))))))),
   seniority_years_ac = round(as.numeric(seniority_days_ac)/365,2))
 
@@ -2090,7 +2090,7 @@ gibushon_civil_freq_relevant_columns<-
                             651,657,659,665,667,673,675,681,683,689,691,708,710,712,714,716,
                             718,720,722,724,726,728,730,732,750,752,754,756,758,760,762,764,
                             766,768,770,772,774,776,794,795,799,800:801,806,810,840:843,846,
-                            849:850,852,1058:1066)])
+                            849:850,852,1060:1068)])
                                                                    
 out<-""
 cat("", out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies_1.txt", sep="", append=F,fill = T)
@@ -2131,8 +2131,8 @@ library("xlsx")
 
 gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:860,863:868,1030:1033,1066)]
 gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:860,863:868,1030:1033,1066)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,852,1070,1029)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,852,1070,1029)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,852,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,852,1070,1029)]))
 gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -2195,10 +2195,10 @@ write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gib
 
 # Correlations criteria-criteria
 
-gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,852,1070,806)]
-gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,1070,806)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1058:1064,799:801,852,1070,1029)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1058:1064,799:801,852,1070,1029)]))
+gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,852,1070,806)]
+gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,1070,806)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,852,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,852,1070,1029)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -2245,8 +2245,8 @@ library(ppcor)
 # gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834)]))
 gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(810,853:860,863:868,1030:1033)]
 gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(810,853:860,863:868,1030:1033)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1058:1064,799:801,852,1070,1029)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1058:1064,799:801,852,1070,1029)]))
+gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1060:1064,1066,799:801,852,1070,1029)]
+gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1060:1064,1066,799:801,852,1070,1029)]))
 gibushon_final_spcorr_output<-data.frame()[15,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
@@ -2296,8 +2296,8 @@ filter(religion !="Moslem")
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:860,863:868,1030:1033,1066)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:860,863:868,1030:1033,1066)]))
-gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1058:1064,799:801,852,1070,1029)]
-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1058:1064,799:801,852,1070,1029)]))
+gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1060:1066,799:801,852,1070,1029)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1060:1066,799:801,852,1070,1029)]))
 gibushon_final_filtered_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
