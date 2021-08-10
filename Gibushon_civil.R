@@ -1801,8 +1801,6 @@ library(data.table)
 criteria_list <- c("tkufatit_14","tkufatit_15","final.score.2017","final.score.2018",
                    "cf_2018","row_score_2019","am_2015","am_2018")
 
-criteria_list <- c("tkufatit_14")
-
 for (j in criteria_list) {
 gibushon_civil_filtered = gibushon_civil%>%
   rowwise()%>%
@@ -1843,9 +1841,6 @@ gibushon_civil_filtered4 = gibushon_civil_filtered2%>%
 gibushon_civil_filtered4 = gibushon_civil_filtered4 %>% 
   group_by(gibushon_civil_filtered4[,1]) %>% mutate_each(funs(mean)) %>% distinct
 
-}
-
-
 gibushon_civil_filtered4<-gibushon_civil_filtered4[-c(3)]
 
 gibushon_civil_filtered4[,2] <- scale(gibushon_civil_filtered4[,2])
@@ -1854,16 +1849,22 @@ class(gibushon_civil_filtered4)
 
 gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
-ouitliers3<-function(x) ifelse(!is.na(x) & abs(x)<3.29, x, NA)
+ouitliers3<-function(x) ifelse(!is.na(x) & abs(x)<5, x, NA)
 
-gibushon_civil_filtered4[,2] <- ouitliers2(gibushon_civil_filtered4[,2])
-
-if (min(gibushon_civil_filtered4[,2],na.rm = T)<0){
-  gibushon_civil_filtered4[,2] <-  gibushon_civil_filtered4[,2]+abs(min(gibushon_civil_filtered4[,2],na.rm = T)+1) 
-}
+gibushon_civil_filtered4 = gibushon_civil_filtered4%>%
+mutate_at(vars(2:ncol(gibushon_civil_filtered4)), funs(ouitliers3))
 
 gibushon_civil_filtered4 = gibushon_civil_filtered4 %>%
   filter(!is.na(gibushon_civil_filtered4[,2]))
+
+gibushon_civil_filtered4 = gibushon_civil_filtered4 %>%
+  filter(gibushon_civil_filtered4[,1]>360 & gibushon_civil_filtered4[,1]<2000)
+
+# if (min(gibushon_civil_filtered4[,2],na.rm = T)<0){
+# for (i in 1:nrow(gibushon_civil_filtered4)){
+#   gibushon_civil_filtered4[i,][,2] <-  gibushon_civil_filtered4[i,][,2]+abs(min(gibushon_civil_filtered4[,2],na.rm = T))
+# }
+# }
 
 # https://medium.com/analytics-vidhya/a-guide-to-data-transformation-9e5fa9ae1ca3
 # gibushon_civil_filtered4[,2] <- log(gibushon_civil_filtered4[,2])
@@ -1888,7 +1889,7 @@ class(gibushon_civil_filtered4)
 # gibushon_civil_filtered4 <- as.data.frame(gibushon_civil_filtered4)
 
 plot(gibushon_civil_filtered4[,2] ~ gibushon_civil_filtered4[,1], gibushon_civil_filtered4,
-     ylab = paste(j,"_sd",sep = ""), xlab = paste("date.",j,"_diff",sep = ""))
+     ylab = paste(j,"_sd","_scaled",sep = ""), xlab = paste("date.",j,"_diff",sep = ""))
 
 # find the point that the SD begins to increase steadily after the lowest SD value
 
@@ -2613,7 +2614,7 @@ library(stringr)
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$EichutGrade_zscore))), plot = F,main=colnames(gibushon_civil$EichutGrade_zscore),font=2),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil$days_off_zscore))), plot = F,main=colnames(gibushon_civil$days_off_zscore),font=2),2)
 round(describe(as.numeric(unlist(gibushon$ac_final_grade))),2)
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
