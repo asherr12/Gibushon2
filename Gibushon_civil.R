@@ -2374,6 +2374,7 @@ ryy <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit
 # replace the next commend and numbers by 
 # n=the avarage number of times the criterion was measured in this study
 # only for am and tkufatit.
+# After that, verify that all is correct.
 
 # n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",1.720,
 #             ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",1.040,NA))
