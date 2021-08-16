@@ -2331,17 +2331,52 @@ for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
 write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_Moslems_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_before_01.09.2018_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_FinalGradeg_gt_then_3.5_p_c_corr_output.xlsx")
-#-----------------------------------------------------------------------------------------------------------------------------------------------------
 
+#-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Range restriction correction for FinalGradeg_zscore with tkufatitam *****************************
 # The variance of all the sample of candidates in the A.C. should be higher then the variance of the sample that I performed on it
 # the validation study (after the various filtering). Verify it
 
+# gibushon_final_filterred_restriction_predictores = gibushon_final%>%
+#   select(FinalGradeg_zscore,SocioFinalGrade)
 gibushon_final_filterred_restriction_predictores = gibushon_final%>%
-  select(FinalGradeg_zscore,SocioFinalGrade)
+  select(FinalGradeg_zscore)
+
+# gibushon_final_filterred_restriction_criteria = gibushon_final%>%
+#   select(tkufatit,am,tkufatitam)
 gibushon_final_filterred_restriction_criteria = gibushon_final%>%
-  select(am,tkufatit,tkufatitam)
+  select(tkufatit)
+
+
+counter = gibushon_final %>%
+  rowwise() %>%
+  mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
+         am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
+
+class(counter)         
+counter <- as.data.frame(counter)
+
+counter = counter %>%
+  select(tkufatit_nna,am_nna)
+
+library(dplyr)
+detach(package:dplyr, unload = TRUE)
+library('plyr')
+counter_tkufatit_nna <- as.data.frame(count(counter, 'tkufatit_nna'))
+counter_am_nna <- as.data.frame(count(counter, 'am_nna'))
+
+detach(package:plyr, unload = TRUE)
+library(dplyr)
+counter_tkufatit_nna = counter_tkufatit_nna %>%
+  rowwise() %>%
+  mutate(product = tkufatit_nna*freq)
+n_tkufatit <- sum(counter_tkufatit_nna$product,na.rm = T)/sum(counter_tkufatit_nna$freq,na.rm = T)
+
+counter_am_nna = counter_am_nna %>%
+  rowwise() %>%
+  mutate(product = am_nna*freq)
+n_am <- sum(counter_am_nna$product,na.rm = T)/sum(counter_am_nna$freq,na.rm = T)
 
 k <- 1
 l <- 1
@@ -2360,24 +2395,20 @@ Sxn <- round(describe (as.numeric(filtered_gibushon_civil_diff$FinalGradeg)),2)
 Sxn <- Sxn$sd
 Sxn
 
-Sx0 <- round(describe (as.numeric(j)),2)
+Sx0 <- round(describe (as.numeric(i)),2)
 Sx0 <- Sx0$sd
 Sx0
 
-rn <- round((r0*(Sxn/Sx0))/sqrt(1-r0^2)+r0^2*Sxn^2/Sx0,2)
+rn <- round((r0*Sxn/Sx0)/sqrt(1-r0^2+(r0^2*Sxn^2/Sx0)),2)
 
 ryy <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",0.623,
-       ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",0.477,0.71))
+       ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",0.477,0.710))
 
-
-# arrived here#################################################################
-# replace the next commend and numbers by 
 # n=the avarage number of times the criterion was measured in this study
 # only for am and tkufatit.
-# After that, verify that all is correct: compare to the manual computation.
 
-n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",2.83,
-     ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",1.02,NA))
+n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",n_tkufatit,
+     ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",n_am,NA))
 
 ryyb <- (ryy*n)/(1+(n-1)*ryy)
 
@@ -2397,6 +2428,10 @@ k <- k+1
   l <- l+1
   k <- 1
 }
+
+# Verify that all is correct: compare to the manual computation.
+
+
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2421,36 +2456,17 @@ k <- k+1
 # 
 # library(dplyr)
 # 
-counter = gibushon_final %>%
-  rowwise() %>%
-  mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
-         am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
-         
-class(counter)         
-counter <- as.data.frame(counter)
 
-counter = counter %>%
-select(tkufatit_nna,am_nna)
-
-library(dplyr)
-detach(package:dplyr, unload = TRUE)
-library('plyr')
-counter_tkufatit_nna <- as.data.frame(count(counter, 'tkufatit_nna'))
-counter_am_nna <- as.data.frame(count(counter, 'am_nna'))
-
-
-
-
-library (descr)
-library (psych)
-
-round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
-notna_tkufatit_average<-(273*1+2411*2+1734*3+1362*4+277*5)/(2+273+2411+1734+1362+277)
-round(notna_tkufatit_average,2)
-
-round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
-notna_am_average<-(3362*1+1396*2)/(1301+3362+1396)
-round(notna_am_average,2)
+# library (descr)
+# library (psych)
+# 
+# round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
+# notna_tkufatit_average<-(273*1+2411*2+1734*3+1362*4+277*5)/(2+273+2411+1734+1362+277)
+# round(notna_tkufatit_average,2)
+# 
+# round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
+# notna_am_average<-(3362*1+1396*2)/(1301+3362+1396)
+# round(notna_am_average,2)
 
 # #-----------------------------------------------------------------------------------------------------------------------------------------------------
 # library (descr)
