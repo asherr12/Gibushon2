@@ -2367,21 +2367,20 @@ Sx0
 rn <- round((r0*(Sxn/Sx0))/sqrt(1-r0^2)+r0^2*Sxn^2/Sx0,2)
 
 ryy <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",0.623,
-       ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",0.4765,0.71))
+       ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",0.477,0.71))
 
 
 # arrived here#################################################################
 # replace the next commend and numbers by 
 # n=the avarage number of times the criterion was measured in this study
 # only for am and tkufatit.
-# After that, verify that all is correct.
+# After that, verify that all is correct: compare to the manual computation.
 
 # n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",1.720,
 #             ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",1.040,NA))
 
-n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit" |
-     ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",
-     8888,NA))
+n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",2.830,
+     ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",1.020,NA))
 
 ryyb <- (ryy*n)/(1+(n-1)*ryy)
 
@@ -2425,22 +2424,22 @@ k <- k+1
 # 
 # library(dplyr)
 # 
-# counter = gibushon_final %>%
-#   rowwise() %>%
-#   mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
-#          am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
-# 
-# library (descr)
-# library (psych)
-# 
-# round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
-# notna_tkufatit_average<-(1448*1+3906*2+193*3)/(180+1448+3906+193)
-# round(notna_tkufatit_average,2)
-# 
-# round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
-# notna_am_average<-(3159*1+1409*2)/(1159+3159+1409)
-# round(notna_am_average,2)
-# 
+counter = gibushon_final %>%
+  rowwise() %>%
+  mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
+         am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
+
+library (descr)
+library (psych)
+
+round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
+notna_tkufatit_average<-(273*1+2411*2+1734*3+1362*4+277*5)/(2+273+2411+1734+1362+277)
+round(notna_tkufatit_average,2)
+
+round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
+notna_am_average<-(3362*1+1396*2)/(1301+3362+1396)
+round(notna_am_average,2)
+
 # #-----------------------------------------------------------------------------------------------------------------------------------------------------
 # library (descr)
 # library (psych)
