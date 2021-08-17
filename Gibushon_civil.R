@@ -2424,11 +2424,10 @@ colnames(range_restriction_table)<-names(gibushon_final_filterred_restriction_cr
 rownames(range_restriction_table) <- c("r0","rn","rn2")
 print(range_restriction_table)
 k <- k+1
-# f <- f+1
 }
   k <- 1
   l <- l+1  
-  # f <- 1
+  f <- f+1
 }
 
 
