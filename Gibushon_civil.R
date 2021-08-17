@@ -2332,6 +2332,57 @@ write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/M
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_before_01.09.2018_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_FinalGradeg_gt_then_3.5_p_c_corr_output.xlsx")
 
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Range restriction. - old code
+# The variance of all the sample of candidates in the A.C. should be higher then the variance of the sample that I performed on it
+# the validation study (after the various filtering)
+
+# library (descr)
+# library (psych)
+# 
+# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$tkufatit),use="pairwise.complete.obs"), silent=T)
+# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$am),use="pairwise.complete.obs"), silent=T)
+# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$tkufatitam),use="pairwise.complete.obs"), silent=T)
+# 
+# round(describe (as.numeric(filtered_gibushon_civil_diff$FinalGradeg_zscore)),2)
+# 
+# gibushon_final$FinalGradeg_zscore_restricted<-gibushon_final$FinalGradeg_zscore
+# 
+# round(describe (as.numeric(gibushon_final$FinalGradeg_zscore_restricted)),2)
+
+# Average number of repeated criteria (for n in range restriction Excel file).
+
+# library (descr)
+# library (psych)
+# 
+# counter = gibushon_final %>%
+#   rowwise() %>%
+#   mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
+#          am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
+# 
+# round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
+# notna_tkufatit_average<-(273*1+2411*2+1734*3+1362*4+277*5)/(2+273+2411+1734+1362+277)
+# round(notna_tkufatit_average,2)
+# 
+# round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
+# notna_am_average<-(3362*1+1396*2)/(1301+3362+1396)
+# round(notna_am_average,2)
+
+# #-----------------------------------------------------------------------------------------------------------------------------------------------------
+# library (descr)
+# library (psych)
+# 
+# try(cor.test(as.numeric(gibushon_final$mini_sociometry_negative_percent),as.numeric(gibushon_final$tkufatitam),use="pairwise.complete.obs"), silent=T)
+# round(describe (as.numeric(filtered_gibushon_civil_diff$mini_sociometry_negative_percent)),2)
+# 
+# describe (as.numeric(filtered_gibushon_civil_diff$Hebrewg_zscore))
+# 
+# gibushon_final$SocioFinalGrade_restricted<-gibushon_final$FinalGradeg
+# 
+# round(describe (as.numeric(gibushon_final$SocioFinalGrade_restricted)),2)
+
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 # Range restriction correction for FinalGradeg_zscore with tkufatitam *****************************
@@ -2430,55 +2481,6 @@ k <- k+1
   l <- l+1  
   f <- f+1
 }
-
-#-----------------------------------------------------------------------------------------------------------------------------------------------------
-# Range restriction. - old code
-# The variance of all the sample of candidates in the A.C. should be higher then the variance of the sample that I performed on it
-# the validation study (after the various filtering)
-
-# library (descr)
-# library (psych)
-# 
-# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$tkufatit),use="pairwise.complete.obs"), silent=T)
-# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$am),use="pairwise.complete.obs"), silent=T)
-# try(cor.test(as.numeric(gibushon_final$FinalGradeg_zscore),as.numeric(gibushon_final$tkufatitam),use="pairwise.complete.obs"), silent=T)
-# 
-# round(describe (as.numeric(filtered_gibushon_civil_diff$FinalGradeg_zscore)),2)
-# 
-# gibushon_final$FinalGradeg_zscore_restricted<-gibushon_final$FinalGradeg_zscore
-# 
-# round(describe (as.numeric(gibushon_final$FinalGradeg_zscore_restricted)),2)
-
-# Average number of repeated criteria (for n in range restriction Excel file).
-
-# library (descr)
-# library (psych)
-# 
-# counter = gibushon_final %>%
-#   rowwise() %>%
-#   mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
-#          am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
-# 
-# round(freq(ordered(counter$tkufatit_nna), plot = F,main=colnames(counter$tkufatit_nna),font=2),2)
-# notna_tkufatit_average<-(273*1+2411*2+1734*3+1362*4+277*5)/(2+273+2411+1734+1362+277)
-# round(notna_tkufatit_average,2)
-# 
-# round(freq(ordered(counter$am_nna), plot = F,main=colnames(counter$am_nna),font=2),2)
-# notna_am_average<-(3362*1+1396*2)/(1301+3362+1396)
-# round(notna_am_average,2)
-
-# #-----------------------------------------------------------------------------------------------------------------------------------------------------
-# library (descr)
-# library (psych)
-# 
-# try(cor.test(as.numeric(gibushon_final$mini_sociometry_negative_percent),as.numeric(gibushon_final$tkufatitam),use="pairwise.complete.obs"), silent=T)
-# round(describe (as.numeric(filtered_gibushon_civil_diff$mini_sociometry_negative_percent)),2)
-# 
-# describe (as.numeric(filtered_gibushon_civil_diff$Hebrewg_zscore))
-# 
-# gibushon_final$SocioFinalGrade_restricted<-gibushon_final$FinalGradeg
-# 
-# round(describe (as.numeric(gibushon_final$SocioFinalGrade_restricted)),2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 # Regression analysis
@@ -2700,12 +2702,12 @@ ggplot(gibushon_final, aes(x=ac_final_grade)) +
 #***********************assistance commands******************************
 library(stringr)
 
-
+gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(filtered_gibushon_civil_diff$critria_count))), plot = F,main=colnames(filtered_gibushon_civil_diff$critria_count),font=2),2)
-round(describe(as.numeric(unlist(gibushon_civil$FinalGradeg))),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil$Hebrewg))), plot = F,main=colnames(gibushon_civil$Hebrewg),font=2),2)
+round(describe(as.numeric(unlist(gibushon_civil$rama_score))),2)
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
 freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
