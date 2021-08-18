@@ -2389,16 +2389,21 @@ write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/M
 # The variance of all the sample of candidates in the A.C. should be higher then the variance of the sample that I performed on it
 # the validation study (after the various filtering). Verify it
 
-gibushon_final_filterred_restriction_predictores = gibushon_final%>%
-  select(SocioGrade_zscore,FinalGradeg_zscore,SocioFinalGrade_zscore,Daparg_zscore,Hebrewg_zscore,
-         rama_score_zscore)
+library (descr)
+library (psych)
+library (dplyr)
 
-filtered_gibushon_civil_diff_filterred_restriction_predictores = filtered_gibushon_civil_diff%>%
-  select(SocioGrade_zscore,FinalGradeg_zscore,SocioFinalGrade_zscore,Daparg_zscore,Hebrewg_zscore,
-         rama_score_zscore)
+gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
+gibushon_final$Hebrewg[gibushon_final$Hebrewg==-9999]<-NA
+
+gibushon_final_filterred_restriction_predictores = gibushon_final%>%
+  select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
+
+gibushon_civil_filterred_restriction_predictores = gibushon_civil%>%
+  select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 gibushon_final_filterred_restriction_criteria = gibushon_final%>%
-  select(tkufatit,am,tkufatitam,course_score,amcourses)
+  select(tkufatit,am,tkufatitam,course_score_zscore,amcourses)
 
 counter = gibushon_final %>%
   rowwise() %>%
@@ -2443,7 +2448,7 @@ corr_temp<-data.frame(corr_temp)
 r0 <- corr_temp$"predictor"
 
 library (descr)
-Sxn <- round(describe (filtered_gibushon_civil_diff_filterred_restriction_predictores[f]),2)
+Sxn <- round(describe (gibushon_civil_filterred_restriction_predictores[f]),2)
 Sxn <- Sxn$sd
 Sxn
 
@@ -2706,8 +2711,8 @@ gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$Hebrewg))), plot = F,main=colnames(gibushon_civil$Hebrewg),font=2),2)
-round(describe(as.numeric(unlist(gibushon_civil$rama_score))),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil$Hebrewg_zscore))), plot = F,main=colnames(gibushon_civil$Hebrewg_zscore),font=2),2)
+round(describe(as.numeric(unlist(gibushon_civil$Hebrewg))),2)
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
 freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
