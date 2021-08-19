@@ -2292,9 +2292,11 @@ gibushon_final_filtered=gibushon_final%>%
 # filter(job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | is.na(job))
 # filter(job == "detective" | job == "patrol" | job == "traffic" | job == "yasam" | is.na(job))
 # filter(religion != "Moslem" | is.na())
-filter(religion !="Moslem")
+# filter(religion !="Moslem")
 # filter(GibDate <= 01/09/2018 | is.na(GibDate))
 # filter(FinalGradeg > 3.5)
+# filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam" | is.na(job_sector4))
+filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]))
@@ -2324,11 +2326,11 @@ row.names(gibushon_final_filtered_corr_output)<-gibushon_final_filtered_relevant
 for(i in 1:(ncol(gibushon_final_filtered_corr_output)/4)){
   colnames(gibushon_final_filtered_corr_output)[i*4] <- ""
 }
-# write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output.xlsx")
+write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_yasam_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_detective_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_inspector_p_c_corr_output.xlsx")
-write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_Moslems_p_c_corr_output.xlsx")
+# write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_no_Moslems_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_before_01.09.2018_p_c_corr_output.xlsx")
 # write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_FinalGradeg_gt_then_3.5_p_c_corr_output.xlsx")
 
@@ -2395,14 +2397,18 @@ library (dplyr)
 
 gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 gibushon_final$Hebrewg[gibushon_final$Hebrewg==-9999]<-NA
+gibushon_final_filtered$Hebrewg[gibushon_final_filtered$Hebrewg==-9999]<-NA
 
-gibushon_final_filterred_restriction_predictores = gibushon_final%>%
+# gibushon_final_filterred_restriction_predictores = gibushon_final%>%
+gibushon_final_filterred_restriction_predictores = gibushon_final_filtered%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 gibushon_civil_filterred_restriction_predictores = gibushon_civil%>%
+  filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
-gibushon_final_filterred_restriction_criteria = gibushon_final%>%
+# gibushon_final_filterred_restriction_criteria = gibushon_final%>%
+gibushon_final_filterred_restriction_criteria = gibushon_final_filtered%>%
   select(tkufatit,am,tkufatitam,course_score_zscore,amcourses)
 
 counter = gibushon_final %>%
@@ -2638,19 +2644,23 @@ max(dates,na.rm = T)
 
 library(ggplot2)
 library(scales)
+library(cowplot)
 
-ggplot(filtered_gibushon_civil_diff, aes(x=ac_final_grade)) + 
-  geom_bar(na.rm = T,fill = "#FF6666") +
-  xlab("ציון מרכז הערכה")+
+ggplot(gibushon_civil, aes(x=FinalGradeg)) + 
+  geom_bar(na.rm = T,fill = "darkorchid1") +
+  xlab("ציון גיבושון")+
   ylab("מס' מועמדים")+
-  #  ggtitle("תרשים 1: התפלגות ציוני מרכז ההערכה")+
+  #  ggtitle("תרשים 1: התפלגות ציוני הגיבושון")+
   stat_bin(binwidth=0.5, geom="text", aes(label=..count..), vjust=-0.5, hjust=0.45) +
   scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
-  scale_y_continuous(breaks = seq(0, 315, 50),limits = c(0,370))+
+  scale_y_continuous(breaks = seq(0, 2400, 300),limits = c(0,2400))+
   #  theme(plot.title = element_text(hjust = 0.5, size = 16,color = "blue",face = "bold"))+
   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
   theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))
+# stat_function(fun = dnorm, n = 2400, args = list(mean = mean(gibushon_civil$FinalGradeg,na.rm = T), sd = sd(gibushon_civil$FinalGradeg,na.rm = T)), color="red")
 
+# y <- dnorm(gibushon_civil$FinalGradeg, mean(gibushon_civil$FinalGradeg,na.rm = T), sd = sd(gibushon_civil$FinalGradeg,na.rm = T))
+# p <- plot(gibushon_civil$FinalGradeg,y,type = "p", col = "red")
 
 #***********************assistance commands******************************
 
@@ -2674,45 +2684,16 @@ describe(as.numeric(filtered_gibushon_civil_diff$ac_final_grade))
 
 filtered_gibushon_civil_diff$ac_final_grade<-ifelse(filtered_gibushon_civil_diff$ac_final_grade==9.9,NA,filtered_gibushon_civil_diff$ac_final_grade)
 
-library(ggplot2)
-library(scales)
 
-# ggplot(gibushon_final, aes(x=final_impression)) + 
-#   geom_bar(na.rm = T,fill = "#FF6666") +
-#   xlab("ציון מבחן מצב")+
-#   ylab("מס' מועמדים")+
-#   #  ggtitle("תרשים 1: התפלגות ציוני מבחן מצב")+
-#   stat_bin(binwidth=0.5, geom="text", aes(label=..count..), vjust=-0.5, hjust=0.45) +
-#   scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
-#   scale_y_continuous(breaks = seq(0, 315, 50),limits = c(0,370))+
-#   #  theme(plot.title = element_text(hjust = 0.5, size = 16,color = "blue",face = "bold"))+
-#   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
-#   theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))
-
-
-
-ggplot(gibushon_civil, aes(x=FinalGradeg)) + 
-  geom_bar(na.rm = T,fill = "#FF6666") +
-  xlab("ציון גיבושון")+
-  ylab("מס' מועמדים")+
-  #  ggtitle("תרשים 1: התפלגות ציוני הגיבושון")+
-  stat_bin(binwidth=0.5, geom="text", aes(label=..count..), vjust=-0.5, hjust=0.45) +
-  scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
-  scale_y_continuous(breaks = seq(0, 315, 50),limits = c(0,370))+
-  #  theme(plot.title = element_text(hjust = 0.5, size = 16,color = "blue",face = "bold"))+
-  theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
-  theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))
-
-
-#***********************assistance commands******************************
+ #***********************assistance commands******************************
 library(stringr)
 
 gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$Hebrewg_zscore))), plot = F,main=colnames(gibushon_civil$Hebrewg_zscore),font=2),2)
-round(describe(as.numeric(unlist(gibushon_civil$Hebrewg))),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil$FinalGradeg))), plot = F,main=colnames(gibushon_civil$FinalGradeg),font=2),2)
+round(describe(as.numeric(unlist(gibushon_civil$FinalGradeg))),2)
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
 freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
