@@ -2133,8 +2133,8 @@ library("xlsx")
 
 gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(810,853:861,864:869,1031:1034,1068)]
 gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(810,853:861,864:869,1031:1034,1068)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,1072,806,852)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,1072,806,852)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,1072,1030,852)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,1072,1030,852)]))
 gibushon_final_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -2160,7 +2160,6 @@ for(i in 1:(ncol(gibushon_final_corr_output)/4)){
   colnames(gibushon_final_corr_output)[i*4] <- ""
 }
 write.xlsx(gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_p_c_corr_output.xlsx")
-
 
 # Correlations predictors-predictors
 
@@ -2199,8 +2198,8 @@ write.xlsx (gibushon_final_corr_output,file = "C:/Users/USER/Documents/MAMDA/gib
 
 gibushon_final_relevant_predictors_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,806,852)]
 gibushon_final_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,806,852)]))
-gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,1072,806,852)]
-gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,1072,806,852)]))
+gibushon_final_relevant_criteria_columns_for_correlations <- gibushon_final[c(1060:1066,799:801,1072,1030,852)]
+gibushon_final_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final[c(1060:1066,799:801,1072,1030,852)]))
 gibushon_final_corr_output<-data.frame()[16,]
 
 for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_correlations)){
@@ -2243,42 +2242,40 @@ cbind.fill<-function(...){
 }
 
 library(ppcor)
-# gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(828,842:850,853:858,831:834)]
-# gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(828,842:850,853:858,831:834)]))
-gibushon_final_relevant_predictors_columns_for_spcorrelations <- gibushon_final[c(810,853:861,864:869,1031:1034,1068)]
-gibushon_final_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(810,853:861,864:869,1031:1034,1068)]))
-gibushon_final_relevant_criteria_columns_for_spcorrelations <- gibushon_final[c(1060:1066,799:801,1072,806,852)]
-gibushon_final_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final[c(1060:1066,799:801,1072,806,852)]))
-gibushon_final_spcorr_output<-data.frame()[15,]
+gibushon_final_filtered_relevant_predictors_columns_for_spcorrelations <- gibushon_final_filtered[c(810,853:861,864:869,1031:1034)]
+gibushon_final_filtered_relevant_predictors_columns_names_for_spcorrelations <- c(colnames(gibushon_final_filtered[c(810,853:861,864:869,1031:1034)]))
+gibushon_final_filtered_relevant_criteria_columns_for_spcorrelations <- gibushon_final_filtered[c(1060:1066,799:801,1072,1030,852)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_spcorrelations <- c(colnames(gibushon_final_filtered[c(1060:1066,799:801,1072,1030,852)]))
+gibushon_final_filtered_spcorr_output<-data.frame()[15,]
 
-for(i in 1:length(gibushon_final_relevant_criteria_columns_names_for_spcorrelations)){
+for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_spcorrelations)){
   spcorr_output_temp<-c()
-  for(j in 1:length(gibushon_final_relevant_predictors_columns_names_for_spcorrelations)){ 
-    gibushon_final_complete <- c()
-    gibushon_final_complete <- gibushon_final_relevant_criteria_columns_for_spcorrelations[[i]]
-    gibushon_final_complete<-cbind.fill(gibushon_final_complete,gibushon_final_relevant_predictors_columns_for_spcorrelations[[j]])
-    gibushon_final_complete <- cbind.fill(gibushon_final_complete,gibushon_final$seniority_days_ac)
-    gibushon_final_complete <- na.omit(gibushon_final_complete)
+  for(j in 1:length(gibushon_final_filtered_relevant_predictors_columns_names_for_spcorrelations)){ 
+    gibushon_final_filtered_complete <- c()
+    gibushon_final_filtered_complete <- gibushon_final_filtered_relevant_criteria_columns_for_spcorrelations[[i]]
+    gibushon_final_filtered_complete<-cbind.fill(gibushon_final_filtered_complete,gibushon_final_filtered_relevant_predictors_columns_for_spcorrelations[[j]])
+    gibushon_final_filtered_complete <- cbind.fill(gibushon_final_filtered_complete,gibushon_final_filtered$seniority_days_ac)
+    gibushon_final_filtered_complete <- na.omit(gibushon_final_filtered_complete)
     spcorr_temp<-c()
-    spcorr_try <- try(spcor.test(as.numeric(gibushon_final_complete[,1]),as.numeric(gibushon_final_complete[,2]),as.numeric(gibushon_final_complete[,3])), silent=T)
+    spcorr_try <- try(spcor.test(as.numeric(gibushon_final_filtered_complete[,1]),as.numeric(gibushon_final_filtered_complete[,2]),as.numeric(gibushon_final_filtered_complete[,3])), silent=T)
     spcorr_temp$"predictor" <-ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$estimate)
     spcorr_temp$p.value <-ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$p.value)
     spcorr_temp$n <-(ifelse(class(spcorr_try)=="try-error", NA, spcorr_try$n))
     spcorr_temp<-data.frame(spcorr_temp)
-    colnames(spcorr_temp)[1]<-gibushon_final_relevant_criteria_columns_names_for_spcorrelations[[i]]
-    row.names(spcorr_temp)<-gibushon_final_relevant_predictors_columns_names_for_spcorrelations[j]
+    colnames(spcorr_temp)[1]<-gibushon_final_filtered_relevant_criteria_columns_names_for_spcorrelations[[i]]
+    row.names(spcorr_temp)<-gibushon_final_filtered_relevant_predictors_columns_names_for_spcorrelations[j]
     spcorr_output_temp<-rbind (spcorr_output_temp,spcorr_temp)
     spcorr_output_temp <-round(spcorr_output_temp,2)
   }
   spcorr_output_temp$""<-"|"
-  gibushon_final_spcorr_output<-cbind(gibushon_final_spcorr_output,spcorr_output_temp,row.names = NULL)
+  gibushon_final_filtered_spcorr_output<-cbind(gibushon_final_filtered_spcorr_output,spcorr_output_temp,row.names = NULL)
 }
-row.names(gibushon_final_spcorr_output)<-gibushon_final_relevant_predictors_columns_names_for_spcorrelations
+row.names(gibushon_final_filtered_spcorr_output)<-gibushon_final_filtered_relevant_predictors_columns_names_for_spcorrelations
 
-for(i in 1:(ncol(gibushon_final_spcorr_output)/4)){
-  colnames(gibushon_final_spcorr_output)[i*4] <- ""
+for(i in 1:(ncol(gibushon_final_filtered_spcorr_output)/4)){
+  colnames(gibushon_final_filtered_spcorr_output)[i*4] <- ""
 }
-write.xlsx(gibushon_final_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_spcorr_output_p-c.xlsx")
+write.xlsx(gibushon_final_filtered_spcorr_output,file = "C:/Users/USER/Documents/MAMDA/gibushon/gibushon_final_filtered_spcorr_output_p-c.xlsx")
 
 
 # Correlations predictors-criteria on gibushon_final_filtered
@@ -2294,8 +2291,8 @@ filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 ==
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]))
-gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1060:1066,799:801,1072,806,852)]
-gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1060:1066,799:801,1072,806,852)]))
+gibushon_final_filtered_relevant_criteria_columns_for_correlations <- gibushon_final_filtered[c(1060:1066,799:801,1072,1030,852)]
+gibushon_final_filtered_relevant_criteria_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(1060:1066,799:801,1072,1030,852)]))
 gibushon_final_filtered_corr_output<-data.frame()[23,]
 
 for(i in 1:length(gibushon_final_filtered_relevant_criteria_columns_names_for_correlations)){
@@ -2398,7 +2395,7 @@ gibushon_civil_filtered$Hebrewg[gibushon_civil_filtered$Hebrewg==-9999]<-NA
 gibushon_final_filterred_restriction_predictores = gibushon_final_filtered%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
-gibushon_civil_filterred_restriction_predictores = gibushon_civil%>%
+gibushon_civil_filterred_restriction_predictores = gibushon_civil_filtered%>%
   filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
@@ -2406,7 +2403,7 @@ gibushon_civil_filterred_restriction_predictores = gibushon_civil%>%
 gibushon_final_filterred_restriction_criteria = gibushon_final_filtered%>%
   select(tkufatit,am,tkufatitam,course_score_zscore,amcourses)
 
-counter = gibushon_final %>%
+counter = gibushon_final_filtered %>%
   rowwise() %>%
   mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
          am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
@@ -2641,7 +2638,7 @@ library(ggplot2)
 library(scales)
 library(cowplot)
 
-ggplot(gibushon_civil, aes(x=FinalGradeg)) + 
+ggplot(gibushon_civil_filtered, aes(x=FinalGradeg)) + 
   geom_bar(na.rm = T,fill = "darkorchid1") +
   xlab("ציון גיבושון")+
   ylab("מס' מועמדים")+
@@ -2662,9 +2659,9 @@ ggplot(gibushon_civil, aes(x=FinalGradeg)) +
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$FinalGradeg))), plot = F,main=colnames(gibushon_civil$FinalGradeg),font=2),2)
+round(freq(ordered(as.numeric(unlist(gibushon_final_filtered$critria_count))), plot = F,main=colnames(gibushon_final_filtered$critria_count),font=2),2)
 round(freq(ordered(gibushon_final$course_fail_pass), plot = F,main=colnames(gibushon_final$course_fail_pass),font=2))
-round(describe (as.numeric(gibushon_final$amcourses)))
+round(describe (as.numeric(gibushon_civil_filtered$FinalGradeg)))
 describe (as.numeric(filtered_gibushon_civil_diff$HEBREW_spacial_stanines_a))
 describe (as.numeric(filtered_gibushon_civil_diff$HEBREW_spacial_stanines_b))
 describe (as.numeric(filtered_gibushon_civil_diff$HEBREW_copmlete_zscore_internal))
@@ -2691,7 +2688,8 @@ gibushon_civil_filtered=gibushon_civil%>%
   filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
 
 round(freq(ordered(as.numeric(unlist(gibushon_civil_filtered$FinalGradeg))), plot = F,main=colnames(gibushon_civil_filtered$FinalGradeg),font=2),2)
-round(describe(as.numeric(unlist(gibushon_civil_filtered$FinalGradeg))),2)
+round(describe(as.numeric(unlist(gibushon_final_filtered$amcourses))),2)
+round(freq(ordered(as.numeric(unlist(gibushon_civil_filtered$FinalGradeg))), plot = F,main=colnames(gibushon_civil_filtered$FinalGradeg),font=2),2)
 
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
