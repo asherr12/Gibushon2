@@ -2510,7 +2510,6 @@ R_tkufatitam<-round(sqrt(0.02196),2)
 R_tkufatitam
 
 --------------
-class(gibushon_final_filtered)
   
 reg_course_score <- lm(course_score_zscore ~ FinalGradeg_zscore
                      + EichutGrade_zscore,
