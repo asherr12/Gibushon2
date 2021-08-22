@@ -2287,16 +2287,10 @@ class(gibushon_final$GibDate)
 gibushon_final$GibDate<-as.Date(as.character(gibushon_final$GibDate))
 
 gibushon_final_filtered=gibushon_final%>%
-# filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | is.na(job))
-# filter(job == "detective" | job == "inspector" | job == "patrol" | job == "traffic" | is.na(job))
-# filter(job == "inspector" | job == "patrol" | job == "traffic" | job == "yasam" | is.na(job))
-# filter(job == "detective" | job == "patrol" | job == "traffic" | job == "yasam" | is.na(job))
-# filter(religion != "Moslem" | is.na())
-# filter(religion !="Moslem")
+# filter(religion = "Molem")
 # filter(GibDate <= 01/09/2018 | is.na(GibDate))
 # filter(FinalGradeg > 3.5)
-# filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam" | is.na(job_sector4))
-filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
+filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
 
 gibushon_final_filtered_relevant_predictors_columns_for_correlations <- gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]
 gibushon_final_filtered_relevant_predictors_columns_names_for_correlations <- c(colnames(gibushon_final_filtered[c(810,853:861,864:869,1031:1034,1068)]))
@@ -2398,13 +2392,14 @@ library (dplyr)
 gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 gibushon_final$Hebrewg[gibushon_final$Hebrewg==-9999]<-NA
 gibushon_final_filtered$Hebrewg[gibushon_final_filtered$Hebrewg==-9999]<-NA
+gibushon_civil_filtered$Hebrewg[gibushon_civil_filtered$Hebrewg==-9999]<-NA
 
 # gibushon_final_filterred_restriction_predictores = gibushon_final%>%
 gibushon_final_filterred_restriction_predictores = gibushon_final_filtered%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 gibushon_civil_filterred_restriction_predictores = gibushon_civil%>%
-  filter(job_sector4 == "detective" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
+  filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
   select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 # gibushon_final_filterred_restriction_criteria = gibushon_final%>%
@@ -2692,8 +2687,12 @@ gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
-round(freq(ordered(as.numeric(unlist(gibushon_civil$FinalGradeg))), plot = F,main=colnames(gibushon_civil$FinalGradeg),font=2),2)
-round(describe(as.numeric(unlist(gibushon_civil$FinalGradeg))),2)
+gibushon_civil_filtered=gibushon_civil%>%
+  filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
+
+round(freq(ordered(as.numeric(unlist(gibushon_civil_filtered$FinalGradeg))), plot = F,main=colnames(gibushon_civil_filtered$FinalGradeg),font=2),2)
+round(describe(as.numeric(unlist(gibushon_civil_filtered$FinalGradeg))),2)
+
 freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),font=2)
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
 freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
