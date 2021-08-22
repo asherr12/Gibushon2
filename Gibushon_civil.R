@@ -2493,7 +2493,7 @@ colnames(gibushon_final_filtered)
 library(QuantPsyc)  # lm.beta
 library(car)  # vif, durbinWatsonTest
 library(MASS)  # studres
-library(lmSupport)  #lm.sumSquares
+#library(lmSupport)  #lm.sumSquares######################check the  error in this pakckage
 library(perturbR)  # colldiag
 library(regtools)  # pairwise
 
@@ -2506,25 +2506,29 @@ summary(reg_tkufatitam)
 round(lm.beta(reg_tkufatitam),2)
 
 # R
-R_tkufatitam<-round(sqrt(0.02145),2)
+R_tkufatitam<-round(sqrt(0.02196),2)
 R_tkufatitam
 
 --------------
-
+class(gibushon_final_filtered)
+  
 reg_course_score <- lm(course_score_zscore ~ FinalGradeg_zscore
                      + EichutGrade_zscore,
                      data=gibushon_final_filtered)
 summary(reg_course_score)
 
 # standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
+round(lm.beta(reg_course_score),2)
 
 # R
-reg_course_score<-round(sqrt(0.02145),2)
+reg_course_score<-round(sqrt(0.09168),2)
 reg_course_score
 
 #---------------------------------------------
 # predicted_scores
+gibushon_final_filtered$predicted_score_reg_course_score <- 
+  round(predict(reg_course_score, gibushon_final_filtered),2)
+
 gibushon_final_filtered$predicted_score_tkufatitam <- 
   round(predict(reg_tkufatitam, gibushon_final_filtered),2)
 
@@ -2547,6 +2551,10 @@ gibushon_final_filtered$predicted_score_tkufatitam_restricted<-as.numeric(gibush
 try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered$tkufatit),use="pairwise.complete.obs"), silent=T)
 try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered$am),use="pairwise.complete.obs"), silent=T)
 try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam)
+
+try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_reg_course_score),as.numeric(unlist(gibushon_final_filtered$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
+
 round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
 round(describe (as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted)),2)
 
