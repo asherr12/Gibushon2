@@ -2493,7 +2493,7 @@ colnames(gibushon_final_filtered)
 library(QuantPsyc)  # lm.beta
 library(car)  # vif, durbinWatsonTest
 library(MASS)  # studres
-#library(lmSupport)  #lm.sumSquares######################check the  error in this pakckage
+#library(lmSupport) # error in this pakckage
 library(perturbR)  # colldiag
 library(regtools)  # pairwise
 
@@ -2509,10 +2509,9 @@ round(lm.beta(reg_tkufatitam),2)
 R_tkufatitam<-round(sqrt(0.02196),2)
 R_tkufatitam
 
---------------
-  
+#--------------
 reg_course_score <- lm(course_score_zscore ~ FinalGradeg_zscore
-                     + EichutGrade_zscore,
+                       + EichutGrade_zscore,
                      data=gibushon_final_filtered)
 summary(reg_course_score)
 
@@ -2523,24 +2522,25 @@ round(lm.beta(reg_course_score),2)
 reg_course_score<-round(sqrt(0.09168),2)
 reg_course_score
 
+
 #---------------------------------------------
 # predicted_scores
-gibushon_final_filtered$predicted_score_reg_course_score <- 
-  round(predict(reg_course_score, gibushon_final_filtered),2)
-
 gibushon_final_filtered$predicted_score_tkufatitam <- 
   round(predict(reg_tkufatitam, gibushon_final_filtered),2)
 
-filtered_gibushon_civil$seniority_days_ac<-0
+gibushon_final_filtered$predicted_course_score <- 
+  round(predict(reg_course_score, gibushon_final_filtered),2)
 
-filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted <- 
-  round(predict(reg_tkufatitam, filtered_gibushon_civil),2)
-
-gibushon_final_filtered$predicted_score_am <- 
-  round(predict(reg_am, gibushon_final_filtered),2)
-
-filtered_gibushon_civil$predicted_score_am_unrestricted <- 
-  round(predict(reg_am, filtered_gibushon_civil),2)
+# filtered_gibushon_civil$seniority_days_ac<-0
+# 
+# filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted <- 
+#   round(predict(reg_tkufatitam, filtered_gibushon_civil),2)
+# 
+# gibushon_final_filtered$predicted_score_am <- 
+#   round(predict(reg_am, gibushon_final_filtered),2)
+# 
+# filtered_gibushon_civil$predicted_score_am_unrestricted <- 
+#   round(predict(reg_am, filtered_gibushon_civil),2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 library (descr)
