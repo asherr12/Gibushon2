@@ -2395,11 +2395,11 @@ gibushon_civil_filtered$Hebrewg[gibushon_civil_filtered$Hebrewg==-9999]<-NA
 
 # gibushon_final_filterred_restriction_predictores = gibushon_final%>%
 gibushon_final_filterred_restriction_predictores = gibushon_final_filtered%>%
-  select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
+  select(SocioGrade,FinalGradeg,MazavClali,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 gibushon_civil_filterred_restriction_predictores = gibushon_civil_filtered%>%
   filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
-  select(SocioGrade,FinalGradeg,SocioFinalGrade,Daparg,Hebrewg,rama_score)
+  select(SocioGrade,FinalGradeg,MazavClali,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
 # gibushon_final_filterred_restriction_criteria = gibushon_final%>%
 gibushon_final_filterred_restriction_criteria = gibushon_final_filtered%>%
@@ -2602,7 +2602,7 @@ ggplot(gibushon_civil_filtered, aes(x=FinalGradeg)) +
   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
   theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))+
   stat_function(fun = dnorm, n = 1500, args = list(mean = mean(gibushon_civil$FinalGradeg,na.rm = T), sd = sd(gibushon_civil$FinalGradeg,na.rm = T)), color="red",
-                mapping = aes(y = after_stat(y*3000)))
+                mapping = aes(y = after_stat(y*3500)))
 
 # y <- dnorm(gibushon_civil$FinalGradeg, mean(gibushon_civil$FinalGradeg,na.rm = T), sd = sd(gibushon_civil$FinalGradeg,na.rm = T))
 # p <- plot(gibushon_civil$FinalGradeg,y,type = "p", col = "red")
