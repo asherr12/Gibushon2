@@ -2532,7 +2532,50 @@ summary(reg_tkufatitam)
 round(lm.beta(reg_tkufatitam),2)
 
 # R
-R_tkufatitam<-round(sqrt(0.0214),2)
+R_tkufatitam<-round(sqrt(0.01427),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore,
+                     data=gibushon_final_filtered)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.04458),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore,
+                     data=gibushon_final_filtered)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.04458),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore
+                     + EichutGrade_zscore,
+                     data=gibushon_final_filtered)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.08436),2)
 R_tkufatitam
 
 #--------------
@@ -2550,8 +2593,8 @@ R_tkufatitam<-round(sqrt(0.0214),2)
 R_tkufatitam
 
 #--------------
-reg_course_score <- lm(course_score_zscore ~ FinalGradeg_zscore
-                       + EichutGrade_zscore,
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore,
                      data=gibushon_final_filtered)
 summary(reg_course_score)
 
@@ -2559,9 +2602,54 @@ summary(reg_course_score)
 round(lm.beta(reg_course_score),2)
 
 # R
-R_course_score<-round(sqrt(0.09168),2)
+R_course_score<-round(sqrt(0.07282),2)
 R_course_score
 
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + EichutGrade_zscore
+                       + age,
+                       data=gibushon_final_filtered)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.07282),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + EichutGrade_zscore,
+                       data=gibushon_final_filtered)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.08682),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + EichutGrade_zscore
+                       + age,
+                       data=gibushon_final_filtered)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1575),2)
+R_course_score
 
 #---------------------------------------------
 # predicted_scores
