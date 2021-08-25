@@ -2523,6 +2523,15 @@ library(perturbR)  # colldiag
 library(regtools)  # pairwise
 library(stats)  # prediction
 
+gibushon_final_filtered_reg = gibushon_final_filtered %>%
+  mutate(commander=gsub("not commander","1",commander),
+         commander=gsub("commander","2",commander),
+         combat=gsub("not fighting","1",combat),
+         combat=gsub("fighting","2",combat))
+
+class(gibushon_final_filtered_reg)
+
+
 reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
                      + SocioFinalGrade_zscore,
                      data=gibushon_final_filtered)
@@ -2593,6 +2602,37 @@ R_tkufatitam<-round(sqrt(0.0214),2)
 R_tkufatitam
 
 #--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                   + SocioFinalGrade_zscore
+                   + rama_score_zscore
+                   + age
+                   + commander,
+                   data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.1137),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore
+                     + commander,
+                     data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.07971),2)
+R_tkufatitam
+
+#--------------
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                      + SocioFinalGrade_zscore,
                      data=gibushon_final_filtered)
@@ -2651,13 +2691,78 @@ round(lm.beta(reg_course_score),2)
 R_course_score<-round(sqrt(0.1575),2)
 R_course_score
 
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore,
+                       data=gibushon_final_filtered)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.0974),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + age,
+                       data=gibushon_final_filtered)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1037),2)
+R_course_score
+
+#--------------
+
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + age
+                       + commander,
+                       data=gibushon_final_filtered_reg)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1207),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + age
+                       + commander
+                       + combat,
+                       data=gibushon_final_filtered_reg)
+summary(reg_course_score)
+
+# standardised coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1268),2)
+R_course_score
+
 #---------------------------------------------
 # predicted_scores
 gibushon_final_filtered$predicted_score_tkufatitam <- 
   round(predict.lm(reg_tkufatitam, gibushon_final_filtered),2)
 
-gibushon_final_filtered$predicted_course_score <-
-  round(predict(reg_course_score, gibushon_final_filtered),2)
+gibushon_final_filtered_reg$predicted_course_score <-
+  round(predict(reg_course_score, gibushon_final_filtered_reg),2)
+
+
 
 
 # filtered_gibushon_civil$seniority_days_ac<-0
@@ -2680,8 +2785,8 @@ try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restr
 try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered$am),use="pairwise.complete.obs"), silent=T)
 try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 
-gibushon_final_filtered$predicted_course_score<-as.numeric(gibushon_final_filtered$predicted_course_score)
-try(cor.test(as.numeric(gibushon_final_filtered$predicted_course_score),as.numeric(unlist(gibushon_final_filtered$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
+gibushon_final_filtered_reg$predicted_course_score<-as.numeric(gibushon_final_filtered_reg$predicted_course_score)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_course_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
 round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
 round(describe (as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted)),2)
