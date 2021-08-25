@@ -2633,6 +2633,71 @@ R_tkufatitam<-round(sqrt(0.07971),2)
 R_tkufatitam
 
 #--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore
+                     + commander
+                     + Daparg_zscore,
+                     data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.1057),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore
+                     + commander
+                     + Daparg_zscore
+                     + Hebrewg_zscore,
+                     data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.1057),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+                     + SocioFinalGrade_zscore
+                     + rama_score_zscore
+                     + commander
+                     + Daparg_zscore
+                     + behavior_new,
+                     data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.09777),2)
+R_tkufatitam
+
+#--------------
+reg_tkufatitam <- lm(tkufatitam ~ FinalGradeg_zscore
+                     + rama_score_zscore
+                     + commander
+                     + Daparg_zscore,
+                     data=gibushon_final_filtered_reg)
+summary(reg_tkufatitam)
+
+# standardised coefficients
+round(lm.beta(reg_tkufatitam),2)
+
+# R
+R_tkufatitam<-round(sqrt(0.1057),2)
+R_tkufatitam
+
+#--------------
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                      + SocioFinalGrade_zscore,
                      data=gibushon_final_filtered)
