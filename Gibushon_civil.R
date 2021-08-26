@@ -2511,7 +2511,6 @@ ggplot(gibushon_civil_filtered, aes(x=FinalGradeg)) +
                 mapping = aes(y = after_stat(y*3500)))
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
-colnames(gibushon_final_filtered)
 
 # Regression analysis
 
@@ -2821,6 +2820,12 @@ R_course_score
 
 #---------------------------------------------
 # predicted_scores
+
+gibushon_final_filtered = gibushon_final_filtered %>%
+  rowwise() %>%
+  mutate(current_predicted_score_tkufatitam = 
+           mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
+         
 gibushon_final_filtered$predicted_score_tkufatitam <- 
   round(predict.lm(reg_tkufatitam, gibushon_final_filtered),2)
 
