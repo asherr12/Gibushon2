@@ -2603,8 +2603,7 @@ R_tkufatitam
 #--------------
 reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
                    + SocioFinalGrade_zscore
-                   + rama_score_zscore
-                   + age
+                   + rama_score_zscore,
                    + commander,
                    data=gibushon_final_filtered_reg)
 summary(reg_tkufatitam)
@@ -2640,7 +2639,7 @@ reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
                      data=gibushon_final_filtered_reg)
 summary(reg_tkufatitam)
 
-# standardised coefficients
+# standardized coefficients
 round(lm.beta(reg_tkufatitam),2)
 
 # R
@@ -2712,8 +2711,7 @@ R_course_score
 #--------------
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
-                       + EichutGrade_zscore
-                       + age,
+                       + EichutGrade_zscore,
                        data=gibushon_final_filtered)
 summary(reg_course_score)
 
@@ -2743,8 +2741,7 @@ R_course_score
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
                        + rama_score_zscore
-                       + EichutGrade_zscore
-                       + age,
+                       + EichutGrade_zscore,
                        data=gibushon_final_filtered)
 summary(reg_course_score)
 
@@ -2769,32 +2766,15 @@ round(lm.beta(reg_course_score),2)
 R_course_score<-round(sqrt(0.0974),2)
 R_course_score
 
-#--------------
+#--------------favorite*********************
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
                        + rama_score_zscore
-                       + age,
-                       data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1037),2)
-R_course_score
-
-#--------------
-
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + age
                        + commander,
                        data=gibushon_final_filtered_reg)
 summary(reg_course_score)
 
-# standardised coefficients
+# standardized coefficients
 round(lm.beta(reg_course_score),2)
 
 # R
@@ -2805,7 +2785,6 @@ R_course_score
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
                        + rama_score_zscore
-                       + age
                        + commander
                        + combat,
                        data=gibushon_final_filtered_reg)
@@ -2816,6 +2795,38 @@ round(lm.beta(reg_course_score),2)
 
 # R
 R_course_score<-round(sqrt(0.1268),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + commander
+                       + Daparg_zscore,
+                       data=gibushon_final_filtered_reg)
+summary(reg_course_score)
+
+# standardized coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1207),2)
+R_course_score
+
+#--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + rama_score_zscore
+                       + commander
+                       + + behavior_new,
+                       data=gibushon_final_filtered_reg)
+summary(reg_course_score)
+
+# standardized coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1207),2)
 R_course_score
 
 #---------------------------------------------
