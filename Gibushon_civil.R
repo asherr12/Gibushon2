@@ -2862,16 +2862,25 @@ gibushon_final_filtered_reg$predicted_course_score <-
 library (descr)
 library (psych)
 filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam)
-gibushon_final_filtered$predicted_score_tkufatitam_restricted<-as.numeric(gibushon_final_filtered$predicted_score_tkufatitam)
-try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered$tkufatit),use="pairwise.complete.obs"), silent=T)
-try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered$am),use="pairwise.complete.obs"), silent=T)
-try(cor.test(as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+
+gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$tkufatit),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$am),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 
 gibushon_final_filtered_reg$predicted_course_score<-as.numeric(gibushon_final_filtered_reg$predicted_course_score)
 try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_course_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
+gibushon_final_filtered_reg$current_predicted_score_tkufatitam<-as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+
+
 round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
 round(describe (as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted)),2)
+
+filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam)
+gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 filtered_gibushon_civil$predicted_score_am_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_am)
