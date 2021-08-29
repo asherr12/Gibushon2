@@ -2851,7 +2851,15 @@ gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
   rowwise() %>%
   mutate(current_predicted_score_tkufatitam = 
            mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
-         
+
+gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
+  rowwise() %>%
+  mutate(abs_residual_current_predicted_score_tkufatitam = 
+           abs(tkufatitam-current_predicted_score_tkufatitam))
+
+mean_abs_residual_current_predicted_score_tkufatitam<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_score_tkufatitam,na.rm = T)
+mean_abs_residual_current_predicted_score_tkufatitam
+
 gibushon_final_filtered_reg$predicted_score_tkufatitam <- 
   round(predict.lm(reg_tkufatitam, gibushon_final_filtered_reg),2)
 
