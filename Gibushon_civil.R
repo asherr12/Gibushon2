@@ -2847,30 +2847,16 @@ R_course_score
 #---------------------------------------------
 # predicted_scores (existing formula and favorite formulas)
 
-gibushon_final_filtered = gibushon_final_filtered %>%
+gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
   rowwise() %>%
   mutate(current_predicted_score_tkufatitam = 
            mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
          
-gibushon_final_filtered$predicted_score_tkufatitam <- 
-  round(predict.lm(reg_tkufatitam, gibushon_final_filtered),2)
+gibushon_final_filtered_reg$predicted_score_tkufatitam <- 
+  round(predict.lm(reg_tkufatitam, gibushon_final_filtered_reg),2)
 
 gibushon_final_filtered_reg$predicted_course_score <-
   round(predict(reg_course_score, gibushon_final_filtered_reg),2)
-
-
-
-
-# filtered_gibushon_civil$seniority_days_ac<-0
-# 
-# filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted <- 
-#   round(predict(reg_tkufatitam, filtered_gibushon_civil),2)
-# 
-# gibushon_final_filtered$predicted_score_am <- 
-#   round(predict(reg_am, gibushon_final_filtered),2)
-# 
-# filtered_gibushon_civil$predicted_score_am_unrestricted <- 
-#   round(predict(reg_am, filtered_gibushon_civil),2)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 library (descr)
