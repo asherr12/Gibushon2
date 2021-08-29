@@ -2872,6 +2872,17 @@ gibushon_final_filtered_reg$predicted_course_score <-
 
 # restriction of range for predicted scores
 
+gibushon_civil_filtered_reg = gibushon_civil %>%
+  rowwise() %>%
+  mutate(current_predicted_score_tkufatitam = 
+           mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
+
+gibushon_civil_filtered_reg$predicted_score_tkufatitam <- 
+  round(predict.lm(reg_tkufatitam, gibushon_civil_filtered_reg),2)
+
+gibushon_civil_filtered_reg$predicted_course_score <-
+  round(predict(reg_course_score, gibushon_civil_filtered_reg),2)
+
 library (descr)
 library (psych)
 library (dplyr)
@@ -2880,7 +2891,7 @@ gibushon_final_filtered_reg_restriction_predictors = gibushon_final_filtered_reg
   select(current_predicted_score_tkufatitam,predicted_score_tkufatitam,predicted_course_score)
 
 gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered%>%
-  select(SocioGrade,FinalGradeg,MazavClali,SocioFinalGrade,Daparg,Hebrewg,rama_score)
+  select(current_predicted_score_tkufatitam,predicted_score_tkufatitam,predicted_course_score)
 
 # gibushon_final_filtered_reg_restriction_criteria = gibushon_final%>%
 gibushon_final_filtered_reg_restriction_criteria = gibushon_final_filtered_reg%>%
