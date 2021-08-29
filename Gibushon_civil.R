@@ -2646,6 +2646,13 @@ round(lm.beta(reg_tkufatitam),2)
 R_tkufatitam<-round(sqrt(0.1057),2)
 R_tkufatitam
 
+# Residual
+tkufatitam.res = resid(reg_tkufatitam)
+tkufatitam.res_mean <- round(mean(abs(tkufatitam.res), na.rm = T),2)
+tkufatitam.res_mean
+
+#df(Residual) = n - k - 1
+
 #--------------
 reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
                      + SocioFinalGrade_zscore
@@ -2781,6 +2788,12 @@ round(lm.beta(reg_course_score),2)
 R_course_score<-round(sqrt(0.1207),2)
 R_course_score
 
+# Residual
+course_score.res = resid(reg_course_score)
+course_score.res_mean <- round(mean(abs(course_score.res), na.rm = T),2)
+course_score.res_mean
+
+# df(Residual) = n - k - 1
 #--------------
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
