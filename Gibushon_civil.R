@@ -2873,6 +2873,7 @@ try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_course_score),as.n
 
 gibushon_final_filtered_reg$current_predicted_score_tkufatitam<-as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam)
 try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
 
 round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
