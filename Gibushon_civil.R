@@ -2235,7 +2235,7 @@ write.xlsx(gibushon_final_filtered_corr_output,file = "C:/Users/USER/Documents/M
 # Semi-partial correlations predictors-criteria - seniority_ac
 
 # http://faculty.cas.usf.edu/mbrannick/regression/Partial.html
-# Run without seniority_days_ac at the predictores list.
+# Run without seniority_days_ac at the predictors list.
 # The code creates listwise deletion df (partial/semipartial correlation runs only on listwise deletion vars).
 
 cbind.fill<-function(...){
@@ -2394,16 +2394,16 @@ gibushon_final$Hebrewg[gibushon_final$Hebrewg==-9999]<-NA
 gibushon_final_filtered$Hebrewg[gibushon_final_filtered$Hebrewg==-9999]<-NA
 gibushon_civil_filtered$Hebrewg[gibushon_civil_filtered$Hebrewg==-9999]<-NA
 
-# gibushon_final_filterred_restriction_predictores = gibushon_final%>%
-gibushon_final_filterred_restriction_predictores = gibushon_final_filtered%>%
+# gibushon_final_filtered_restriction_predictors = gibushon_final%>%
+gibushon_final_filtered_restriction_predictors = gibushon_final_filtered%>%
   select(SocioGrade,FinalGradeg,MazavClali,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
-gibushon_civil_filterred_restriction_predictores = gibushon_civil_filtered%>%
+gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered%>%
   filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")%>%
   select(SocioGrade,FinalGradeg,MazavClali,SocioFinalGrade,Daparg,Hebrewg,rama_score)
 
-# gibushon_final_filterred_restriction_criteria = gibushon_final%>%
-gibushon_final_filterred_restriction_criteria = gibushon_final_filtered%>%
+# gibushon_final_filtered_restriction_criteria = gibushon_final%>%
+gibushon_final_filtered_restriction_criteria = gibushon_final_filtered%>%
   select(tkufatit,am,tkufatitam,course_score_zscore,amcourses)
 
 counter = gibushon_final_filtered %>%
@@ -2438,8 +2438,8 @@ n_am <- sum(counter_am_nna$product,na.rm = T)/sum(counter_am_nna$freq,na.rm = T)
 k <- 1
 f <- 1
 l <- 1
-for (i in gibushon_final_filterred_restriction_predictores) {
-      for (j in gibushon_final_filterred_restriction_criteria) {
+for (i in gibushon_final_filtered_restriction_predictors) {
+      for (j in gibushon_final_filtered_restriction_criteria) {
 corr_temp<-c()
 corr_try <- try(cor.test(as.numeric(i),as.numeric((j),use="pairwise.complete.obs"), silent=T))
 corr_temp$"predictor" <-ifelse(class(corr_try)=="try-error", NA, corr_try$estimate)
@@ -2449,7 +2449,7 @@ corr_temp<-data.frame(corr_temp)
 r0 <- corr_temp$"predictor"
 
 library (descr)
-Sxn <- round(describe (gibushon_civil_filterred_restriction_predictores[f]),2)
+Sxn <- round(describe (gibushon_civil_filtered_restriction_predictors[f]),2)
 Sxn <- Sxn$sd
 Sxn
 
@@ -2459,26 +2459,26 @@ Sx0
 
 rn <- round((r0*Sxn/Sx0)/sqrt(1-r0^2+(r0^2*Sxn^2/Sx0)),2)
 
-ryy <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",0.623,
-       ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",0.477,0.710))
+ryy <- ifelse(names(gibushon_final_filtered_restriction_criteria[k])=="tkufatit",0.623,
+       ifelse(names(gibushon_final_filtered_restriction_criteria[k])=="am",0.477,0.710))
 
 # n=the avarage number of times the criterion was measured in this study
 # only for am and tkufatit.
 
-n <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit",n_tkufatit,
-     ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="am",n_am,NA))
+n <- ifelse(names(gibushon_final_filtered_restriction_criteria[k])=="tkufatit",n_tkufatit,
+     ifelse(names(gibushon_final_filtered_restriction_criteria[k])=="am",n_am,NA))
 
 ryyb <- (ryy*n)/(1+(n-1)*ryy)
 
-rn2 <- ifelse(names(gibushon_final_filterred_restriction_criteria[k])=="tkufatit" |
-              names(gibushon_final_filterred_restriction_criteria[k])=="am",round(rn/sqrt(1*ryyb),2),
+rn2 <- ifelse(names(gibushon_final_filtered_restriction_criteria[k])=="tkufatit" |
+              names(gibushon_final_filtered_restriction_criteria[k])=="am",round(rn/sqrt(1*ryyb),2),
               round(rn/sqrt(1*ryy),2))
 
 library(data.table)
 range_restriction_table = data.table(c(round(r0,2),round(rn,2),round(rn2,2)))
 range_restriction_table <- as.data.frame(range_restriction_table)
-print(names(gibushon_final_filterred_restriction_predictores[l]))
-colnames(range_restriction_table)<-names(gibushon_final_filterred_restriction_criteria[k])
+print(names(gibushon_final_filtered_restriction_predictors[l]))
+colnames(range_restriction_table)<-names(gibushon_final_filtered_restriction_criteria[k])
 rownames(range_restriction_table) <- c("r0","rn","rn2")
 print(range_restriction_table)
 k <- k+1
@@ -2853,18 +2853,31 @@ gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
            mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
 
 gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
-  rowwise() %>%
-  mutate(abs_residual_current_predicted_score_tkufatitam = 
-           abs(tkufatitam-current_predicted_score_tkufatitam))
+  mutate(abs_residual_current_predicted_score = 
+           abs(tkufatitam-current_predicted_score), 
+         abs_residual_current_predicted_score_course_score = 
+           abs(course_score_zscore-current_predicted_score))
 
 mean_abs_residual_current_predicted_score_tkufatitam<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_score_tkufatitam,na.rm = T)
 mean_abs_residual_current_predicted_score_tkufatitam
+
+mean_abs_residual_current_predicted_score_course_score<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_score_course_score,na.rm = T)
+mean_abs_residual_current_predicted_score_course_score
 
 gibushon_final_filtered_reg$predicted_score_tkufatitam <- 
   round(predict.lm(reg_tkufatitam, gibushon_final_filtered_reg),2)
 
 gibushon_final_filtered_reg$predicted_course_score <-
   round(predict(reg_course_score, gibushon_final_filtered_reg),2)
+
+
+
+
+
+
+
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 library (descr)
@@ -2879,9 +2892,9 @@ try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_r
 gibushon_final_filtered_reg$predicted_course_score<-as.numeric(gibushon_final_filtered_reg$predicted_course_score)
 try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_course_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
-gibushon_final_filtered_reg$current_predicted_score_tkufatitam<-as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score_tkufatitam),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
+gibushon_final_filtered_reg$current_predicted_score<-as.numeric(gibushon_final_filtered_reg$current_predicted_score)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
 
 round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
