@@ -2832,16 +2832,38 @@ course_score.res_mean
 #                        + SocioFinalGrade_zscore
 #                        + rama_score_zscore
 #                        + commander
-#                        + + behavior_new,
+#                        + behavior_new,
 #                        data=gibushon_final_filtered_reg)
 # summary(reg_course_score)
-# 
+# #
 # # standardized coefficients
 # round(lm.beta(reg_course_score),2)
 # 
 # # R
 # R_course_score<-round(sqrt(0.1207),2)
 # R_course_score
+
+# #--------------
+reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+                       + SocioFinalGrade_zscore
+                       + Daparg_zscore
+                       + Hebrewg_zscore,
+                       data=gibushon_final_filtered_reg)
+summary(reg_course_score)
+
+# standardized coefficients
+round(lm.beta(reg_course_score),2)
+
+# R
+R_course_score<-round(sqrt(0.1207),2)
+R_course_score
+
+# Residual
+course_score.res = resid(reg_course_score)
+course_score.res_mean <- round(mean(abs(course_score.res), na.rm = T),2)
+course_score.res_mean
+
+# df(Residual) = n - k - 1
 
 #---------------------------------------------
 # predicted_scores (existing formula and favorite formulas)
@@ -2989,10 +3011,6 @@ for (i in gibushon_final_filtered_reg_restriction_predictors) {
   l <- l+1  
   f <- f+1
 }
-
-
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
