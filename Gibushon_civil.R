@@ -2532,105 +2532,104 @@ class(gibushon_final_filtered_reg)
 
 gibushon_final_filtered_reg <- as.data.frame(gibushon_final_filtered_reg)
 
-
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.01427),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.04458),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.04458),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore
-                     + EichutGrade_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.08436),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + EichutGrade_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.0214),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                   + SocioFinalGrade_zscore
-                   + rama_score_zscore,
-                   + commander,
-                   data=gibushon_final_filtered_reg)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.1137),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore
-                     + commander,
-                     data=gibushon_final_filtered_reg)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.07971),2)
-R_tkufatitam
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.01427),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.04458),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.04458),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore
+#                      + EichutGrade_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.08436),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + EichutGrade_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.0214),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                    + SocioFinalGrade_zscore
+#                    + rama_score_zscore,
+#                    + commander,
+#                    data=gibushon_final_filtered_reg)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.1137),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore
+#                      + commander,
+#                      data=gibushon_final_filtered_reg)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.07971),2)
+# R_tkufatitam
 
 #--------------favorite*********************
 reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
@@ -2656,124 +2655,124 @@ tkufatitam.res_mean
 #df(Residual) = n - k - 1
 
 #--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore
-                     + commander
-                     + Daparg_zscore
-                     + Hebrewg_zscore,
-                     data=gibushon_final_filtered_reg)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.1057),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore
-                     + rama_score_zscore
-                     + commander
-                     + Daparg_zscore
-                     + behavior_new,
-                     data=gibushon_final_filtered_reg)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.09777),2)
-R_tkufatitam
-
-#--------------
-reg_tkufatitam <- lm(tkufatitam ~ FinalGradeg_zscore
-                     + rama_score_zscore
-                     + commander
-                     + Daparg_zscore,
-                     data=gibushon_final_filtered_reg)
-summary(reg_tkufatitam)
-
-# standardised coefficients
-round(lm.beta(reg_tkufatitam),2)
-
-# R
-R_tkufatitam<-round(sqrt(0.1018),2)
-R_tkufatitam
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                     + SocioFinalGrade_zscore,
-                     data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.07282),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + EichutGrade_zscore,
-                       data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.07282),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + EichutGrade_zscore,
-                       data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.08682),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + EichutGrade_zscore,
-                       data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1575),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore,
-                       data=gibushon_final_filtered)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.0974),2)
-R_course_score
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore
+#                      + commander
+#                      + Daparg_zscore
+#                      + Hebrewg_zscore,
+#                      data=gibushon_final_filtered_reg)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.1057),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore
+#                      + rama_score_zscore
+#                      + commander
+#                      + Daparg_zscore
+#                      + behavior_new,
+#                      data=gibushon_final_filtered_reg)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.09777),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_tkufatitam <- lm(tkufatitam ~ FinalGradeg_zscore
+#                      + rama_score_zscore
+#                      + commander
+#                      + Daparg_zscore,
+#                      data=gibushon_final_filtered_reg)
+# summary(reg_tkufatitam)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_tkufatitam),2)
+# 
+# # R
+# R_tkufatitam<-round(sqrt(0.1018),2)
+# R_tkufatitam
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                      + SocioFinalGrade_zscore,
+#                      data=gibushon_final_filtered)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.07282),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + EichutGrade_zscore,
+#                        data=gibushon_final_filtered)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.07282),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + EichutGrade_zscore,
+#                        data=gibushon_final_filtered)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.08682),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + EichutGrade_zscore,
+#                        data=gibushon_final_filtered)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.1575),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore,
+#                        data=gibushon_final_filtered)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.0974),2)
+# R_course_score
 
 #--------------favorite*********************
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
@@ -2797,88 +2796,99 @@ course_score.res_mean
 
 # df(Residual) = n - k - 1
 #--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + commander
-                       + combat,
-                       data=gibushon_final_filtered_reg)
-summary(reg_course_score)
-
-# standardised coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1268),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + commander
-                       + Daparg_zscore,
-                       data=gibushon_final_filtered_reg)
-summary(reg_course_score)
-
-# standardized coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1207),2)
-R_course_score
-
-#--------------
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + commander
-                       + + behavior_new,
-                       data=gibushon_final_filtered_reg)
-summary(reg_course_score)
-
-# standardized coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1207),2)
-R_course_score
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + commander
+#                        + combat,
+#                        data=gibushon_final_filtered_reg)
+# summary(reg_course_score)
+# 
+# # standardised coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.1268),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + commander
+#                        + Daparg_zscore,
+#                        data=gibushon_final_filtered_reg)
+# summary(reg_course_score)
+# 
+# # standardized coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.1207),2)
+# R_course_score
+# 
+# #--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + commander
+#                        + + behavior_new,
+#                        data=gibushon_final_filtered_reg)
+# summary(reg_course_score)
+# 
+# # standardized coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.1207),2)
+# R_course_score
 
 #---------------------------------------------
 # predicted_scores (existing formula and favorite formulas)
 
 gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
   rowwise() %>%
-  mutate(current_predicted_score_tkufatitam = 
+  mutate(current_predicted_score = 
            mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
 
 gibushon_final_filtered_reg = gibushon_final_filtered_reg %>%
-  mutate(abs_residual_current_predicted_score = 
-           abs(tkufatitam-current_predicted_score), 
-         abs_residual_current_predicted_score_course_score = 
-           abs(course_score_zscore-current_predicted_score))
+  mutate(abs_residual_current_predicted_tkufatitam = abs(tkufatitam-current_predicted_score), 
+         abs_residual_current_predicted_course_score = 
+         abs(course_score_zscore-current_predicted_score))
 
-mean_abs_residual_current_predicted_score_tkufatitam<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_score_tkufatitam,na.rm = T)
-mean_abs_residual_current_predicted_score_tkufatitam
+mean_abs_residual_current_predicted_tkufatitam<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_tkufatitam,na.rm = T)
+mean_abs_residual_current_predicted_tkufatitam
 
-mean_abs_residual_current_predicted_score_course_score<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_score_course_score,na.rm = T)
-mean_abs_residual_current_predicted_score_course_score
+mean_abs_residual_current_predicted_course_score<-mean(gibushon_final_filtered_reg$abs_residual_current_predicted_course_score,na.rm = T)
+mean_abs_residual_current_predicted_course_score
 
-gibushon_final_filtered_reg$predicted_score_tkufatitam <- 
+gibushon_final_filtered_reg$predicted_tkufatitam <- 
   round(predict.lm(reg_tkufatitam, gibushon_final_filtered_reg),2)
 
 gibushon_final_filtered_reg$predicted_course_score <-
   round(predict(reg_course_score, gibushon_final_filtered_reg),2)
 
+#---------------------------------------------
 # restriction of range for predicted scores
 
 gibushon_civil_filtered_reg = gibushon_civil %>%
-  rowwise() %>%
-  mutate(current_predicted_score_tkufatitam = 
-           mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F))
+  mutate(commander=gsub("not commander","1",commander),
+         commander=gsub("commander","2",commander),
+         combat=gsub("not fighting","1",combat),
+         combat=gsub("fighting","2",combat))
 
-gibushon_civil_filtered_reg$predicted_score_tkufatitam <- 
-  round(predict.lm(reg_tkufatitam, gibushon_civil_filtered_reg),2)
+class(gibushon_civil_filtered_reg)
+
+# gibushon_civil_filtered_reg <- as.data.frame(gibushon_civil_filtered_reg)
+
+gibushon_civil_filtered_reg = gibushon_civil_filtered_reg %>%
+  rowwise() %>%
+  mutate(current_predicted_score =ifelse(!is.na(MazavClali_zscore) 
+         & !is.na(SocioFinalGrade_zscore),
+         mean(MazavClali_zscore,SocioFinalGrade_zscore,na.rm = F),NA))
+
+gibushon_civil_filtered_reg$predicted_tkufatitam <- 
+  round(predict(reg_tkufatitam, gibushon_civil_filtered_reg),2)
 
 gibushon_civil_filtered_reg$predicted_course_score <-
   round(predict(reg_course_score, gibushon_civil_filtered_reg),2)
@@ -2888,10 +2898,10 @@ library (psych)
 library (dplyr)
 
 gibushon_final_filtered_reg_restriction_predictors = gibushon_final_filtered_reg%>%
-  select(current_predicted_score_tkufatitam,predicted_score_tkufatitam,predicted_course_score)
+  select(current_predicted_score,predicted_tkufatitam,predicted_course_score)
 
-gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered%>%
-  select(current_predicted_score_tkufatitam,predicted_score_tkufatitam,predicted_course_score)
+gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered_reg%>%
+  select(current_predicted_score,predicted_tkufatitam,predicted_course_score)
 
 # gibushon_final_filtered_reg_restriction_criteria = gibushon_final%>%
 gibushon_final_filtered_reg_restriction_criteria = gibushon_final_filtered_reg%>%
