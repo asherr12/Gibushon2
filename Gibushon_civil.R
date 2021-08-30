@@ -2902,6 +2902,7 @@ gibushon_final_filtered_reg_restriction_predictors = gibushon_final_filtered_reg
 
 gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered_reg%>%
   select(current_predicted_score,predicted_tkufatitam,predicted_course_score)
+gibushon_civil_filtered_restriction_predictors <- as.data.frame(gibushon_civil_filtered_restriction_predictors)
 
 # gibushon_final_filtered_reg_restriction_criteria = gibushon_final%>%
 gibushon_final_filtered_reg_restriction_criteria = gibushon_final_filtered_reg%>%
