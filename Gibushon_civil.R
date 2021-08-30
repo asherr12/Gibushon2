@@ -2901,9 +2901,15 @@ gibushon_civil_filtered_reg = gibushon_civil %>%
          combat=gsub("not fighting","1",combat),
          combat=gsub("fighting","2",combat),
          gender=gsub("female","1",gender),
-         gender=gsub("male","2",gender))
+         gender=gsub("male","2",gender),
+         religion=ifelse(religion=="Jewish",1,ifelse(!is.na(religion),2,NA)),
+         language=ifelse(language=="Ethiopians",1,2))
 
-head(gibushon_civil_filtered_reg$gender)
+freq(gibushon_civil$language , plot = F,main=colnames(gibushon_civil$language),font=2)
+freq(gibushon_civil_filtered_reg$language , plot = F,main=colnames(gibushon_civil_filtered_reg$language),font=2)
+
+
+head(gibushon_civil_filtered_reg$language,10000)
 
 class(gibushon_civil_filtered_reg)
 
@@ -3076,7 +3082,33 @@ gibushon_civil_filtered_reg_gender = gibushon_civil_filtered_reg %>%
   filter(!is.na(gender) & !is.na(FinalGradeg))
 gibushon_civil_filtered_reg_gender %>% 
   group_by(gender) %>%  
-  summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n())) 
+  summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n()))
+
+# religion
+
+head(gibushon_civil_filtered_reg$religion,2000)
+gibushon_civil_filtered_reg$religion <- as.numeric(gibushon_civil_filtered_reg$religion)
+t.test(as.numeric(gibushon_civil_filtered_reg$FinalGradeg)~as.numeric(gibushon_civil_filtered_reg$religion),use="pairwise.complete.obs")
+library(dplyr)
+gibushon_civil_filtered_reg_religion = gibushon_civil_filtered_reg %>%
+  filter(!is.na(religion) & !is.na(FinalGradeg))
+gibushon_civil_filtered_reg_religion %>% 
+  group_by(religion) %>%  
+  summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n()))
+
+# language
+
+head(gibushon_civil_filtered_reg$religion,2000)
+gibushon_civil_filtered_reg$religion <- as.numeric(gibushon_civil_filtered_reg$religion)
+t.test(as.numeric(gibushon_civil_filtered_reg$FinalGradeg)~as.numeric(gibushon_civil_filtered_reg$religion),use="pairwise.complete.obs")
+library(dplyr)
+gibushon_civil_filtered_reg_religion = gibushon_civil_filtered_reg %>%
+  filter(!is.na(religion) & !is.na(FinalGradeg))
+gibushon_civil_filtered_reg_religion %>% 
+  group_by(religion) %>%  
+  summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n()))
+
+
 
 
 #***********************assistance commands******************************
