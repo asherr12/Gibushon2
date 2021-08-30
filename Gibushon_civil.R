@@ -2526,7 +2526,9 @@ gibushon_final_filtered_reg = gibushon_final_filtered %>%
   mutate(commander=gsub("not commander","1",commander),
          commander=gsub("commander","2",commander),
          combat=gsub("not fighting","1",combat),
-         combat=gsub("fighting","2",combat))
+         combat=gsub("fighting","2",combat),
+         gender=gsub("female","1",gender),
+         gender=gsub("male","2",gender))
 
 class(gibushon_final_filtered_reg)
 
@@ -2774,25 +2776,25 @@ tkufatitam.res_mean
 # R_course_score<-round(sqrt(0.0974),2)
 # R_course_score
 
-#--------------favorite*********************
-reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
-                       + SocioFinalGrade_zscore
-                       + rama_score_zscore
-                       + commander,
-                       data=gibushon_final_filtered_reg)
-summary(reg_course_score)
-
-# standardized coefficients
-round(lm.beta(reg_course_score),2)
-
-# R
-R_course_score<-round(sqrt(0.1207),2)
-R_course_score
-
-# Residual
-course_score.res = resid(reg_course_score)
-course_score.res_mean <- round(mean(abs(course_score.res), na.rm = T),2)
-course_score.res_mean
+#--------------
+# reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
+#                        + SocioFinalGrade_zscore
+#                        + rama_score_zscore
+#                        + commander,
+#                        data=gibushon_final_filtered_reg)
+# summary(reg_course_score)
+# 
+# # standardized coefficients
+# round(lm.beta(reg_course_score),2)
+# 
+# # R
+# R_course_score<-round(sqrt(0.1207),2)
+# R_course_score
+# 
+# # Residual
+# course_score.res = resid(reg_course_score)
+# course_score.res_mean <- round(mean(abs(course_score.res), na.rm = T),2)
+# course_score.res_mean
 
 # df(Residual) = n - k - 1
 #--------------
@@ -2843,7 +2845,7 @@ course_score.res_mean
 # R_course_score<-round(sqrt(0.1207),2)
 # R_course_score
 
-# #--------------
+#--------------favorite*********************
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
                        + Daparg_zscore
@@ -2897,7 +2899,11 @@ gibushon_civil_filtered_reg = gibushon_civil %>%
   mutate(commander=gsub("not commander","1",commander),
          commander=gsub("commander","2",commander),
          combat=gsub("not fighting","1",combat),
-         combat=gsub("fighting","2",combat))
+         combat=gsub("fighting","2",combat),
+         gender=gsub("female","1",gender),
+         gender=gsub("male","2",gender))
+
+head(gibushon_civil_filtered_reg$gender)
 
 class(gibushon_civil_filtered_reg)
 
@@ -3057,6 +3063,21 @@ options(width = 71,max.print=30000)
 freq(ordered(gibushon_final$ac_date), plot = F,main=colnames(gibushon_final$ac_date),font=2)
 round(freq(ordered(as.numeric(unlist(gibushon_final$personality))), plot = F,main=colnames(gibushon_final$personality),font=2),2)
 round(freq(ordered(as.numeric(unlist(gibushon_civil$personality))), plot = F,main=colnames(gibushon_final$personality),font=2),2)
+
+# gender
+
+class(gibushon_civil_filtered_reg)
+gibushon_civil_filtered_reg<-as.data.frame(gibushon_civil_filtered_reg)
+class(gibushon_civil_filtered_reg$gender)
+gibushon_civil_filtered_reg$gender <- as.numeric(gibushon_civil_filtered_reg$gender)
+t.test(as.numeric(gibushon_civil_filtered_reg$FinalGradeg)~as.numeric(gibushon_civil_filtered_reg$gender),use="pairwise.complete.obs")
+library(dplyr)
+gibushon_civil_filtered_reg_gender = gibushon_civil_filtered_reg %>%
+  filter(!is.na(gender) & !is.na(FinalGradeg))
+gibushon_civil_filtered_reg_gender %>% 
+  group_by(gender) %>%  
+  summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n())) 
+
 
 #***********************assistance commands******************************
 
