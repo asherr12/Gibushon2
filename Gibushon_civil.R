@@ -2528,7 +2528,10 @@ gibushon_final_filtered_reg = gibushon_final_filtered %>%
          combat=gsub("not fighting","1",combat),
          combat=gsub("fighting","2",combat),
          gender=gsub("female","1",gender),
-         gender=gsub("male","2",gender))
+         gender=gsub("male","2",gender),
+         religion=ifelse(religion=="Jewish",1,ifelse(!is.na(religion),2,NA)),
+         language=gsub("Ethiopians",1,language))
+gibushon_final_filtered_reg$language[is.na(gibushon_final_filtered_reg$language)] <- 2
 
 class(gibushon_final_filtered_reg)
 
@@ -2903,7 +2906,8 @@ gibushon_civil_filtered_reg = gibushon_civil %>%
          gender=gsub("female","1",gender),
          gender=gsub("male","2",gender),
          religion=ifelse(religion=="Jewish",1,ifelse(!is.na(religion),2,NA)),
-         language=ifelse(language=="Ethiopians",1,2))
+         language=gsub("Ethiopians",1,language))
+gibushon_civil_filtered_reg$language[is.na(gibushon_civil_filtered_reg$language)] <- 2
 
 freq(gibushon_civil$language , plot = F,main=colnames(gibushon_civil$language),font=2)
 freq(gibushon_civil_filtered_reg$language , plot = F,main=colnames(gibushon_civil_filtered_reg$language),font=2)
@@ -3096,19 +3100,123 @@ gibushon_civil_filtered_reg_religion %>%
   group_by(religion) %>%  
   summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n()))
 
+gibushon_final_filtered_reg_religion_Jewish = gibushon_final_filtered_reg %>%
+  filter(religion==1)
+cor.test(as.numeric(gibushon_final_filtered_reg_religion_Jewish$FinalGradeg_zscore),as.numeric(gibushon_final_filtered_reg_religion_Jewish$tkufatitam),use="pairwise.complete.obs")
+cor.test(as.numeric(gibushon_final_filtered_reg_religion_Jewish$FinalGradeg_zscore),as.numeric(gibushon_final_filtered_reg_religion_Jewish$course_score_zscore),use="pairwise.complete.obs")
+
+library (descr)
+library (psych)
+library (dplyr)
+
+gibushon_final_filtered_reg_religion_Jewish_restriction_predictors = gibushon_final_filtered_reg_religion_Jewish%>%
+  select(FinalGradeg_zscore)
+
+gibushon_civil_filtered_reg_religion_Jewish = gibushon_civil_filtered_reg %>%
+  filter(religion==1)
+gibushon_civil_filtered_restriction_predictors = gibushon_civil_filtered_reg_religion_Jewish %>%
+  select(FinalGradeg_zscore)
+gibushon_civil_filtered_restriction_predictors <- as.data.frame(gibushon_civil_filtered_restriction_predictors)
+# gibushon_final_filtered_reg_restriction_criteria = gibushon_final%>%
+gibushon_final_filtered_reg_religion_Jewish_restriction_criteria = gibushon_final_filtered_reg_religion_Jewish%>%
+  select(tkufatit,am,tkufatitam,course_score_zscore)
+
+counter = gibushon_civil_filtered_reg_religion_Jewish %>%
+  rowwise() %>%
+  mutate(tkufatit_nna = sum(!is.na(c(final.score.2015_zscore,final.score.2017_zscore,tkufatit_14_zscore,final.score.2018_zscore,row_score_2019_zscore))),
+         am_nna = sum(!is.na(c(am_2015,am_2018,am_2018_special))))
+
+class(counter)         
+counter <- as.data.frame(counter)
+
+counter = counter %>%
+  select(tkufatit_nna,am_nna)
+
+library(dplyr)
+detach(package:dplyr, unload = TRUE)
+library('plyr')
+counter_tkufatit_nna <- as.data.frame(count(counter, 'tkufatit_nna'))
+counter_am_nna <- as.data.frame(count(counter, 'am_nna'))
+
+detach(package:plyr, unload = TRUE)
+library(dplyr)
+counter_tkufatit_nna = counter_tkufatit_nna %>%
+  rowwise() %>%
+  mutate(product = tkufatit_nna*freq)
+n_tkufatit <- sum(counter_tkufatit_nna$product,na.rm = T)/sum(counter_tkufatit_nna$freq,na.rm = T)
+
+counter_am_nna = counter_am_nna %>%
+  rowwise() %>%
+  mutate(product = am_nna*freq)
+n_am <- sum(counter_am_nna$product,na.rm = T)/sum(counter_am_nna$freq,na.rm = T)
+
+k <- 1
+f <- 1
+l <- 1
+for (i in gibushon_final_filtered_reg_religion_Jewish_restriction_predictors) {
+  for (j in gibushon_final_filtered_reg_restriction_criteria) {
+    corr_temp<-c()
+    corr_try <- try(cor.test(as.numeric(i),as.numeric((j),use="pairwise.complete.obs"), silent=T))
+    corr_temp$"predictor" <-ifelse(class(corr_try)=="try-error", NA, corr_try$estimate)
+    corr_temp$p.value <-ifelse(class(corr_try)=="try-error", NA, corr_try$p.value)
+    corr_temp$n <-(ifelse(class(corr_try)=="try-error", NA, corr_try$parameter+2))
+    corr_temp<-data.frame(corr_temp)
+    r0 <- corr_temp$"predictor"
+    
+    library (descr)
+    Sxn <- round(describe (gibushon_civil_filtered_restriction_predictors[f]),2)
+    Sxn <- Sxn$sd
+    Sxn
+    
+    Sx0 <- round(describe (as.numeric(i)),2)
+    Sx0 <- Sx0$sd
+    Sx0
+    
+    rn <- round((r0*Sxn/Sx0)/sqrt(1-r0^2+(r0^2*Sxn^2/Sx0)),2)
+    
+    ryy <- ifelse(names(gibushon_final_filtered_reg_restriction_criteria[k])=="tkufatit",0.623,
+                  ifelse(names(gibushon_final_filtered_reg_restriction_criteria[k])=="am",0.477,0.710))
+    
+    # n=the avarage number of times the criterion was measured in this study
+    # only for am and tkufatit.
+    
+    n <- ifelse(names(gibushon_final_filtered_reg_restriction_criteria[k])=="tkufatit",n_tkufatit,
+                ifelse(names(gibushon_final_filtered_reg_restriction_criteria[k])=="am",n_am,NA))
+    
+    ryyb <- (ryy*n)/(1+(n-1)*ryy)
+    
+    rn2 <- ifelse(names(gibushon_final_filtered_reg_restriction_criteria[k])=="tkufatit" |
+                    names(gibushon_final_filtered_reg_restriction_criteria[k])=="am",round(rn/sqrt(1*ryyb),2),
+                  round(rn/sqrt(1*ryy),2))
+    
+    library(data.table)
+    range_restriction_table = data.table(c(round(r0,2),round(rn,2),round(rn2,2)))
+    range_restriction_table <- as.data.frame(range_restriction_table)
+    print(names(gibushon_final_filtered_reg_restriction_predictors[l]))
+    colnames(range_restriction_table)<-names(gibushon_final_filtered_reg_restriction_criteria[k])
+    rownames(range_restriction_table) <- c("r0","rn","rn2")
+    print(range_restriction_table)
+    k <- k+1
+  }
+  k <- 1
+  l <- l+1  
+  f <- f+1
+}
+
+
+
+
 # language
 
-head(gibushon_civil_filtered_reg$religion,2000)
-gibushon_civil_filtered_reg$religion <- as.numeric(gibushon_civil_filtered_reg$religion)
-t.test(as.numeric(gibushon_civil_filtered_reg$FinalGradeg)~as.numeric(gibushon_civil_filtered_reg$religion),use="pairwise.complete.obs")
+head(gibushon_civil_filtered_reg$language,2000)
+gibushon_civil_filtered_reg$language <- as.numeric(gibushon_civil_filtered_reg$language)
+t.test(as.numeric(gibushon_civil_filtered_reg$FinalGradeg)~as.numeric(gibushon_civil_filtered_reg$language),use="pairwise.complete.obs")
 library(dplyr)
-gibushon_civil_filtered_reg_religion = gibushon_civil_filtered_reg %>%
+gibushon_civil_filtered_reg_language = gibushon_civil_filtered_reg %>%
   filter(!is.na(religion) & !is.na(FinalGradeg))
-gibushon_civil_filtered_reg_religion %>% 
-  group_by(religion) %>%  
+gibushon_civil_filtered_reg_language %>% 
+  group_by(language) %>%  
   summarise_at(vars(FinalGradeg),funs(mean(.,na.rm=TRUE),sd(.,na.rm=TRUE),n()))
-
-
 
 
 #***********************assistance commands******************************
