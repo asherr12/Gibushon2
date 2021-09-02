@@ -3330,7 +3330,7 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
 
-ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
+ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score))+
   geom_point()+
   aes(color=factor(religion %in% c("1", "2")))+geom_smooth(method="lm",se=FALSE)+
   xlab ("ציון  גיבושון סופי")+
@@ -3345,6 +3345,9 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
   theme(legend.title = element_text(size = 11,color = "#993333", face = "bold"))+
   geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
+
+freq(gibushon_final_filtered_reg_religion_non_Jewish$course_score_zscore , plot = F,main=colnames(gibushon_final_filtered_reg_religion_non_Jewish$course_score_zscore),font=2)
+
 
 # language
 
