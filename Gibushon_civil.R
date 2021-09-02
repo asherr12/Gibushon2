@@ -3312,10 +3312,12 @@ for (i in gibushon_final_filtered_reg_religion_non_Jewish_restriction_predictors
   f <- f+1
 }
 
+
 library(ggplot2)
 ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_point()+
-  aes(color=factor(religion %in% c("1", "2")))+geom_smooth(method="lm",se=FALSE)+
+  aes(color=factor(religion %in% c("1", "2")))+
+  geom_smooth(method="lm",se=FALSE)+
   xlab ("ציון  גיבושון סופי")+
   ylab ("הערכה  תקופתית - עמיתים")+
   scale_color_manual(labels = c("לא יהודים", "יהודים"), values = c("blue", "green"),name="דת") +
@@ -3330,14 +3332,15 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
 
-ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score))+
+ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
   geom_point()+
-  aes(color=factor(religion %in% c("1", "2")))+geom_smooth(method="lm",se=FALSE)+
+  aes(color=factor(religion %in% c("1", "2")))+
+  geom_smooth(method="lm",se=FALSE)+
   xlab ("ציון  גיבושון סופי")+
   ylab ("ציון קורס שוטרים")+
   scale_color_manual(labels = c("לא יהודים", "יהודים"), values = c("blue", "green"),name="דת") +
   scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
-  scale_y_continuous(breaks=c(-1,0,1),labels= c("נמוך",
+  scale_y_continuous(breaks=c(-3,0,3),labels= c("נמוך",
                                                 "בינוני",
                                                 "גבוה"))+
   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
@@ -3346,8 +3349,13 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score))+
   geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
-freq(gibushon_final_filtered_reg_religion_non_Jewish$course_score_zscore , plot = F,main=colnames(gibushon_final_filtered_reg_religion_non_Jewish$course_score_zscore),font=2)
 
+filtered_gibushon_final_filtered_reg_religion_non_Jewish = gibushon_final_filtered_reg_religion_non_Jewish %>%
+  filter(!is.na(FinalGradeg), !is.na(course_score))
+
+CrossTable(filtered_gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,filtered_gibushon_final_filtered_reg_religion_non_Jewish$course_score)
+
+plot(gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,gibushon_final_filtered_reg_religion_non_Jewish$course_score)
 
 # language
 
