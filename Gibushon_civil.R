@@ -3322,7 +3322,25 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
                                                 "גבוהה"))+
   theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
   theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))+
-  theme(legend.title = element_text(size = 11,color = "#993333", face = "bold"))
+  theme(legend.title = element_text(size = 11,color = "#993333", face = "bold"))+
+  geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
+  geom_hline(yintercept=0, colour = "red", size = 0.5)
+
+ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
+  geom_point()+
+  aes(color=factor(religion %in% c("1", "2")))+geom_smooth(method="lm",se=FALSE)+
+  xlab ("ציון  גיבושון סופי")+
+  ylab ("ציון קורס שוטרים")+
+  scale_color_manual(labels = c("לא יהודים", "יהודים"), values = c("blue", "green"),name="דת") +
+  scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
+  scale_y_continuous(breaks=c(-1,0,1),labels= c("נמוך",
+                                                "בינוני",
+                                                "גבוה"))+
+  theme(axis.title.x = element_text(size = 12,color = "#993333", face = "bold"))+
+  theme(axis.title.y = element_text(size = 12,color = "#993333", face = "bold"))+
+  theme(legend.title = element_text(size = 11,color = "#993333", face = "bold"))+
+  geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
+  geom_hline(yintercept=0, colour = "red", size = 0.5)
 
 # language
 
