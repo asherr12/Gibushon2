@@ -504,7 +504,7 @@ gibushon_mamda_criteria = gibushon_mamda_criteria %>%
          date.cf_2012_diff = ifelse(!is.na(TaarichHavara_cf_2012) & (TaarichHavara_cf_2012-GibDate)>0,(TaarichHavara_cf_2012-GibDate),NA),
          date.cf_2015_diff = ifelse(!is.na(TaarichHavara_cf_2015) & (TaarichHavara_cf_2015-GibDate)>0,(TaarichHavara_cf_2015-GibDate),NA),
          date.cf_2018_diff = ifelse(!is.na(TaarichHavara_cf_2018) & (TaarichHavara_cf_2018-GibDate)>0,(TaarichHavara_cf_2018-GibDate),NA),
-         date.tkufatit_2019_diff = ifelse(!is.na(date.tkufatit_2019) & (date.tkufatit_2019-GibDate)>0,(date.tkufatit_2019-GibDate),NA))
+         date.row_score_2019_diff = ifelse(!is.na(date.tkufatit_2019) & (date.tkufatit_2019-GibDate)>0,(date.tkufatit_2019-GibDate),NA))
 
 #RAMA
 rama_2012_2019<-read_csv("Q:/04_Mehkar/18_asher/Gibushon/rama_2012_2019.csv",locale = locale(date_names = "he", encoding = "ISO-8859-8"))
@@ -2389,6 +2389,9 @@ library (descr)
 library (psych)
 library (dplyr)
 
+gibushon_civil_filtered=gibushon_civil%>%
+  filter(job_sector4 == "detective"  | job_sector4 == "inspector" | job_sector4 == "patrol" | job_sector4 == "traffic" | job_sector4 == "yasam")
+
 gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
 gibushon_final$Hebrewg[gibushon_final$Hebrewg==-9999]<-NA
 gibushon_final_filtered$Hebrewg[gibushon_final_filtered$Hebrewg==-9999]<-NA
@@ -2535,7 +2538,7 @@ gibushon_final_filtered_reg$language[is.na(gibushon_final_filtered_reg$language)
 
 class(gibushon_final_filtered_reg)
 
-gibushon_final_filtered_reg <- as.data.frame(gibushon_final_filtered_reg)
+# gibushon_final_filtered_reg <- as.data.frame(gibushon_final_filtered_reg)
 
 # reg_tkufatitam <- lm(tkufatitam ~ MazavClali_zscore
 #                      + SocioFinalGrade_zscore,
@@ -2848,7 +2851,7 @@ tkufatitam.res_mean
 # R_course_score<-round(sqrt(0.1207),2)
 # R_course_score
 
-#--------------favorite*********************
+#--------------
 reg_course_score <- lm(course_score_zscore ~ MazavClali_zscore
                        + SocioFinalGrade_zscore
                        + Daparg_zscore
@@ -3356,12 +3359,12 @@ gibushon_civil_filtered_reg_language %>%
 
 
 #***********************assistance commands******************************
-
+colnames(gibushon_civil)[1:1000]
 library(descr)
 library(psych)
 options(width = 71,max.print=30000)
 round(freq(ordered(as.numeric(unlist(gibushon_final_filtered$critria_count))), plot = F,main=colnames(gibushon_final_filtered$critria_count),font=2),2)
-round(freq(ordered(gibushon_final$course_fail_pass), plot = F,main=colnames(gibushon_final$course_fail_pass),font=2))
+round(freq(ordered(gibushon_civil$course), plot = F,main=colnames(gibushon_civil$course),font=2))
 round(describe (as.numeric(gibushon_civil_filtered$FinalGradeg)))
 describe (as.numeric(filtered_gibushon_civil_diff$HEBREW_spacial_stanines_a))
 describe (as.numeric(filtered_gibushon_civil_diff$HEBREW_spacial_stanines_b))
