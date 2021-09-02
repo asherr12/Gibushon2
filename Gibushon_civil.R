@@ -3329,6 +3329,7 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
+
 ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
   geom_point()+
   aes(color=factor(religion %in% c("1", "2")))+geom_smooth(method="lm",se=FALSE)+
