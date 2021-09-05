@@ -3218,11 +3218,12 @@ library (descr)
 library (psych)
 library (dplyr)
 
+gibushon_civil_filtered_reg_religion_non_Jewish = gibushon_civil_filtered_reg %>%
+  filter(religion==2)
+
 gibushon_final_filtered_reg_religion_non_Jewish_restriction_predictors = gibushon_final_filtered_reg_religion_non_Jewish%>%
   select(FinalGradeg_zscore)
 
-gibushon_civil_filtered_reg_religion_non_Jewish = gibushon_civil_filtered_reg %>%
-  filter(religion==2)
 gibushon_civil_filtered_reg_religion_non_Jewish_restriction_predictors = gibushon_civil_filtered_reg_religion_non_Jewish %>%
   select(FinalGradeg_zscore)
 gibushon_civil_filtered_reg_religion_non_Jewish_restriction_predictors <- as.data.frame(gibushon_civil_filtered_reg_religion_non_Jewish_restriction_predictors)
@@ -3332,6 +3333,10 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
 
+class(gibushon_final_filtered_reg)
+gibushon_final_filtered_reg[sapply(gibushon_final_filtered_reg, is.nan)] <- NA
+class(gibushon_final_filtered_reg$course_score_zscore)
+
 ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
   geom_point()+
   aes(color=factor(religion %in% c("1", "2")))+
@@ -3352,6 +3357,9 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
 
 filtered_gibushon_final_filtered_reg_religion_non_Jewish = gibushon_final_filtered_reg_religion_non_Jewish %>%
   filter(!is.na(FinalGradeg), !is.na(course_score))
+
+class(filtered_gibushon_final_filtered_reg_religion_non_Jewish)
+filtered_gibushon_final_filtered_reg_religion_non_Jewish[sapply(filtered_gibushon_final_filtered_reg_religion_non_Jewish, is.nan)] <- NA
 
 CrossTable(filtered_gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,filtered_gibushon_final_filtered_reg_religion_non_Jewish$course_score)
 
@@ -3392,8 +3400,6 @@ describe(as.numeric(filtered_gibushon_civil_diff$ac_final_grade))
 
 filtered_gibushon_civil_diff$ac_final_grade<-ifelse(filtered_gibushon_civil_diff$ac_final_grade==9.9,NA,filtered_gibushon_civil_diff$ac_final_grade)
 
-
- #***********************assistance commands******************************
 library(stringr)
 
 gibushon_civil$Hebrewg[gibushon_civil$Hebrewg==-9999]<-NA
@@ -3411,31 +3417,6 @@ freq(gibushon_civil$religion , plot = F,main=colnames(gibushon_civil$religion),f
 freq(gibushon_civil$rama_gender, plot = F,main=colnames(gibushon_civil$rama_gender),font=2)
 freq(gibushon_civil$gender, plot = F,main=colnames(gibushon_civil$gender),font=2)
 freq(gibushon_civil$general_gender, plot = F,main=colnames(gibushon_civil$general_gender),font=2)
-
-library(descr)
-library(psych)
-
-mode<-function(X)
-{
-  temp<-table (as.vector(X))
-  names (temp)[temp==max(temp)]
-}
-options(width = 71,max.print=30000)
-# # The 2 commands after the first command, are for cleaning the output file.
-gibushon_civil_freq_relevant_columns<-colnames(gibushon_civil[c(828:ncol(gibushon_civil))])
-out<-""
-cat("", out, file="C:/Users/USER/Documents/MAMDA/gibushon/gibushon_civil_frequencies.txt", sep="", append=F,fill = T)
-suppressWarnings(for(i in gibushon_civil_freq_relevant_columns) {
-  newresult1<-round(freq(ordered(as.numeric(unlist(gibushon_civil[[i]]))), plot = F,main=colnames(gibushon_civil[i]),font=2),2)
-  newresult2<-round(describe(as.numeric(unlist(gibushon_civil[[i]]))),2)
-  newresult3<-"mode="
-  newresult4<-mode(gibushon_civil[[i]])
-  newresult5<- "                                                                                               "
-  newresult6<- "----------------------------------------------------------------------------"
-  out <- capture.output(newresult1,newresult5,newresult2,newresult3,newresult4,newresult5,newresult6)
-  out[1]<-""
-  cat(colnames(gibushon_civil[i]),out, file="C:\Users\USER\Documents\MAMDA\Gibushon\gibushon_civil_frequencies.txt", append=T,fill = T)
-})
 
 prop.table(gibushon_civil$action_reason)
 
