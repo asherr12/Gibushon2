@@ -2915,7 +2915,6 @@ gibushon_civil_filtered_reg$language[is.na(gibushon_civil_filtered_reg$language)
 freq(gibushon_civil$language , plot = F,main=colnames(gibushon_civil$language),font=2)
 freq(gibushon_civil_filtered_reg$language , plot = F,main=colnames(gibushon_civil_filtered_reg$language),font=2)
 
-
 head(gibushon_civil_filtered_reg$language,10000)
 
 class(gibushon_civil_filtered_reg)
@@ -3035,12 +3034,12 @@ for (i in gibushon_final_filtered_reg_restriction_predictors) {
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
 library (descr)
 library (psych)
-#filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam)
+gibushon_civil_filtered_reg$predicted_tkufatitam_unrestricted<-as.numeric(gibushon_civil_filtered_reg$predicted_tkufatitam)
 
-gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$tkufatit),use="pairwise.complete.obs"), silent=T)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$am),use="pairwise.complete.obs"), silent=T)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+gibushon_final_filtered_reg$predicted_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$tkufatit),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam_restricted),as.numeric(gibushon_final_filtered_reg$am),use="pairwise.complete.obs"), silent=T)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 
 gibushon_final_filtered_reg$predicted_course_score<-as.numeric(gibushon_final_filtered_reg$predicted_course_score)
 try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_course_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
@@ -3049,17 +3048,14 @@ gibushon_final_filtered_reg$current_predicted_score<-as.numeric(gibushon_final_f
 try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 try(cor.test(as.numeric(gibushon_final_filtered_reg$current_predicted_score),as.numeric(unlist(gibushon_final_filtered_reg$course_score_zscore)),use="pairwise.complete.obs"), silent=T)
 
+round(describe (as.numeric(gibushon_civil_filtered_reg$predicted_tkufatitam_unrestricted)),2)
+round(describe (as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam_restricted)),2)
 
-round(describe (as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted)),2)
-round(describe (as.numeric(gibushon_final_filtered$predicted_score_tkufatitam_restricted)),2)
-
-filtered_gibushon_civil$predicted_score_tkufatitam_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_tkufatitam)
-gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam)
-try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_score_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
+gibushon_civil_filtered_reg$predicted_tkufatitam_unrestricted<-as.numeric(gibushon_civil_filtered_reg$predicted_tkufatitam)
+gibushon_final_filtered_reg$predicted_tkufatitam_restricted<-as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam)
+try(cor.test(as.numeric(gibushon_final_filtered_reg$predicted_tkufatitam_restricted),as.numeric(unlist(gibushon_final_filtered_reg$tkufatitam)),use="pairwise.complete.obs"), silent=T)
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------
-filtered_gibushon_civil$predicted_score_am_unrestricted<-as.numeric(filtered_gibushon_civil$predicted_score_am)
-gibushon_final_filtered$predicted_score_am_restricted<-gibushon_final_filtered$predicted_score_am
 
 # Don't add the predicted scores to the spcorr tables, 
 # because the seniority was already cleaned from it.***
@@ -3313,15 +3309,23 @@ for (i in gibushon_final_filtered_reg_religion_non_Jewish_restriction_predictors
   f <- f+1
 }
 
+#discrimination
 
+# plot(gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,gibushon_final_filtered_reg_religion_non_Jewish$course_score)
+# plot(gibushon_final_filtered_reg_religion_Jewish$FinalGradeg,gibushon_final_filtered_reg_religion_Jewish$course_score)
+
+library(dplyr)
 library(ggplot2)
-ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
+gibushon_final_filtered_reg_plot = gibushon_final_filtered_reg %>%
+filter(!is.na(religion))
+  
+ggplot(gibushon_final_filtered_reg_plot,aes(x=FinalGradeg,y=tkufatitam))+
   geom_point()+
-  aes(color=factor(religion %in% c("1", "2")))+
+  aes(color=factor(religion))+
   geom_smooth(method="lm",se=FALSE)+
   xlab ("ציון  גיבושון סופי")+
   ylab ("הערכה  תקופתית - עמיתים")+
-  scale_color_manual(labels = c("לא יהודים", "יהודים"), values = c("blue", "green"),name="דת") +
+  scale_color_manual(labels = c("יהודים", "לא  יהודים"), values = c("blue","green"),name="דת") +
   scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
   scale_y_continuous(breaks=c(-1,0,1),labels= c("נמוכה",
                                                 "בינונית",
@@ -3332,18 +3336,13 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=tkufatitam))+
   geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
-
-class(gibushon_final_filtered_reg)
-gibushon_final_filtered_reg[sapply(gibushon_final_filtered_reg, is.nan)] <- NA
-class(gibushon_final_filtered_reg$course_score_zscore)
-
-ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
+ggplot(gibushon_final_filtered_reg_plot,aes(x=FinalGradeg,y=course_score_zscore))+
   geom_point()+
-  aes(color=factor(religion %in% c("1", "2")))+
+  aes(color=factor(religion))+
   geom_smooth(method="lm",se=FALSE)+
   xlab ("ציון  גיבושון סופי")+
   ylab ("ציון קורס שוטרים")+
-  scale_color_manual(labels = c("לא יהודים", "יהודים"), values = c("blue", "green"),name="דת") +
+  scale_color_manual(labels = c("יהודים", "לא  יהודים"), values = c("blue","green"),name="דת") +
   scale_x_continuous(breaks = seq(1, 6.5, 0.5))+
   scale_y_continuous(breaks=c(-3,0,3),labels= c("נמוך",
                                                 "בינוני",
@@ -3354,16 +3353,6 @@ ggplot(gibushon_final_filtered_reg,aes(x=FinalGradeg,y=course_score_zscore))+
   geom_vline(xintercept=3.5, colour = "red", size = 0.5)+
   geom_hline(yintercept=0, colour = "red", size = 0.5)
 
-
-filtered_gibushon_final_filtered_reg_religion_non_Jewish = gibushon_final_filtered_reg_religion_non_Jewish %>%
-  filter(!is.na(FinalGradeg), !is.na(course_score))
-
-class(filtered_gibushon_final_filtered_reg_religion_non_Jewish)
-filtered_gibushon_final_filtered_reg_religion_non_Jewish[sapply(filtered_gibushon_final_filtered_reg_religion_non_Jewish, is.nan)] <- NA
-
-CrossTable(filtered_gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,filtered_gibushon_final_filtered_reg_religion_non_Jewish$course_score)
-
-plot(gibushon_final_filtered_reg_religion_non_Jewish$FinalGradeg,gibushon_final_filtered_reg_religion_non_Jewish$course_score)
 
 # language
 
